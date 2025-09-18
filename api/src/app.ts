@@ -3,8 +3,6 @@ import dotenv from 'dotenv';
 import logger from './middlewares/logger';
 import cors from 'cors';
 
-dotenv.config();
-
 const app: Application = express();
 const port = process.env.API_PORT;
 
@@ -28,3 +26,4 @@ app.listen(port, () => {
 });
 
 
+export default app;
