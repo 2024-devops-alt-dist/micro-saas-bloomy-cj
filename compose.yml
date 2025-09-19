@@ -12,17 +12,16 @@ services:
       - 5432:5432
     volumes:
       - postgres_db:/var/lib/postgresql/data
-      - ./src/data/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+      - ./bdd/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
 
   api:
     build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: api_container
+      context: ./api
+    container_name: api_bloomy_container
     ports:
       - 3000:3000
     volumes:
-      - .:/app
+      - ./api:/app
       - /app/node_modules
     environment:
       - DB_HOST=db
@@ -32,6 +31,19 @@ services:
       - DB_NAME=${DB_NAME}
     depends_on:
       - db
+
+  client:
+    build:
+      context: ./client
+    container_name: client_container
+    ports:
+      - 5173:80
+    restart: unless-stopped
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    depends_on:
+      - api
 
 volumes:
   postgres_db:
