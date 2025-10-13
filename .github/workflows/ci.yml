@@ -1,0 +1,105 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+  jobs:
+  # ======================
+  # BACKEND
+  # ======================
+    backend:
+      name: 🧠 Backend - API Tests & Audit
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./api
+
+    steps:
+      - name: 🛒 Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+          cache-dependency-path: ./api/package-lock.json
+
+      - name: 🧩 Installer les dépendances
+        run: npm ci # utilise le package-lock = plus fiable
+
+      - name: 🔍 Lint du code
+        run: npm run lint
+
+      - name: 🧪 Tests unitaires
+        run: npm test --if-present
+
+      - name: 🛡️ Audit de sécurité
+        run: npm audit --audit-level=high
+      
+      - name: controle du typage
+        run: tsc --noEmit 
+
+      - name: 🏗️ Build du projet
+        run: npm run build
+        env:
+          VITE_API_URL: production # passe sans
+
+  # ======================
+  # FRONTEND
+  # ======================
+  frontend:
+    name: 💅 Frontend CI
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./client
+    steps:
+      - name: 🛒 Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+          cache-dependency-path: ./client/package-lock.json
+
+      - name: controle du typage
+        run: tsc --noEmit
+
+      - name: 🧩 Installer les dépendances
+        run: npm ci
+
+      - name: 🔍 Lint du code
+        run: npm run lint
+
+      - name: 🏗️ Build du projet
+        run: npm run build
+        env:
+          VITE_API_URL: production
+
+      - name: 🛡️ Audit de sécurité
+        run: npm audit --audit-level=high
+
+      - name: 🧪 Tests unitaires
+        run: npm test --if-present
+
+  # ======================
+  # DOCKER VALIDATION
+  # ======================
+  docker:
+    name: 🐳 Validation Dockerfiles
+    runs-on: ubuntu-latest
+    # needs: [backend, frontend] 
+    steps:
+      - name: 🛒 Checkout du code
+        uses: actions/checkout@v4
+
+      - name: 🔍 Validation Dockerfiles
+        run: |
+          docker build -t test-api ./api
+          docker build -t test-client ./client
