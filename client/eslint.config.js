@@ -1,32 +1,33 @@
-import js from "@eslint/js";
+// Eslint : ton prof de grammaire relou. But : Vérifie que ton code respecte des règles de qualité et de bonnes pratiques (syntaxe, erreurs, style).
+import eslint from "@eslint/js";
 import globals from "globals";
+import reactHooks from "eslint-plugin-react-hooks";
+import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
-import pluginReact from "eslint-plugin-react";
-import { defineConfig } from "eslint/config";
-import pluginPrettier from "eslint-plugin-prettier";
+import prettierPlugin from "eslint-plugin-prettier";
+import prettierConfig from "eslint-config-prettier";
+import { defineConfig, globalIgnores } from "eslint/config";
 
 export default defineConfig([
-  { 
-    files: [
-      "**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"
-    ], 
-    plugins: { 
-      js,
-      prettier: pluginPrettier,
-    }, 
+  globalIgnores(["dist"]),
+  {
+    files: ["*/.{ts,tsx}"],
     extends: [
-      "js/recommended",
-      ...tseslint.configs.recommended,
-      pluginReact.configs.flat.recommended,
-      "plugin:prettier/recommended",
-    ], 
-    languageOptions: { 
-      globals: globals.browser 
+      eslint.configs.recommended,
+      tseslint.configs.recommended,
+      reactHooks.configs["recommended-latest"],
+      reactRefresh.configs.vite,
+    ],
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: globals.browser,
+    },
+    plugins: {
+      prettier: prettierPlugin,
     },
     rules: {
-      "prettier/prettier": "error"
-    }, 
+      "prettier/prettier": "error",
+    },
   },
-  tseslint.configs.recommended,
-  pluginReact.configs.flat.recommended,
+  prettierConfig,
 ]);
