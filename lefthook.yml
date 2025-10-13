@@ -1,0 +1,34 @@
+# EXAMPLE USAGE:
+#
+#   Refer for explanation to following link:
+#   https://lefthook.dev/configuration/
+#
+# pre-push:
+#   jobs:
+#     - name: packages audit
+#       tags:
+#         - frontend
+#         - security
+#       run: yarn audit
+#
+#     - name: gems audit
+#       tags:
+#         - backend
+#         - security
+#       run: bundle audit
+
+pre-commit:
+  parallel: true
+  jobs:
+    - name: api-audit
+      run: cd api/ && npm audit --audit-level=high
+    - name: api-lint-prettier
+      run: cd api/ && npm run lint
+    # - name: api-test
+    #   run: cd api/ && npm run test
+    - name: client-audit
+      run: cd client/ && npm audit --audit-level=high
+    - name: client-lint-prettier
+      run: cd client/ && npm run lint
+    # - name: client-test
+    #   run: cd client/ && npm run test
