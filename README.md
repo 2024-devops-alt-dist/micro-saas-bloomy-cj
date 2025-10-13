@@ -1,3 +1,5 @@
+![CI](https://github.com/2024-devops-alt-dist/micro-saas-bloomy-cj/actions/workflows/ci.yml/badge.svg)
+
 # 🌸 Micro SaaS Bloomy
 
 Ce projet est un **monorepo** contenant deux sous-applications :
