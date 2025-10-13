@@ -55,9 +55,10 @@ npm run dev
 ```bash
 # Backend
 cd api
-npm run commit
+git cz
 
 # Frontend
 cd client
-npm run commit
+git cz
 ```
+
