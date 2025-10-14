@@ -3,30 +3,41 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.ts",
-  "scripts": {
-    "start": "ts-node src/server.ts",
+    "scripts": {
+    "start": "tsx src/server.ts",
     "build": "tsc",
-    "dev": "nodemon --exec ts-node src/server.ts",
-    "create-fixtures": "ts-node src/db/createFixtures.ts"
+    "dev": "tsx watch src/server.ts",
+    "create-fixtures": "tsx src/db/createFixtures.ts",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write ."
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
     "pg": "^8.16.3",
+    "tsx": "^4.20.6",
     "winston": "^3.17.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.36.0",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/node": "^24.5.0",
     "@types/pg": "^8.15.5",
+    "eslint": "^9.35.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "globals": "^16.4.0",
     "nodemon": "^3.1.10",
+    "prettier": "^3.6.2",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.44.0"
   }
 }
