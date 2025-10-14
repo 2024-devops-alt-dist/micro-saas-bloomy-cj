@@ -1,0 +1,12 @@
+@import "tailwindcss";
+@import "@radix-ui/themes/styles.css";
+
+@import "./variables.css";
+
+h2 {
+    font-size: var(--text-2xl);
+}
+
+p {
+    font-size: var(--text-sm);
+}
