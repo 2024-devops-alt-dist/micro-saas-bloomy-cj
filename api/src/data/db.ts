@@ -1,5 +1,5 @@
 import { Pool } from "pg";
-import logger from "../middlewares/logger";
+import logger from "../middlewares/logger.js";
 
 export const pool = new Pool({
   user: process.env.DB_USER,

@@ -2,9 +2,9 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import app from "./app";
-import { connectDB, closeDB } from "./data/db";
-import logger from "./middlewares/logger";
+import app from "./app.js";
+import { connectDB, closeDB } from "./data/db.js";
+import logger from "./middlewares/logger.js";
 
 // Fonction principale pour démarrer le serveur
 const startServer = async (): Promise<void> => {
