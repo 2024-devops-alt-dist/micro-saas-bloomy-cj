@@ -4,10 +4,10 @@
   "description": "",
   "main": "server.ts",
   "scripts": {
-    "start": "ts-node src/server.ts",
+    "start": "node --loader ts-node/esm src/server.ts",
     "build": "tsc",
-    "dev": "nodemon --exec ts-node src/server.ts",
-    "create-fixtures": "ts-node src/db/createFixtures.ts",
+    "dev": "nodemon --exec node --loader ts-node/esm src/server.ts",
+    "create-fixtures": "node --loader ts-node/esm src/db/createFixtures.ts",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write ."
