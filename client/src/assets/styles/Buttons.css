@@ -1,0 +1,42 @@
+/* Bouton page Home - Brief 2 */
+.custom-btn {
+  color: #fff;
+  background: #ff9800;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 0.5rem 1.5rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+.custom-btn:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* GardenButton */
+.garden-button {
+  background-color: #16a34a; 
+  color: white;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 0.75rem 1.25rem;
+  border: none;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.garden-button:hover {
+  background-color: #15803d;
+}
+
+.garden-button:active {
+  transform: scale(0.97);
+}
+
+.garden-button:disabled {
+  background-color: #9ca3af; 
+  cursor: not-allowed;
+}
