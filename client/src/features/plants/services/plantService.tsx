@@ -1,6 +1,6 @@
 import mockDataPlants from "../data/mockPlants.json";
 
-const USE_MOCK = true;
+// const USE_MOCK = true;
 
 export interface Plant {
     id: number;
