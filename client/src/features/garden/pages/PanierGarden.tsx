@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import GardenButton from "../../buttons/GardenButton";
 import GardenPlantCard from "../components/GardenPlantCard";
 import CustomButton from "../../buttons/CustomButton";
-import type { Garden } from "../services/gardenService";
+import { gardenService, type Garden } from "../services/gardenService";
 import { useState } from "react";
 
 
@@ -23,6 +23,19 @@ const PanierGarden : React.FC = () => {
         };
 
         setGardenDraft(updatedDraft);
+    };
+
+    const handleValidateGarden = async () => {
+        if (!gardenDraft) return;
+        try {
+            // On crée le jardin et on le stocke
+            const createdGarden = await gardenService.create(gardenDraft);
+
+            // On passe le jardin créé à GardenSuccess si besoin
+            navigate("/garden-success", { state: { garden: createdGarden } });
+        } catch (error) {
+            console.error("Erreur lors de la création du jardin :", error);
+        }
     };
     
     return (
@@ -61,7 +74,7 @@ const PanierGarden : React.FC = () => {
                 )}
 
                 <div className="mt-6 w-full max-w-md">
-                    <CustomButton label="Valider ma sélection" />
+                    <CustomButton label="Valider ma sélection" onClick={handleValidateGarden}/>
                 </div>
             </main>
         </div>

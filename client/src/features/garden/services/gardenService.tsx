@@ -1,4 +1,4 @@
-import type { Plant } from "../../plants/services/plantService";
+import { type Plant } from "../../plants/services/plantService";
 import mockDataGarden from "../data/mockGarden.json";
 
 // const USE_MOCK = true;
@@ -12,27 +12,22 @@ export interface Garden {
     plants?: Plant[];
 }
 
+let localGardens: Garden[] = [...mockDataGarden.gardens.map(g => ({ ...g, plants: [] }))];
+
 const mockApi = {
     async getAll(): Promise<Garden[]> {
-        const gardens = mockDataGarden.gardens;
-
-        // On "hydrate" les IDs en objets Plant
-        const allPlants = await plantService.getAll();
-
-        const hydratedGardens = gardens.map((garden: any) => ({
-            ...garden,
-            plants: garden.plants
-                .map((plantId: number) =>
-                    allPlants.find((p) => p.id === plantId)
-                )
-                .filter(Boolean), // enlève les "undefined" si un ID ne correspond pas
-        }));
-
-        return hydratedGardens;
+        return localGardens;
     },
-    async create(garden: Omit<Garden, 'id'>): Promise<Garden> {
-        return { id: Date.now(), ...garden };
+
+    async create(garden: Omit<Garden, "id">): Promise<Garden> {
+        const newGarden: Garden = { id: Date.now(), ...garden };
+        localGardens.push(newGarden);
+        return newGarden;
     },
+
+    async clearAll() {
+        localGardens = [];
+    }
 };
 
 // const realApi = {
@@ -42,4 +37,4 @@ const mockApi = {
 // };
 
 // export const gardenService = USE_MOCK ? mockApi : realApi;
-export const plantService = mockApi;
+export const gardenService = mockApi;
