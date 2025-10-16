@@ -1,6 +1,6 @@
 import React from "react";
-import mascotWelcome from "../assets/pictures/mascot-welcome.png";
-import "../assets/styles/global.css";
+import mascotWelcome from "../../../assets/pictures/mascot-welcome.png";
+import "../../../assets/styles/global.css";
 import { useNavigate } from "react-router-dom";
 
 const AddGarden : React.FC = () => {

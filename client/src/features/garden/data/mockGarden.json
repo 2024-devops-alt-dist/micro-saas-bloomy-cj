@@ -1,0 +1,12 @@
+{
+    "gardens": [
+        {
+            "id": 1,
+            "name": "Balcon-Est",
+            "description": "Petit espace ensoleillé idéal pour les potagères et aromatiques.",
+            "localisation": "Sud-Est",
+            "pets": true,
+            "plants": [1, 3, 5, 8]
+        }
+    ]
+}
