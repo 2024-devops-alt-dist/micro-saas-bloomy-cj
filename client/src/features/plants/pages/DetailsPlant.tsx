@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { plantService } from "../services/plantService";
 import type { Plant } from "../services/plantService";
 import CustomButton from "../../buttons/CustomButton";
@@ -7,6 +7,10 @@ import CustomButton from "../../buttons/CustomButton";
 const DetailsPlant: React.FC = () => {
     const navigate = useNavigate();
     const { id } = useParams();
+    const location = useLocation();
+    const gardenDraft = location.state?.gardenDraft;
+    console.log("Draft reçu sur DetailsPlant :", gardenDraft);
+    
     const [plant, setPlant] = useState<Plant | null>(null);
 
     useEffect(() => {
@@ -20,6 +24,18 @@ const DetailsPlant: React.FC = () => {
     }, [id]);
 
     if (!plant) return <p>Chargement...</p>;
+
+    const handleAddToGarden = () => {
+        if (!plant) return;
+
+        const updatedDraft = {
+            ...gardenDraft,
+            plants: [...(gardenDraft?.plants || []), plant],
+        };
+
+        console.log("Draft après ajout de la plante :", updatedDraft);
+        navigate("/panierGarden", { state: { gardenDraft: updatedDraft } });
+    };
 
     return (
         <div className="flex flex-col h-screen bg-white">
@@ -36,7 +52,7 @@ const DetailsPlant: React.FC = () => {
 
         <div className="p-6">
             <h1 className="text-2xl font-bold mb-4">{plant.name}</h1>
-            <CustomButton label="Ajouter au jardin" />
+            <CustomButton label="Ajouter au jardin" onClick={handleAddToGarden}/>
             <img
                 src={plant.main_picture}
                 alt={plant.name}

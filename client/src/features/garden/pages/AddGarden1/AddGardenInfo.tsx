@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import "../../../../assets/styles/global.css";
 import mascotRelax from "../../../../assets/pictures/mascot-relax.png";
 import { useNavigate } from "react-router-dom";
 
 const AddGardenInfo : React.FC = () => {
     const navigate = useNavigate();
+    const [name, setName] = useState("");
+    const [image, setImage] = useState("");
+
+    const handleNextStep = () => {
+        // création "draft/brouillon" de jardin avec ce qu'on a rempli
+        const gardenDraft = { name, image, description: "", localisation: "", pets: false, plants: [] };
+        console.log("Draft créé dans AddGardenInfo :", gardenDraft);
+        navigate("/addGardenInfoFa", { state: { gardenDraft } });
+    };
 
     return (
         <div className="flex flex-col h-screen bg-white">
@@ -31,8 +40,8 @@ const AddGardenInfo : React.FC = () => {
                     <input
                         type="text"
                         placeholder="Écrire ..."
-                        // value={gardenName}
-                        // onChange={(e) => setGardenName(e.target.value)}
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
                         className="w-full border border-gray-300 rounded-lg px-3 py-1 focus:outline-none focus:ring-1 focus:ring-green-400"
                     />
                 </div>
@@ -43,14 +52,15 @@ const AddGardenInfo : React.FC = () => {
                     <div className="flex">
                         <input
                             type="text"
-                            //placeholder={image ? "Image sélectionnée" : "Télécharger"}
+                            placeholder={image ? "Image sélectionnée" : "Télécharger"}
                             className="w-full border border-gray-300 rounded-l-lg px-3 py-1 text-gray-500"
                         />
                         <label className="bg-green-100 px-3 py-1 rounded-r-lg cursor-pointer hover:bg-green-200 transition-all">
                             <input
                                 type="file"
                                 accept="image/*"
-                                //onChange={handleImageUpload}
+                                value={image}
+                                onChange={(e) => setImage(e.target.value)}
                                 className="hidden"
                             />
                             📁
@@ -63,7 +73,7 @@ const AddGardenInfo : React.FC = () => {
             <button
                 //onClick={handleNextStep}
                 className="mt-10 bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-8 rounded-full shadow-md transition-all"
-                onClick={() => navigate("/gardenSelectPlants")}
+                onClick={handleNextStep}
             >
                 Go étape 2
             </button>

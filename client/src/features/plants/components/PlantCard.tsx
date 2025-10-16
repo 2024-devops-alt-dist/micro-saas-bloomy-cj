@@ -6,13 +6,14 @@ import { useNavigate } from "react-router-dom";
 
 interface PlantCardProps {
     plant: Plant;
+    gardenDraft: any;
 }
 
-const PlantCard: React.FC<PlantCardProps> = ({ plant }) => {
+const PlantCard: React.FC<PlantCardProps> = ({ plant, gardenDraft }) => {
     const navigate = useNavigate();
 
     const handleClick = () => {
-        navigate(`/plants/${plant.id}`);
+        navigate(`/plants/${plant.id}`, { state: { gardenDraft } });
     };
 
     return (
