@@ -1,0 +1,43 @@
+@import "./variables.css";
+
+.category-tabs-container {
+    display: flex;
+    align-items: center;
+    padding: 12px 0px 12px 16px;
+    gap: 0.5rem;
+    border-bottom: 1px solid #e6f4ea;
+}
+
+.category-label {
+    flex-shrink: 0;
+    color: #4b5563; 
+    font-weight: 500;
+    margin-right: 0.5rem;
+}
+
+.category-scroll {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+}
+
+.category-button {
+    padding: 3px 10px;
+    border-radius: 35px;
+    border: 1px solid #d1d5db;
+    background-color: #f3f4f6;
+    color: #374151;
+    font-size: 13px;
+    transition: all 0.2s ease;
+}
+
+.category-button:hover {
+    background-color: #e5e7eb;
+}
+
+.category-button.active {
+    background-color: #16a34a;
+    color: white;
+    font-weight: 500;
+    border-color: #16a34a;
+}
