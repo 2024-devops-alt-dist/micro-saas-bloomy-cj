@@ -8,6 +8,9 @@ import AddGardenInfo from "./features/garden/pages/AddGarden1/AddGardenInfo";
 import GardenSelectPlants from "./features/garden/pages/GardenSelectPlants";
 import DetailsPlant from "./features/plants/pages/DetailsPlant";
 import PanierGarden from "./features/garden/pages/PanierGarden";
+import AddGardenInfoFacultative from "./features/garden/pages/AddGarden1/AddGardenInfoFacultative";
+import GardenSuccess from "./features/garden/pages/GardenSuccess";
+import MyGarden from "./features/profil/pages/MyGarden";
 
 function App() {
   return (
@@ -17,9 +20,12 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/addGarden" element={<AddGarden />} />
           <Route path="/addGardenInfo" element={<AddGardenInfo />} />
+          <Route path="/addGardenInfoFa" element={<AddGardenInfoFacultative />} />
           <Route path="/gardenSelectPlants" element={<GardenSelectPlants />} />
           <Route path="/plants/:id" element={<DetailsPlant />} />
           <Route path="/panierGarden" element={<PanierGarden />} />
+          <Route path="/garden-success" element={<GardenSuccess />} />
+          <Route path="/mes-jardins" element={<MyGarden />} />
         </Routes>
       </div>
     </BrowserRouter>

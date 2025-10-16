@@ -1,12 +1,17 @@
 import React from "react";
 import "../../../assets/styles/global.css";
 import PlantList from "../../plants/pages/PlantList";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import CategoryTabs from "../components/CategoryTab";
 import SearchFilterBar from "../components/SearchFilterBar";
 
 const GardenSelectPlants : React.FC = () => {
     const navigate = useNavigate();
+
+    const location = useLocation();
+    const gardenDraft = location.state?.gardenDraft;
+
+    console.log("Draft reçu sur GardenSelectPlants :", gardenDraft);
 
     return (
         <div className="flex flex-col h-screen bg-white">
@@ -19,7 +24,7 @@ const GardenSelectPlants : React.FC = () => {
 
             {/* Banner */}
             <div className="w-full bg-green-600 text-white py-12 flex justify-center items-center relative">
-                <h1 className="text-3xl font-bold">SudBalcon</h1>
+                <h1 className="text-3xl font-bold">{gardenDraft?.name}</h1>
             </div>
 
             {/* Barre de recherche et filtre */}
