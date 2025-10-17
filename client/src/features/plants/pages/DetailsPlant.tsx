@@ -41,13 +41,15 @@ const DetailsPlant: React.FC = () => {
         <div className="flex flex-col h-screen bg-white">
             <header className="flex justify-between items-center px-4 py-3 border-b border-green-100">
                 <button
+                    type="button"
+                    role="button"
                     className="text-gray-600 hover:text-green-600 text-2xl"
                     onClick={() => navigate(-1)}
                 >
                 ←
                 </button>
                 <p className="text-gray-800 text-md">Création d’un jardin</p>
-                <button className="text-gray-600 hover:text-red-500 text-2xl">×</button>
+                <button type="button" role="button" className="text-gray-600 hover:text-red-500 text-2xl">×</button>
             </header>
 
         <div className="p-6">

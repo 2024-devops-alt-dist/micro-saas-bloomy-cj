@@ -24,7 +24,7 @@ const GardenSelectPlants : React.FC = () => {
 
             {/* Banner */}
             <div className="w-full bg-green-600 text-white py-12 flex justify-center items-center relative">
-                <h1 className="text-3xl font-bold">{gardenDraft?.name}</h1>
+                <h1 data-testid="draft-name" className="text-3xl font-bold">{gardenDraft?.name}</h1>
             </div>
 
             {/* Barre de recherche et filtre */}
