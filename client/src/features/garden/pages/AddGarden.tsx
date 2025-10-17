@@ -2,6 +2,8 @@ import React from "react";
 import mascotWelcome from "../../../assets/pictures/mascot-welcome.png";
 import "../../../assets/styles/global.css";
 import { useNavigate } from "react-router-dom";
+import NavBar from "../../../shared/header";
+import "../../../assets/styles/addGarden.css"
 
 const AddGarden : React.FC = () => {
     const navigate = useNavigate();
@@ -17,18 +19,18 @@ const AddGarden : React.FC = () => {
 
             {/* Main content */}
             <main className="flex flex-col items-center text-center p-6">
-                <img src={mascotWelcome} alt="Mascotte Bloomy" className="w-40 h-40 mb-2"/>
+                <img src={mascotWelcome} alt="Mascotte Bloomy" className="w-45 h-45 mb-2"/>
 
-                <h2 className="font-semibold text-green-800 mb-2">Créez votre jardin</h2>
-                <p className="text-gray-600 mb-4">
+                <h1 className="mb-4">Créez votre jardin</h1>
+                <p className="text-gray-600 mb-6">
                     Choisissez votre méthode préférée pour commencer votre aventure jardinage :
                 </p>
 
                 <div className="flex flex-col gap-4 w-full max-w-sm">
                     {/* Bouton 1 */}
-                    <button className="flex justify-between items-center bg-green-500 hover:bg-green-600 text-white py-4 px-5 rounded-xl shadow-md transition-all">
+                    <button className="flex justify-between items-center py-4 px-5 btn-garden-bloomy">
                         <div className="text-left">
-                            <p className="font-semibold">Avec l’aide de Bloomy</p>
+                            <h3 className="font-semibold">Avec l’aide de Bloomy</h3>
                             <p className="text-green-50">
                                 Répondez à quelques questions pour des recommandations personnalisées
                             </p>
@@ -39,7 +41,7 @@ const AddGarden : React.FC = () => {
                     {/* Bouton 2 */}
                     <button className="flex justify-between items-center border-2 border-green-400 text-green-600 py-4 px-5 rounded-xl hover:bg-green-50 transition-all" onClick={() => navigate("/addGardenInfo")}>
                         <div className="text-left">
-                            <p className="font-semibold">Sélection manuelle</p>
+                            <h3 className="font-semibold">Sélection manuelle</h3>
                             <p className="text-green-500">
                                 Choisissez vous-même les plantes que vous souhaitez cultiver
                             </p>
@@ -54,23 +56,7 @@ const AddGarden : React.FC = () => {
             </main>
 
             {/* Navigation bar */}
-            <nav className="bottom-0 left-0 w-full bg-white border-t border-green-100 flex justify-around items-center py-3">
-                <button className="text-gray-500 hover:text-green-600">
-                    <p>1</p>
-                </button>
-                <button className="text-gray-500 hover:text-green-600">
-                    <p>2</p>
-                </button>
-                <button className="bg-green-500 text-white p-3 rounded-full shadow-md -translate-y-3">
-                    <p>3</p>
-                </button>
-                <button className="text-gray-500 hover:text-green-600">
-                    <p>4</p>
-                </button>
-                <button className="text-gray-500 hover:text-green-600">
-                    <p>5</p>
-                </button>
-            </nav>
+            <NavBar />
         </div>
     );
 };

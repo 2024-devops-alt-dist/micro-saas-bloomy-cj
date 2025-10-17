@@ -1,7 +1,33 @@
+@font-face {
+    font-family: 'Ananda';
+    src: url('/assets/fonts/ananda/Ananda_Black_Personal_Use.ttf') format('ttf');
+}
+
+@font-face {
+    font-family: 'Bebas Neus';
+    src: url('/assets/fonts/BebasNeue-Regular.otf') format('otf');
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('/assets/fonts/roboto/Roboto-Medium.ttf') format('ttf');
+}
+
 :root {
     /* Couleurs */
+    --color-primary: #274914;    
+    --color-secondary: #438122;  
+    --color-secondary-bis: #55a32b; 
+    --color-light-green: #C8D6A2;
+    --color-orange: #E0912F;     
+    --color-red: #D35B50; 
+    --text-light: #A0A0A0; 
+    --text-dark: #4A4A4A;      
 
     /* Typographie */
+    --font-ananda: 'Ananda', sans-serif;
+    --font-bebas-neus: 'Bebas Neus', sans-serif;
+    --font-roboto: 'Roboto', sans-serif;
 
     /* Tailles de texte */
     --text-xs: 0.75rem; /* 12px */
