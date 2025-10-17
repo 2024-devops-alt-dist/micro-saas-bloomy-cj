@@ -22,7 +22,7 @@ const GardenPlantCard: React.FC<GardenPlantCardProps> = ({ plant, onRemove }) =>
     // if (!plant) return <p>Chargement...</p>;
     
     return (
-        <div className="flex bg-white rounded-2xl shadow-md overflow-hidden mb-4 w-full max-w-md">
+        <div className="flex bg-white rounded-2xl shadow-md overflow-hidden mb-4 w-full max-w-md garden-plant-card">
             <div className="flex flex-col justify-between p-4 flex-1 text-left">
                 <div>
                     <h3 className="text-lg font-bold uppercase">{plant.name}</h3>
