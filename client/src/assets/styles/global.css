@@ -3,10 +3,15 @@
 
 @import "./variables.css";
 
-h2 {
-    font-size: var(--text-2xl);
+h1 {
+    font-size: var(--text-3xl);
+    font-family: var(--font-ananda);
+    color: var(--color-primary);
+    font-weight: bold;
 }
 
 p {
-    font-size: 15px;
+    font-size: var(--text-sm);
+    font-family: var(--font-roboto);
+    /* color: var(--text-dark); */
 }

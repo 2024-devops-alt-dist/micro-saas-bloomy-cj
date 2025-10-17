@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiPlus } from "react-icons/fi";
 import { gardenService, type Garden } from "../../garden/services/gardenService";
+import NavBar from "../../../shared/header";
 
 const MyGarden: React.FC = () => {
     const navigate = useNavigate();
@@ -52,23 +53,7 @@ const MyGarden: React.FC = () => {
             </main>
 
 
-            <nav className="bottom-0 left-0 w-full bg-white border-t border-green-100 flex justify-around items-center py-3">
-                <button className="text-gray-500 hover:text-green-600">
-                    <p>1</p>
-                </button>
-                <button className="text-gray-500 hover:text-green-600">
-                    <p>2</p>
-                </button>
-                <button className="bg-green-500 text-white p-3 rounded-full shadow-md -translate-y-3">
-                    <p>3</p>
-                </button>
-                <button className="text-gray-500 hover:text-green-600">
-                    <p>4</p>
-                </button>
-                <button className="text-gray-500 hover:text-green-600">
-                    <p>5</p>
-                </button>
-            </nav>
+            <NavBar />
         </div>
     );
 };
