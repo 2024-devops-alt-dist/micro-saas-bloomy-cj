@@ -2,7 +2,10 @@
 
 # 🌸 Micro SaaS Bloomy
 
-Ce projet est un **monorepo** contenant deux sous-applications :
+> 🔗 Contexte du projet disponible dans le repo original : 
+> [2024-devops-alt-dist/micro-saas-bloomy-cj](https://github.com/2024-devops-alt-dist/micro-saas-bloomy-cj)
+
+Ce projet a été construit sous la forme d'un **monorepo** contenant deux sous-applications :
 - `api/` → Backend Node.js / Express
 - `client/` → Frontend React / Vite
 
@@ -11,7 +14,7 @@ Ce projet est un **monorepo** contenant deux sous-applications :
 ## ⚙️ Prérequis
 
 - [Node.js](https://nodejs.org/) (>= 18 recommandé)
-- [npm](https://www.npmjs.com/) (installé avec Node)
+- [npm](https://www.npmjs.com/)
 - [Git](https://git-scm.com/)
 
 Vérifie les versions installées :
