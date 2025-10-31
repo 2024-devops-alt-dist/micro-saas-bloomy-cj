@@ -17,7 +17,7 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant, gardenDraft }) => {
     };
 
     return (
-        <div className="plant-card-container m-3" onClick={handleClick}>
+        <div className="plant-card-container" onClick={handleClick}>
             <div className="plant-card-image">
                 <img src={plant.main_picture} alt={plant.name} />
             </div>

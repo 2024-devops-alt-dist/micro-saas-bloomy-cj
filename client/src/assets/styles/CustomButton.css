@@ -1,0 +1,14 @@
+.test {
+    background-color: var(--color-secondary-bis); 
+    color: white;
+    font-weight: 600;
+    padding: var(--space-sm2) var(--space-md);
+    border-radius: var(--border-radius-s);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+    transition: background-color .2s ease, transform .2s ease;
+}
+
+.test:hover {
+    background-color: var(--color-hover-btn);
+    transform: translateY(-1px);
+}

@@ -6,11 +6,14 @@ import mockDataGarden from "../data/mockGarden.json";
 export interface Garden {
     id: number;
     name: string;
+    image?: string; 
     description: string;
     localisation: string;
     pets: boolean;
     plants?: Plant[];
 }
+
+export type GardenDraft = Omit<Garden, "id">;
 
 let localGardens: Garden[] = [...mockDataGarden.gardens.map(g => ({ ...g, plants: [] }))];
 

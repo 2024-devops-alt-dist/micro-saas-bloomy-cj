@@ -1,16 +1,27 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import GardenButton from "../../buttons/GardenButton";
 import GardenPlantCard from "../components/GardenPlantCard";
 import CustomButton from "../../buttons/CustomButton";
-import { gardenService, type Garden } from "../services/gardenService";
+import { gardenService, type GardenDraft } from "../services/gardenService";
 import { useState } from "react";
+import "../../../assets/styles/global.css";
+import "../../../assets/styles/PanierGarden.css";
 
 
 const PanierGarden : React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const initialGardenDraft  = location.state?.gardenDraft as Garden | undefined;
-    const [gardenDraft, setGardenDraft] = useState(initialGardenDraft);
+    const initialGardenDraft  = location.state?.gardenDraft as GardenDraft  | undefined;
+    const [error, setError] = useState("");
+    const [gardenDraft, setGardenDraft] = useState<GardenDraft>(
+    initialGardenDraft ?? {
+        name: "",
+        image: "",
+        description: "",
+        localisation: "",
+        pets: false,
+        plants: []
+    }
+);
 
     console.log("Draft reçu dans PanierGarden :", gardenDraft);
 
@@ -27,6 +38,14 @@ const PanierGarden : React.FC = () => {
 
     const handleValidateGarden = async () => {
         if (!gardenDraft) return;
+
+        if (!gardenDraft.plants || gardenDraft.plants.length === 0) {
+            setError("Votre jardin doit contenir au moins une plante");
+            return;
+        }
+
+        setError("");
+
         try {
             // On crée le jardin et on le stocke
             const createdGarden = await gardenService.create(gardenDraft);
@@ -41,22 +60,22 @@ const PanierGarden : React.FC = () => {
     return (
         <div className="flex flex-col h-screen bg-white">
             {/* Header */}
-            <header className="flex justify-between items-center px-4 py-3 border-b border-green-100">
-                <button className="text-gray-600 hover:text-green-600 text-2xl" onClick={() => navigate(-1)}>←</button>
-                <p className="text-gray-800 text-md">Création d’un jardin</p>
-                <button className="text-gray-600 hover:text-red-500 text-2xl">×</button>
+            <header className="hearder-container">
+                <button className="hover:text-green-600 text-2xl" onClick={() => navigate(-1)}>←</button>
+                <p className="text-md">Création d’un jardin</p>
+                <button className="hover:text-red-500 text-2xl">×</button>
             </header>
-            <main className="flex flex-col items-center text-center p-6">
-                <h1 className="text-3xl font-bold">Votre sélection pour le jardin</h1>
-                <h2>{gardenDraft?.name}</h2>
+            
+            <main className="flex flex-col p-6 mb-12">
+                <h1 className="text-center title-custom-panier mb-3 ">Votre sélection pour le jardin</h1>
+                <h2 className="text-center mb-4">{gardenDraft?.name}</h2>
 
-                <hr className="border-t border-gray-200 w-full max-w-xs mb-8" />
+                <hr className="border-t border-gray-200 w-full max-w-xs mb-5" />
 
-                <div className="mb-6 w-full max-w-md">
-                    <GardenButton 
-                        label="+ Ajouter une plante" 
-                        onClick={() => navigate("/gardenSelectPlants", { state: { gardenDraft } })}
-                    />
+                <div className="mb-6">
+                    <button onClick={() => navigate("/gardenSelectPlants", { state: { gardenDraft } })} className="add-plant-btn">
+                        + Ajouter une plante
+                    </button>
                 </div>
 
                 {gardenDraft?.plants && gardenDraft.plants.length > 0 ? (
@@ -72,8 +91,12 @@ const PanierGarden : React.FC = () => {
                         Aucune plante ajoutée pour le moment 🌱
                     </p>
                 )}
+                
+                <div className="fixed-button-container">
+                    {error && (
+                        <p className="error-alerte mb-3 text-center">⚠️ {error}</p>
+                    )}
 
-                <div className="mt-6 w-full max-w-md">
                     <CustomButton label="Valider ma sélection" onClick={handleValidateGarden}/>
                 </div>
             </main>

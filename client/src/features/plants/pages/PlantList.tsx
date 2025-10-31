@@ -28,7 +28,7 @@ const PlantList: React.FC = () => {
     if (loading) return <p>Chargement des plantes...</p>;
 
     return (
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 justify-items-center">
+        <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-7 justify-items-center">
             {plants.map((plant) => (
                 <PlantCard key={plant.id} plant={plant} gardenDraft={gardenDraft}/>
             ))}

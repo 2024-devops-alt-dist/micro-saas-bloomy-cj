@@ -1,7 +1,8 @@
 import React from "react";
-import GardenButton from "../../buttons/GardenButton";
 import { type Plant } from "../../plants/services/plantService";
 import { FiTrash2 } from "react-icons/fi";
+import { FaSeedling, FaTag } from "react-icons/fa";
+import LearnMoreButton from "../../buttons/LearnMoreButton";
 
 interface GardenPlantCardProps {
     plant: Plant;
@@ -22,30 +23,39 @@ const GardenPlantCard: React.FC<GardenPlantCardProps> = ({ plant, onRemove }) =>
     // if (!plant) return <p>Chargement...</p>;
     
     return (
-        <div className="flex bg-white rounded-2xl shadow-md overflow-hidden mb-4 w-full max-w-md garden-plant-card">
-            <div className="flex flex-col justify-between p-4 flex-1 text-left">
-                <div>
-                    <h3 className="text-lg font-bold uppercase">{plant.name}</h3>
-                    <p className="text-sm text-gray-600">🌿{plant.main_goal} • {plant.category}</p>
+        <div className="garden-plant-card">
+            
+            {/* Image en fond */}
+            <div className="plant-image-desc">
+                <img src={plant.main_picture} alt={plant.name} className="plant-image" />
+                <div className="plant-image-overlay"></div>
+            </div>
+
+            {/* Contenu à gauche */}
+            <div className="card-left">
+                <h3 className="plant-name-card ">{plant.name}</h3>
+
+                <div className="plant-meta-container">
+                    <div className="meta-item">
+                        <FaSeedling className="meta-icon" />
+                        <span>{plant.main_goal}</span>
+                    </div>
+
+                    <div className="meta-item">
+                        <FaTag className="meta-icon" />
+                        <span>{plant.category}</span>
+                    </div>
                 </div>
-                <div className="mt-4 flex items-center justify-between">
-                    <GardenButton label="En savoir plus" />
+
+                <div className="card-actions">
+                    <LearnMoreButton label="> En savoir plus" />
                     {onRemove && (
-                        <button
-                            onClick={onRemove}
-                            className="text-gray-500 hover:text-red-500 transition"
-                            title="Retirer du jardin"
-                        >
+                        <button onClick={onRemove} className="remove-btn" title="Retirer du jardin">
                             <FiTrash2 size={20} />
                         </button>
                     )}
                 </div>
             </div>
-            <img
-                src={plant.main_picture}
-                alt={plant.name}
-                className="w-32 h-32 object-cover"
-            />
         </div>
     );
 };
