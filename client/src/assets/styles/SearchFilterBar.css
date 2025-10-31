@@ -1,0 +1,22 @@
+form .input-text-search {
+    width: 100%;
+    border: 1px solid #d1d5db; 
+    border-radius: var(--border-radius-xs); 
+    padding: var(--space-xs) var(--space-sm2);
+    font-size: var(--text-sm1);
+    color: var(--color-bar-text-input); 
+    background-color: #fff;
+
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    padding-left: var(--space-lg1); 
+}
+
+.input-text-search:focus {
+    outline: none;
+    border-color: var(--color-border-input-focus); 
+    box-shadow: 0 0 0 2px #43812233; 
+}
+
+.input-text-search::placeholder {
+    color: var(--text-light-placeholder); 
+}

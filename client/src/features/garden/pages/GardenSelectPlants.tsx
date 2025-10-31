@@ -1,5 +1,6 @@
 import React from "react";
 import "../../../assets/styles/global.css";
+import "../../../assets/styles/GardenSelectPlants.css";
 import PlantList from "../../plants/pages/PlantList";
 import { useLocation, useNavigate } from "react-router-dom";
 import CategoryTabs from "../components/CategoryTab";
@@ -14,29 +15,32 @@ const GardenSelectPlants : React.FC = () => {
     console.log("Draft reçu sur GardenSelectPlants :", gardenDraft);
 
     return (
-        <div className="flex flex-col h-screen bg-white">
+        <div>
             {/* Header */}
-            <header className="flex justify-between items-center px-4 py-3 border-b border-green-100">
-                <button className="text-gray-600 hover:text-green-600 text-2xl" onClick={() => navigate(-1)}>←</button>
-                <p className="text-gray-800 text-md">Création d’un jardin</p>
-                <button className="text-gray-600 hover:text-red-500 text-2xl">×</button>
+            <header className="hearder-container">
+                <button className="hover:text-green-600 text-2xl" onClick={() => navigate(-1)}>←</button>
+                <p className="text-md">Création d’un jardin</p>
+                <button className="hover:text-red-500 text-2xl">×</button>
             </header>
 
-            {/* Banner */}
-            <div className="w-full bg-green-600 text-white py-12 flex justify-center items-center relative">
-                <h1 data-testid="draft-name" className="text-3xl font-bold">{gardenDraft?.name}</h1>
-            </div>
+            <main className="">
+                {/* Banner */}
+                <div className="banner w-full">
+                    <h1 className="custom-title">Choisissez vos plantes</h1>
+                    {/* <h1 data-testid="draft-name">{gardenDraft?.name}</h1> */}
+                </div>
 
-            {/* Barre de recherche et filtre */}
-            <SearchFilterBar />
+                {/* Barre de recherche et filtre */}
+                <SearchFilterBar />
 
-            {/* Category Tabs */}
-            <CategoryTabs />
+                {/* Category Tabs */}
+                <CategoryTabs />
 
-            <div style={{ padding: "20px" }}>
-                <h1>Choisissez vos plantes</h1>
-                <PlantList />
-            </div>
+                <div style={{ padding: "20px" }}>
+                    {/* <h1 className="custom-title">Choisissez vos plantes</h1> */}
+                    <PlantList />
+                </div>
+            </main>
         </div>
     );
 };

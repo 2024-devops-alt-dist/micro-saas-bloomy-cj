@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiPlus } from "react-icons/fi";
 import { gardenService, type Garden } from "../../garden/services/gardenService";
-import NavBar from "../../../shared/header";
+import NavBar from "../../../shared/navbar";
 
 const MyGarden: React.FC = () => {
     const navigate = useNavigate();

@@ -1,0 +1,26 @@
+.navbar {
+    display: flex;
+    border-bottom: 1px solid #d1d5db; 
+    margin-bottom: var(--space-md);
+}
+
+.navbar-tab {
+    flex: 1; 
+    text-align: center;
+    padding: var(--space-sm) 0; 
+    font-weight: 500;
+    color: #4b5563; 
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.navbar-tab:hover {
+    color: var(--color-secondary-bis); 
+}
+
+.navbar-tab.active {
+    border-bottom: 2px solid var(--color-secondary-bis); 
+    color: var(--color-secondary-bis); 
+}

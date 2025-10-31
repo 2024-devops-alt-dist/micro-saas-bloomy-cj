@@ -1,0 +1,132 @@
+.title-custom-panier {
+    font-family: var(--font-bebas-neus);
+    font-size: var(--text-3xl);
+    font-weight: 700;  
+    letter-spacing: -0.5px; 
+    line-height: 1; 
+}
+
+.add-plant-btn {
+    background-color: white;        
+    color: var(--color-secondary-bis);                 
+    border: 1px solid var(--color-secondary-bis);      
+    font-weight: 500;
+    padding: var(--space-sm) var(--space-sm2);
+    border-radius: var(--border-radius-xs);
+    cursor: pointer;
+    transition: all 0.3s ease;  
+    font-size: var(--text-sm);    
+}
+
+.add-plant-btn:hover {
+    background-color: var(--color-secondary-bis);      
+    color: white;      
+}
+
+.garden-plant-card {
+    position: relative;
+    display: flex;
+    height: 140px;
+    border-radius: var(--border-radius-m);
+    border: 1px solid #e0e0e09a;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.08);
+    overflow: hidden;
+    margin-bottom: var(--space-md);
+}
+
+/* Image en fond */
+.plant-image-desc {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 45%;
+    overflow: hidden;
+}
+
+.plant-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.plant-image-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.25);
+}
+
+.card-left {
+    position: relative;
+    z-index: 2;
+    width: 65%;  
+    background: white;
+    padding: var(--space-md);
+    border-top-right-radius: var(--border-radius-m);
+    border-bottom-right-radius: var(--border-radius-m);
+    display: flex;
+    flex-direction: column;
+}
+
+.plant-name-card {
+    font-size: var(--text-lg);
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: var(--space-xxxs);
+}
+
+.plant-meta-container {
+    display: flex;
+    gap: var(--space-sm2);
+    margin-bottom: var(--space-md1);
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: var(--text-xs1);
+    color: #4b5563;
+}
+
+.meta-icon {
+    font-size: var(--text-sm);
+    color: var(--color-secondary-bis);
+}
+
+.card-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.remove-btn {
+    background: transparent;
+    border: none;
+    color: #6b7280;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.remove-btn:hover {
+    color: #e63939;
+}
+
+.fixed-button-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: var(--space-md4) var(--space-md1);
+    background: white;
+    border-top: 1px solid #e5e5e5;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 50;
+}
+
+.fixed-button-container button {
+    width: 100%;
+    max-width: 420px;
+}

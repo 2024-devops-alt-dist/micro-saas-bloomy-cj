@@ -1,0 +1,23 @@
+.banner {
+    background: linear-gradient(to left, #438122, #5cb12f); 
+    padding: var(--space-lg1) var(--space-xl1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+}
+
+.banner h1 {
+    color: white;
+    font-size: var(--text-4xl);
+}
+
+.custom-title {
+    font-family: var(--font-bebas-neus);
+    font-weight: 700;  
+    letter-spacing: -0.5px;  
+    line-height: 1;      
+    margin: 0;   
+    font-size: 25px; 
+}

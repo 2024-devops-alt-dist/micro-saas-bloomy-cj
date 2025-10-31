@@ -8,10 +8,7 @@ interface GardenButtonProps {
 
 const GardenButton: React.FC<GardenButtonProps> = ({ label, onClick }) => {
     return (
-        <button
-            onClick={onClick}
-            className="flex items-center justify-center garden-button"
-        >
+        <button onClick={onClick} className="flex items-center justify-center garden-button">
             {label}
         </button>
     );
