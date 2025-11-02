@@ -6,7 +6,7 @@ import mockDataGarden from "../data/mockGarden.json";
 export interface Garden {
     id: number;
     name: string;
-    image?: string; 
+    garden_img?: string; 
     description: string;
     localisation: string;
     pets: boolean;
@@ -16,6 +16,7 @@ export interface Garden {
 export type GardenDraft = Omit<Garden, "id">;
 
 let localGardens: Garden[] = [...mockDataGarden.gardens.map(g => ({ ...g, plants: [] }))];
+// let localGardens: Garden[] = [];
 
 const mockApi = {
     async getAll(): Promise<Garden[]> {

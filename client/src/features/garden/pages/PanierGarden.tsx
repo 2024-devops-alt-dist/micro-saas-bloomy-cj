@@ -15,7 +15,7 @@ const PanierGarden : React.FC = () => {
     const [gardenDraft, setGardenDraft] = useState<GardenDraft>(
     initialGardenDraft ?? {
         name: "",
-        image: "",
+        garden_img: "",
         description: "",
         localisation: "",
         pets: false,
