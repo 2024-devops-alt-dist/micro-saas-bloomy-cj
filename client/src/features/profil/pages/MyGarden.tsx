@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiPlus } from "react-icons/fi";
 import { gardenService, type Garden } from "../../garden/services/gardenService";
-import NavBar from "../../../shared/navbar";
+import NavBarMobile from "../../../shared/navbar-mobile";
+import "../../../assets/styles/global.css";
+import "../../../assets/styles/MyGarden.css";
+import Groupe71 from "../../../assets/pictures/Group_71.png"
 
 const MyGarden: React.FC = () => {
     const navigate = useNavigate();
@@ -21,39 +24,57 @@ const MyGarden: React.FC = () => {
     }, []);
 
     return (
-        <div className="flex flex-col h-screen bg-white">
-            <header className="flex justify-between items-center px-6 py-4 border-b border-green-100">
-                <h1 className="text-2xl font-bold text-gray-800">Mes Jardins</h1>
-                <button
-                    onClick={() => navigate("/addGarden")}
-                    className="flex items-center gap-2 text-green-600 hover:text-green-700 font-medium"
-                >
-                    <FiPlus className="text-2xl" />
+        <div className="flex flex-col">
+            <header className="mygarden-header flex justify-between items-center">
+                <h1>Mes Jardins</h1>
+                <button onClick={() => navigate("/addGarden")} className="flex items-center gap-2">
+                    <FiPlus />
                 </button>
             </header>
 
-            <main className="flex-1 p-6">
-                {gardens.length > 0 ? (
-                    <div className="flex gap-4 overflow-x-auto scrollbar-hide py-4">
+            <main className="mygarden-main flex flex-col items-center justify-center">
+            {gardens.length > 0 ? (
+                <>
+                    {/* Liste des jardins alignée à gauche */}
+                    <div className="garden-list flex">
                         {gardens.map((garden) => (
-                            <div
-                                key={garden.id}
-                                className="min-w-[200px] h-[200px] bg-green-100 flex flex-col justify-center items-center rounded-2xl shadow-sm hover:shadow-md transition cursor-pointer"
-                                onClick={() => console.log("Ouvrir le jardin :", garden.name)}
-                            >
-                                <h2 className="text-lg font-semibold text-green-700">{garden.name}</h2>
+                            <div key={garden.id} className="garden-card flex flex-col justify-center items-center">
+                                <div 
+                                    className="garden-img-bg" 
+                                    style={{ backgroundImage: `url(/assets/mascot/mascot-relax.png)` }}
+                                ></div>
+                                <h2 className="garden-name">{garden.name}</h2>
                             </div>
                         ))}
                     </div>
-                ) : (
-                    <p className="text-gray-500 italic text-center mt-10">
-                        Aucun jardin pour le moment 🌱
-                    </p>
-                )}
-            </main>
 
+                    {/* Section Statistiques */}
+                    <div className="garden-stats flex flex-col items-center">
+                        <h2>Vos statistiques</h2>
 
-            <NavBar />
+                        <div className="stats-card">
+                            Vous retrouverez ici vos statistiques après avoir réalisé vos premiers pas
+                        </div>
+
+                        <img src={Groupe71} alt="Statistiques à venir"/>
+                    </div>
+                </>
+            ) : (
+                <div className="empty-garden flex flex-col items-center">
+                    <img 
+                        src="/assets/mascot/mascot-question.png"
+                        alt="Aucun jardin"
+                        className="w-50 h-50 mb-4"
+                    />
+                    <p>C’est un peu vide ici !</p>
+                    <button onClick={() => navigate("/addGarden")} className="btn-global mt-6">
+                        Ajouter un jardin
+                    </button>
+                </div>
+            )}
+        </main>
+
+            <NavBarMobile />
         </div>
     );
 };

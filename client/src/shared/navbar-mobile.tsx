@@ -1,8 +1,8 @@
 import { FiHome, FiCalendar, FiSun, FiBell, FiUser } from "react-icons/fi";
 
-const NavBar: React.FC = () => {
+const NavBarMobile: React.FC = () => {
     return (
-        <nav className="fixed bottom-0 left-0 w-full h-16 bg-white border-t border-gray-200 flex justify-around items-center z-50 pb-[env(safe-area-inset-bottom)]" aria-label="Navigation principale">
+        <nav className="lg:hidden fixed bottom-0 left-0 w-full h-16 bg-white border-t border-gray-200 flex justify-around items-center z-50 pb-[env(safe-area-inset-bottom)]" aria-label="Navigation principale">
             {/* Home */}
             <button className="hover:text-green-600 transition-colors" aria-label="Accueil">
                 <FiHome size={24} />
@@ -31,4 +31,4 @@ const NavBar: React.FC = () => {
     );
 };
 
-export default NavBar;
+export default NavBarMobile;

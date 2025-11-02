@@ -2,14 +2,17 @@ import React from "react";
 import mascotWelcome from "../../../assets/pictures/mascot-welcome.png";
 import "../../../assets/styles/global.css";
 import { useNavigate } from "react-router-dom";
-import NavBar from "../../../shared/navbar";
+import NavBarMobile from "../../../shared/navbar-mobile";
 import "../../../assets/styles/addGarden.css";
+// import NavBarDesktop from "../../../shared/navbar-desktop";
 
 const AddGarden: React.FC = () => {
     const navigate = useNavigate();
 
     return (
         <div>
+            {/* <NavBarDesktop /> */}
+            
             <header className="hearder-container">
                 <button className="hover:text-green-600 text-2xl">←</button>
                 <p className="text-md">Création d’un jardin</p>
@@ -46,7 +49,7 @@ const AddGarden: React.FC = () => {
             </main>
 
             {/* Navigation bar */}
-            <NavBar />
+            <NavBarMobile />
         </div>
     );
 };
