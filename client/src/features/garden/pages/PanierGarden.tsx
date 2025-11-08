@@ -5,6 +5,7 @@ import { gardenService, type GardenDraft } from "../services/gardenService";
 import { useState } from "react";
 import "../../../assets/styles/global.css";
 import "../../../assets/styles/PanierGarden.css";
+import HeaderAddGarden from "../../../shared/headerAddGarden";
 
 
 const PanierGarden : React.FC = () => {
@@ -58,15 +59,10 @@ const PanierGarden : React.FC = () => {
     };
     
     return (
-        <div className="flex flex-col h-screen bg-white">
-            {/* Header */}
-            <header className="hearder-container">
-                <button className="hover:text-green-600 text-2xl" onClick={() => navigate(-1)}>←</button>
-                <p className="text-md">Création d’un jardin</p>
-                <button className="hover:text-red-500 text-2xl">×</button>
-            </header>
+        <>
+            <HeaderAddGarden showBack={true} />
             
-            <main className="flex flex-col p-6 panier-main">
+            <main className="flex flex-col panier-main">
                 <h1 className="text-center title-custom-panier mb-3 ">Votre sélection pour le jardin</h1>
                 <h2 className="text-center mb-4">{gardenDraft?.name}</h2>
 
@@ -100,7 +96,7 @@ const PanierGarden : React.FC = () => {
                     <CustomButton label="Valider ma sélection" onClick={handleValidateGarden}/>
                 </div>
             </main>
-        </div>
+        </>
     );
 };
 

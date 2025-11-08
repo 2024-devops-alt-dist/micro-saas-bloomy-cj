@@ -5,6 +5,8 @@ import PlantList from "../../plants/pages/PlantList";
 import { useLocation, useNavigate } from "react-router-dom";
 import CategoryTabs from "../components/CategoryTab";
 import SearchFilterBar from "../components/SearchFilterBar";
+import CustomButton from "../../buttons/CustomButton";
+import HeaderAddGarden from "../../../shared/headerAddGarden";
 
 const GardenSelectPlants : React.FC = () => {
     const navigate = useNavigate();
@@ -16,31 +18,27 @@ const GardenSelectPlants : React.FC = () => {
 
     return (
         <div>
-            {/* Header */}
-            <header className="hearder-container">
-                <button className="hover:text-green-600 text-2xl" onClick={() => navigate(-1)}>←</button>
-                <p className="text-md">Création d’un jardin</p>
-                <button className="hover:text-red-500 text-2xl">×</button>
-            </header>
+            <HeaderAddGarden showBack={true} />
 
-            <main className="">
-                {/* Banner */}
+            <main className="mt-15 mb-22">
                 <div className="banner w-full">
                     <h1 className="custom-title">Choisissez vos plantes</h1>
-                    {/* <h1 data-testid="draft-name">{gardenDraft?.name}</h1> */}
                 </div>
 
-                {/* Barre de recherche et filtre */}
                 <SearchFilterBar />
 
-                {/* Category Tabs */}
                 <CategoryTabs />
 
                 <div style={{ padding: "20px" }}>
-                    {/* <h1 className="custom-title">Choisissez vos plantes</h1> */}
                     <PlantList />
                 </div>
+
+                <div className="fixed-button-container">
+                    <CustomButton label="Voir ma sélection" onClick={() => navigate("/panierGarden", { state: { gardenDraft } })}/>
+                </div>
             </main>
+
+
         </div>
     );
 };

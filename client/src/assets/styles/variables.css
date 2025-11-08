@@ -43,6 +43,7 @@
     --text-base: 1rem; /* 16px */
     --text-lg: 1.25rem; /* 20px */
     --text-xl: 1.5rem; /* 24px */
+    --text-1xl: 1.563rem; /* 25px */
     --text-2xl: 1.75rem; /* 28px */
     --text-3xl: 2rem; /* 32px */
     --text-4xl: 2.188rem; /* 35px */
@@ -70,6 +71,7 @@
     --space-lg1: 2.5rem; /* 40px */
     --space-xl: 2.813rem; /* 45px */
     --space-xl1: 3rem; /* 48px */
+    --space-xl2: 3.438rem; /* 55px */
     --space-xxl: 4rem; /* 64px */
 
     /* Border Radius */

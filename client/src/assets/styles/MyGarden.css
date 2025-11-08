@@ -1,18 +1,17 @@
 /*  HEADER  */
 .mygarden-header {
-    padding: 1rem 1.5rem; 
+    padding: var(--space-md) var(--space-md2); 
     border-bottom: 1px solid #D1FAE5; 
 }
 
 .mygarden-header h1 {
     font-family: 'test-font', sans-serif; 
-    font-size: 32px; 
+    font-size: var(--text-3xl); 
     font-weight: 700; 
-    color: #1F2937; 
 }
 
 .mygarden-header button {
-    color: #16A34A; 
+    color: var(--color-secondary-bis); 
     font-weight: 500; 
     background: none;
     border: none;
@@ -21,17 +20,17 @@
 }
 
 .mygarden-header button:hover {
-    color: #15803D; 
+    color: var(--color-secondary); 
 }
 
 .mygarden-header button svg {
-    font-size: 1.5rem; 
+    font-size: var(--text-xl); 
 }
 
 /* MES JARDINS */
 .mygarden-main {
     flex: 1;
-    padding: 15px 24px;
+    padding: var(--space-sm4) var(--space-md2);
     overflow: auto;
 }
 /* --- Liste Jardins */
@@ -40,7 +39,7 @@
     flex-direction: row;
     flex-wrap: nowrap;
     gap: 12px;
-    padding: 1rem 0;
+    padding: var(--space-md) 0;
     overflow-x: auto;
     overflow-y: hidden; 
     width: 100%;
@@ -56,13 +55,13 @@
     width: 110px;
     height: 110px;
     flex-shrink: 0;
-    border-radius: 0.75rem;
+    border-radius: var(--border-radius-s);
     cursor: pointer;
     overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: flex-end;
-    padding: 0.5rem;
+    padding: var(--space-sm);
 
     transition: transform 0.18s ease, box-shadow 0.18s ease;
     box-shadow: 0 2px 4px rgba(0,0,0,0.15);
@@ -92,7 +91,7 @@
     z-index: 3;
     color: white;
     font-weight: 600;
-    font-size: 0.85rem;
+    font-size: var(--text-sm);
     text-align: center;
     overflow: hidden;
     display: -webkit-box;
@@ -104,27 +103,26 @@
 
 /* --- Section statistiques */
 .garden-stats {
-    margin-top: 15px;
+    margin-top: var(--space-sm4);
     width: 100%;
 }
 
 .garden-stats h2 {
-    font-size: 25px; 
+    font-size: var(--text-1xl); 
     font-weight: 400; 
-    color: #1F2937;  
     text-align: left;
-    margin-bottom: 20px;
+    margin-bottom: var(--space-md1);
     width: 100%; 
 }
 
 .stats-card {
     border: 1px solid #E5E7EB; 
-    border-radius: 0.75rem; 
-    padding: 1rem; 
+    border-radius: var(--border-radius-s); 
+    padding: var(--space-md); 
     text-align: center;
     color: #6B7280; 
     max-width: 28rem; 
-    margin-bottom: 15px;
+    margin-bottom: var(--space-sm4);
 }
 
 .stats-card p {
@@ -132,31 +130,31 @@
 }
 
 .garden-stats img {
-    margin-top: 1rem;
+    margin-top: var(--space-md);
 }
 
 /* --- Etat vide */
 .empty-garden {
     gap: 1rem;
-    margin-top: 2.5rem;
+    margin-top: var(--space-lg1);
 }
 
 .empty-garden p {
-    font-size: 1rem;
+    font-size: var(--text-base);
 }
 
 @media (min-width: 768px) {
-  .garden-list {
-    scrollbar-width: thin; /* Firefox */
-  }
-  
-  .garden-list::-webkit-scrollbar {
-    display: block;
-    height: 6px;
-  }
-  
-  .garden-list::-webkit-scrollbar-thumb {
-    background: rgba(0,0,0,0.25);
-    border-radius: 999px;
-  }
+    .garden-list {
+        scrollbar-width: thin; 
+    }
+    
+    .garden-list::-webkit-scrollbar {
+        display: block;
+        height: 6px;
+    }
+    
+    .garden-list::-webkit-scrollbar-thumb {
+        background: rgba(0,0,0,0.25);
+        border-radius: 999px;
+    }
 }

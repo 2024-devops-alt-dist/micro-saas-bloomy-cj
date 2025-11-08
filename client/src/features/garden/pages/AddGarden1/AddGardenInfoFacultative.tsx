@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import HeaderAddGarden from "../../../../shared/headerAddGarden";
 
 //  Schéma de validation
 const gardenFacSchema = z.object({
@@ -64,12 +65,7 @@ const AddGardenInfoFacultative : React.FC = () => {
 
     return (
         <div>
-            {/* Header */}
-            <header className="hearder-container">
-                <button className="hover:text-green-600 text-2xl" onClick={() => navigate(-1)}>←</button>
-                <p className="text-md">Création d’un jardin</p>
-                <button className="hover:text-red-500 text-2xl">×</button>
-            </header>
+            <HeaderAddGarden showBack={true} />
 
             <main className="main-footer">
                 <form className="w-full max-w-xs text-left space-y-6" onSubmit={handleSubmit(onSubmit)}>

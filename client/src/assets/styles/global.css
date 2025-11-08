@@ -4,7 +4,7 @@
 @import "./variables.css";
 
 h1 {
-    font-size: var(--text-3xl);
+    font-size: 30px;
     font-family: var(--font-ananda);
     color: var(--color-primary);
     font-weight: bold;
@@ -17,6 +17,11 @@ p {
 }
 
 .hearder-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 50;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -32,11 +37,11 @@ p {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: var(--space-md2) var(--space-md2) var(--space-xl) var(--space-md2);
+    padding: var(--space-md2) var(--space-md2) 90px var(--space-md2);
     overflow-y: auto;
 
-    /* Hauteur dynamique : 100vh - header - navbar */
-    height: calc(100vh - 4rem - 4rem);
+    margin-top: var(--space-xl2);
+    margin-bottom: 20px;
     background-color: #ffffff;
 }
 
@@ -46,9 +51,15 @@ p {
     align-items: center;
     text-align: center;
     padding: var(--space-md2);
+
+    padding-top: calc(var(--space-md2) + 60px);
 }
 
 /* Form */
+.cust-padding-form {
+    padding: 0 15px 0 15px;
+}
+
 form label, form span {
     font-family: var(--font-roboto);
     font-size: var(--text-sm1);
@@ -106,7 +117,6 @@ form .input-text, .input-upload {
     display: none;
 }
 
-/* Input name */
 .name-field {
     position: relative;
 }
@@ -122,12 +132,9 @@ form .input-text, .input-upload {
     transition: color 0.2s ease;
 }
 
-/* Quand la limite est atteinte → compteur devient rouge */
 .name-field.is-full .name-count {
-    color: #ef4444; /* Rouge équiv. Tailwind red-500 */
+    color: #ef4444;
 }
-
-
 
 /* Boutons */
 .btn-global {

@@ -1,4 +1,4 @@
-.test {
+.btn-custom-custom {
     background-color: var(--color-secondary-bis); 
     color: white;
     font-weight: 600;
@@ -8,7 +8,7 @@
     transition: background-color .2s ease, transform .2s ease;
 }
 
-.test:hover {
+.btn-custom-custom:hover {
     background-color: var(--color-hover-btn);
     transform: translateY(-1px);
 }
