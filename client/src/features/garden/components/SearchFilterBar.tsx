@@ -3,7 +3,7 @@ import { FiFilter, FiSearch } from "react-icons/fi";
 import "../../../assets/styles/SearchFilterBar.css";
 
 const SearchFilterBar: React.FC = () => {
-
+// Ici intégrer zod et reacthook si n"cessaire
     return (
         <div className="flex justify-between items-center px-4 py-3 border-b border-green-100">
             <div className="flex items-center w-full max-w-md relative">

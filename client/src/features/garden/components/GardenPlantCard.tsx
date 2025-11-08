@@ -25,13 +25,11 @@ const GardenPlantCard: React.FC<GardenPlantCardProps> = ({ plant, onRemove }) =>
     return (
         <div className="garden-plant-card">
             
-            {/* Image en fond */}
             <div className="plant-image-desc">
                 <img src={plant.main_picture} alt={plant.name} className="plant-image" />
                 <div className="plant-image-overlay"></div>
             </div>
 
-            {/* Contenu à gauche */}
             <div className="card-left">
                 <h3 className="plant-name-card ">{plant.name}</h3>
 

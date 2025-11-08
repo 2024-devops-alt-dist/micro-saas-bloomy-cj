@@ -66,7 +66,7 @@ const PanierGarden : React.FC = () => {
                 <button className="hover:text-red-500 text-2xl">×</button>
             </header>
             
-            <main className="flex flex-col p-6 mb-12">
+            <main className="flex flex-col p-6 panier-main">
                 <h1 className="text-center title-custom-panier mb-3 ">Votre sélection pour le jardin</h1>
                 <h2 className="text-center mb-4">{gardenDraft?.name}</h2>
 
