@@ -76,8 +76,8 @@
 
 /* Bloc 4 : A propos */
 .plant-description h3 {
-    font-weight: bold;
-    margin-bottom: var(--space-xxs); 
+    font-weight: 500;
+    margin-bottom: var(--space-sm1); 
 }
 
 .plant-description p {
@@ -91,11 +91,20 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+    
+    width: 100vw; 
+    position: relative;
+    left: 50%; 
+    right: 50%;
+    margin-left: -50vw;  
+    margin-right: -50vw;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-left: 6px;
+    padding-right: 6px;
+
     background-color: #7dc76a2f;
-    color: white;
-    padding: var(--space-sm2) var(--space-sm);
-    border-radius: var(--border-radius-xs);
-    margin: var(--space-md) 0;
+    padding: var(--space-sm2) var(--space-sm4);
 }
 
 .plant-info-item {
@@ -108,36 +117,36 @@
 }
 
 .info-icon {
-    width: 24px;
-    height: 24px;
+    width: var(--space-md2);
+    height: var(--space-md2);
 }
 
-
+/* Bloc 5 : Variety onglet */
 .varieties-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: var(--space-sm2);
 }
 
 .variety-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px;
-  background: #f7f7f7;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: .2s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: var(--space-xs);
+    background: #55a32b1a;
+    border-radius: var(--border-radius-xs);
+    cursor: pointer;
+    transition: .2s;
 }
 
 .variety-item:hover {
-  background: #e7e7e7;
+    background: #55a32b2a;
 }
 
 .variety-item img {
-  width: 60px;
-  height: 60px;
-  border-radius: 8px;
-  object-fit: cover;
+    width: 53px;
+    height: 53px;
+    border-radius: var(--border-radius-xs);
+    object-fit: cover;
 }

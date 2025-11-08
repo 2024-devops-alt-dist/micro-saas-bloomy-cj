@@ -20,7 +20,9 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant, gardenDraft }) => {
     return (
         <div className="plant-card-container" onClick={handleClick}>
             <div className="plant-card-image">
-                {isSelected && <div className="selected-check">✔</div>}
+                {isSelected && (
+                    <img src="/assets/icons/check.png" alt="check" className="selected-check" />
+                )}
                 <img src={plant.main_picture} alt={plant.name} />
             </div>
             <h3 className="plant-card-name">{plant.name}</h3>

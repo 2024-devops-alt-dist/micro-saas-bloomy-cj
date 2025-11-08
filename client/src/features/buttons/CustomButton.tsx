@@ -8,7 +8,7 @@ interface CustomButtonProps {
 
 const CustomButton: React.FC<CustomButtonProps> = ({ label, onClick }) => {
     return (
-        <button role="button" onClick={onClick} className="test w-full flex items-center justify-center gap-2">
+        <button role="button" onClick={onClick} className="btn-custom-custom w-full flex items-center justify-center gap-2">
             {label}
         </button>
     );
