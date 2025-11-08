@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 //  Schéma de validation
 const gardenSchema = z.object({
-    name: z.string().min(1, "Le nom du jardin est obligatoire."),
+    name: z.string().min(1, "Le nom du jardin est obligatoire.").max(25, "Le nom doit faire 25 caractères maximum."),
     garden_img: z.any().optional(), 
 });
 
@@ -23,6 +23,8 @@ const AddGardenInfo : React.FC = () => {
 
     // Pour afficher le nom du fichier sélectionné
     const selectedFile = watch("garden_img");
+
+    const nameValue = watch("name") ?? "";
 
     const onSubmit = (data: GardenFormValues) => {
         const imageName = data.garden_img ? data.garden_img.name : "";
@@ -57,14 +59,25 @@ const AddGardenInfo : React.FC = () => {
                 <form className="w-full max-w-xs text-left space-y-6" onSubmit={handleSubmit(onSubmit)}>
                     <div>
                         <label className="block mb-1">Nom de votre jardin :</label>
-                        <input
-                            type="text"
-                            placeholder="Écrire ..."
-                            {...register("name")}
-                            className="input-text"
-                        />
-                        {errors.name && <p className="error-alerte mt-2">⚠️ {errors.name.message}</p>}
+                        <div className={`relative name-field ${nameValue.length === 25 ? 'is-full' : ''}`}>
+                            <input
+                                type="text"
+                                placeholder="Écrire ..."
+                                {...register("name")}
+                                maxLength={25}
+                                className="input-text pr-12"
+                            />
+
+                            <p className="name-count">
+                                {nameValue.length}/25
+                            </p>
+                        </div>
+
+                        {errors.name && (
+                            <p className="error-alerte mt-2">⚠️ {errors.name.message}</p>
+                        )}
                     </div>
+
 
                     <div>
                         <label className="block mb-1">Ajouter une image (facultatif) :</label>

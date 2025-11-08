@@ -1,9 +1,16 @@
 import mockDataPlants from "../data/mockPlants.json";
 
 // const USE_MOCK = true;
+export interface DateRange {
+    start: string; // format: YYYY-MM-DD
+    end: string;   // format: YYYY-MM-DD
+}
 
 export interface Plant {
     id: number;
+    parent_slug?: string | null;
+    slug?: string | null;
+
     name: string;
     description: string;
     category: string;
@@ -14,7 +21,11 @@ export interface Plant {
     difficulty: string;       
     exposition: string;       
     main_goal: string;      
-    main_picture: string;    
+    main_picture: string;   
+    
+    sowing_date: DateRange;   
+    plant_date: DateRange | null; 
+    harvest_date: DateRange; 
 }
 
 const mockApi = {

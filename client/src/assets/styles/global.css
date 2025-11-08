@@ -106,6 +106,29 @@ form .input-text, .input-upload {
     display: none;
 }
 
+/* Input name */
+.name-field {
+    position: relative;
+}
+
+.name-field .name-count {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+    color: #9ca3af;
+    pointer-events: none;
+    transition: color 0.2s ease;
+}
+
+/* Quand la limite est atteinte → compteur devient rouge */
+.name-field.is-full .name-count {
+    color: #ef4444; /* Rouge équiv. Tailwind red-500 */
+}
+
+
+
 /* Boutons */
 .btn-global {
     background-color: var(--color-secondary-bis); 

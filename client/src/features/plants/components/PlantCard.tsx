@@ -11,6 +11,7 @@ interface PlantCardProps {
 
 const PlantCard: React.FC<PlantCardProps> = ({ plant, gardenDraft }) => {
     const navigate = useNavigate();
+    const isSelected = gardenDraft?.plants?.some((p: Plant) => p.id === plant.id);
 
     const handleClick = () => {
         navigate(`/plants/${plant.id}`, { state: { gardenDraft } });
@@ -19,6 +20,7 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant, gardenDraft }) => {
     return (
         <div className="plant-card-container" onClick={handleClick}>
             <div className="plant-card-image">
+                {isSelected && <div className="selected-check">✔</div>}
                 <img src={plant.main_picture} alt={plant.name} />
             </div>
             <h3 className="plant-card-name">{plant.name}</h3>

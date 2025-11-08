@@ -36,13 +36,16 @@ const MyGarden: React.FC = () => {
             {gardens.length > 0 ? (
                 <>
                     {/* Liste des jardins alignée à gauche */}
-                    <div className="garden-list flex">
+                    <div className="garden-list">
                         {gardens.map((garden) => (
-                            <div key={garden.id} className="garden-card flex flex-col justify-center items-center">
+                            <div key={garden.id} className="garden-card">
                                 <div 
                                     className="garden-img-bg" 
-                                    style={{ backgroundImage: `url(/assets/mascot/mascot-relax.png)` }}
+                                    style={{ backgroundImage: `url(/assets/pictures/plants_legume.jpg)` }}
                                 ></div>
+
+                                <div className="garden-img-overlay"></div>
+
                                 <h2 className="garden-name">{garden.name}</h2>
                             </div>
                         ))}
@@ -53,7 +56,7 @@ const MyGarden: React.FC = () => {
                         <h2>Vos statistiques</h2>
 
                         <div className="stats-card">
-                            Vous retrouverez ici vos statistiques après avoir réalisé vos premiers pas
+                            <p>Vous retrouverez ici vos statistiques après avoir réalisé vos premiers pas</p>
                         </div>
 
                         <img src={Groupe71} alt="Statistiques à venir"/>
