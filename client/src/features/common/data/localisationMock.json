@@ -1,0 +1,7 @@
+{
+    "localisations": [
+        { "id_localisation": 1, "name": "Intérieur", "icon": "interieur-icon.png" },
+        { "id_localisation": 2, "name": "Extérieur", "icon": "exterieur-icon.png" },
+        { "id_localisation": 3, "name": "Les deux", "icon": "int-ext-icon.png" }
+    ]
+}

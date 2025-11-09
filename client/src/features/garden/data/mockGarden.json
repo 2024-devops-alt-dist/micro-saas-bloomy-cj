@@ -2,8 +2,8 @@
     "gardens": [
         {
             "id": 1,
-            "name": "Balcon-Est-Mock",
-            "description": "Petit espace ensoleillé idéal pour les potagères et aromatiques.",
+            "name": "Jardin Balcon Est",
+            "description": "Chambre étage Gauche",
             "localisation": "Sud-Est",
             "pets": true,
             "plants": [1, 3, 5, 8],

@@ -1,0 +1,8 @@
+{
+    "categories": [
+        { "id_category": 1, "name": "Aromatique", "icon": "aromatique_icon.png" },
+        { "id_category": 2, "name": "Potagère", "icon": "potagere-icon.png" },
+        { "id_category": 3, "name": "Fruitière", "icon": "fruitiere-icon.png" },
+        { "id_category": 4, "name": "Ornementale", "icon": "ornementale-icon.png" }
+    ]
+}

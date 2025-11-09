@@ -1,0 +1,32 @@
+{
+    "gardens": [
+        {
+            "id_garden": 1,
+            "name": "Jardin Balcon Est",
+            "description": "Chambre étage Gauche",
+            "localisation": "Sud-Est",
+            "created_at": "2025-11-09T10:00:00Z",
+            "id_user": 1,
+            "id_localisation": 2,
+            "id_picture_garden": 1,
+            "id_difficulty": 2,
+            "id_exposition": 3
+        }
+    ],
+
+    "pictures_garden": [
+        { "id_picture_garden": 1, "name": "balcon-ensoleille.jpg" },
+        { "id_picture_garden": 2, "name": "jardin-urbain.jpg" }
+    ],
+
+    "garden_has_plant": [
+        { "id_garden": 1, "id_plant": 1 },
+        { "id_garden": 1, "id_plant": 3 },
+        { "id_garden": 1, "id_plant": 5 },
+        { "id_garden": 1, "id_plant": 8 }
+    ],
+
+    "garden_has_pet": [
+        { "id_garden": 1, "id_pet": 1 }
+    ]
+}

@@ -1,0 +1,23 @@
+{
+
+    "expositions": [
+        { 
+            "id_exposition": 1, 
+            "name": "Ombre", 
+            "icon": "ombre-icon.png", 
+            "description":"exposition inférieur à ? heures" 
+        },
+        { 
+            "id_exposition": 2, 
+            "name": "Mi-ombre", 
+            "icon": "mi-ombre-icon.png", 
+            "description":"exposition inférieur à ? heures" 
+        },
+        { 
+            "id_exposition": 3, 
+            "name": "Plein soleil", 
+            "icon": "soleil-icon.png", 
+            "description":"exposition supérieur à ? heures" 
+        }
+    ]
+}

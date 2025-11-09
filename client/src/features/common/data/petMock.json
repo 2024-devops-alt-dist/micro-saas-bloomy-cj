@@ -1,0 +1,10 @@
+{
+    "pets": [
+        { "id_pet": 1, "name": "Chat", "icon": "chat-icon.png" },
+        { "id_pet": 2, "name": "Chien", "icon": "chien-icon.png" },
+        { "id_pet": 3, "name": "Rongeur", "icon": "rongeur-icon.png" },
+        { "id_pet": 4, "name": "Oiseau", "icon": "oiseau-icon.png" },
+        { "id_pet": 5, "name": "Reptile", "icon": "reptile-icon.png" },
+        { "id_pet": 6, "name": "Aucun", "icon": "aucun-icon.png" }
+    ]
+}

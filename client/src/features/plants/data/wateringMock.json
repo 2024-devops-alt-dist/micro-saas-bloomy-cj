@@ -1,0 +1,22 @@
+{
+    "watering": [
+        { 
+            "id_watering": 1, 
+            "name": "Faible", 
+            "icon": "water1-icon.png", 
+            "description":"Arrosage occasionnel, sol sec entre deux arrosages (1 fois / semaine voire moins)" 
+        },
+        { 
+            "id_watering": 2, 
+            "name": "Modéré", 
+            "icon": "water2-icon.png", 
+            "description":"Sol légèrement humide en permanence, arrosage régulier (2–3 fois / semaine)" 
+        },
+        { 
+            "id_watering": 3, 
+            "name": "Très élevé / exigeant", 
+            "icon": "water3-icon.png", 
+            "description":" Arrosage quasi quotidien, souvent en pot petit / exposition plein soleil" 
+        }
+    ]
+}
