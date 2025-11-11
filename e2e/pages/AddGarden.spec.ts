@@ -9,27 +9,30 @@ test("Flow complet de création de jardin jusqu’à MyGarden", async ({ page })
     await expect(page).toHaveURL(/.*addGardenInfo/);
 
     // Étape 1 : AddGardenInfo
+    await page.getByRole("button", { name: "Suivant" }).click();
+    await expect(page.getByText("Le nom du jardin est obligatoire.")).toBeVisible();
     await expect(page.getByText("C’est parti !")).toBeVisible();
     await page.getByPlaceholder("Écrire ...").fill("Mon Jardin Test");
-    await page.getByRole("button", { name: "Go étape 2" }).click();
+    await page.getByRole("button", { name: "Suivant" }).click();
     await expect(page).toHaveURL(/.*addGardenInfoFa/);
 
     // Étape 2 : AddGardenInfoFacultative
+    await page.getByRole("button", { name: "Suivant" }).click();
+    await expect(page.getByText("Veuillez renseigner au moins une information avant de continuer. Ou passez l'étape.")).toBeVisible();
     await page.getByPlaceholder("Décrivez votre jardin ...").fill("Description test");
-    await page.getByPlaceholder("ex: Sud-Est, Nord, etc ...").fill("Sud-Est");
-    await page.locator('input[type="radio"][value="true"]').check(); 
+    await expect(page.getByRole("button", { name: "Passer" })).toBeHidden();
+    await page.getByPlaceholder("ex: Sud-Est, Nord, etc ...").fill("Sud-Est"); 
     await page.getByRole("button", { name: "Suivant" }).click();
     await expect(page).toHaveURL(/.*gardenSelectPlants/);
 
     // Étape 3 : GardenSelectPlants  
-    // Stub plantService avec tes mocks
+    // Stub plantService avec mes mocks
     await page.addInitScript((plants) => {
         // @ts-ignore
         window.plantService = { getAll: async () => plants };
     }, plantsData.plants);
 
-    // Vérifier que le draft est bien affiché
-    await expect(page.locator('[data-testid="draft-name"]')).toHaveText("Mon Jardin Test");
+    await expect(page.getByText("Choisissez vos plantes")).toBeVisible();
 
     // Vérifier que les plantes sont affichées
     const plantCards = page.locator(".plant-card-container");
@@ -37,10 +40,25 @@ test("Flow complet de création de jardin jusqu’à MyGarden", async ({ page })
 
     await plantCards.nth(0).click();
 
+    // Page détails plante sélectionnée
     await expect(page).toHaveURL(/\/plants\/\d+/);
     const selectedPlantName = plantsData.plants[0].name;
     await expect(page.getByRole("heading", { name: selectedPlantName })).toBeVisible();
-    await expect(page.getByRole("button", { name: "Ajouter au jardin" })).toBeVisible();
+    await page.getByRole("button", { name: "Variété" }).click();
+
+    // Attendre que la liste des variétés s’affiche
+    const varietyItems = page.locator(".variety-item");
+    await expect(varietyItems.count()).resolves.toBeGreaterThan(0);
+
+    // Sélectionner la première variété dans la liste
+    await varietyItems.nth(0).click();
+
+    // Vérifier qu’on est bien sur la variété sélectionnée (le nom doit avoir changé)
+    const newPlantName = plantsData.plants.find(
+        p => p.id !== plantsData.plants[0].id && p.parent_slug === plantsData.plants[0].slug
+    )?.name;
+
+    await expect(page.getByRole("heading", { name: newPlantName })).toBeVisible();
 
     // Cliquer sur “Ajouter au jardin”
     await page.getByRole("button", { name: "Ajouter au jardin" }).click();  
@@ -57,10 +75,10 @@ test("Flow complet de création de jardin jusqu’à MyGarden", async ({ page })
     await page.getByRole("button", { name: "+ Ajouter une plante" }).click();
     await expect(page).toHaveURL(/.*gardenSelectPlants/);
 
-    await plantCards.nth(1).click();
+    await plantCards.nth(5).click();
 
     await expect(page).toHaveURL(/\/plants\/\d+/);
-    const selectedPlantName2 = plantsData.plants[1].name;
+    const selectedPlantName2 = plantsData.plants[5].name;
     await expect(page.getByRole("heading", { name: selectedPlantName2 })).toBeVisible();
     await expect(page.getByRole("button", { name: "Ajouter au jardin" })).toBeVisible();
 

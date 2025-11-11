@@ -56,7 +56,7 @@ cd client
 npm run dev
 ```
 
-## Lancer les commits
+## 💻 Lancer les commits
 ```bash
 # Backend
 cd api
@@ -67,3 +67,21 @@ cd client
 git cz
 ```
 
+## 🧪 Tests E2E (Playwright)
+Les tests End-to-End sont réalisés avec Playwright.
+
+```bash
+# Étape 1 : Lancer le server front
+
+# Étape 2 : à la racine du projet
+npm run test:e2e
+
+# Interface Playwright
+npx playwright test --ui
+```
+
+Note : l'extension VsCode "[Playwright Test For VsCode](https://marketplace.visualstudio.com/items?itemName=ms-playwright.playwright)" est sympa pour lancer les tests rapidement.
+
+
+## 🌐 URL de déploiement
+Le projet est déployé et accessible à l'adresse suivante : en cours ...
