@@ -4,13 +4,23 @@
             "id_garden": 1,
             "name": "Jardin Balcon Est",
             "description": "Chambre étage Gauche",
-            "localisation": "Sud-Est",
             "created_at": "2025-11-09T10:00:00Z",
             "id_user": 1,
             "id_localisation": 2,
             "id_picture_garden": 1,
             "id_difficulty": 2,
             "id_exposition": 3
+        },
+        {
+            "id_garden": 2,
+            "name": "Jardin Chambre Lulu",
+            "description": "Petit jardin côté chambre lucie.",
+            "created_at": "2025-11-11T09:00:00Z",
+            "id_user": 1,
+            "id_localisation": 2,
+            "id_picture_garden": 2,
+            "id_difficulty": 1,
+            "id_exposition": 2
         }
     ],
 
@@ -23,7 +33,11 @@
         { "id_garden": 1, "id_plant": 1 },
         { "id_garden": 1, "id_plant": 3 },
         { "id_garden": 1, "id_plant": 5 },
-        { "id_garden": 1, "id_plant": 8 }
+        { "id_garden": 1, "id_plant": 8 },
+        { "id_garden": 2, "id_plant": 12 },
+        { "id_garden": 2, "id_plant": 14 },
+        { "id_garden": 2, "id_plant": 22 },
+        { "id_garden": 2, "id_plant": 26 }
     ],
 
     "garden_has_pet": [

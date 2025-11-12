@@ -1,0 +1,14 @@
+{
+    "tags": [
+        { "id_tag": 1, "name": "fruit" },
+        { "id_tag": 2, "name": "légume" },
+        { "id_tag": 3, "name": "aromatique" },
+        { "id_tag": 4, "name": "plante-facile" },
+        { "id_tag": 5, "name": "plante-exigeante" },
+        { "id_tag": 6, "name": "intérieur" },
+        { "id_tag": 7, "name": "extérieur" },
+        { "id_tag": 8, "name": "soleil" },
+        { "id_tag": 9, "name": "ombre" },
+        { "id_tag": 10, "name": "mi-ombre" }
+    ]
+}

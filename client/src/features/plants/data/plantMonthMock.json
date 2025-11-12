@@ -1,9 +1,0 @@
-{
-    "plant_month": [
-        { "id_plant_month": 1, "start_month": 1, "end_month": 2 },
-        { "id_plant_month": 2, "start_month": 4, "end_month": 6 },
-        { "id_plant_month": 3, "start_month": 11, "end_month": 12 },
-        { "id_plant_month": 4, "start_month": 3, "end_month": 7 },
-        { "id_plant_month": 5, "start_month": 7, "end_month": 9 }
-    ]
-}

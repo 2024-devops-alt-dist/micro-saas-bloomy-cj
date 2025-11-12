@@ -1,0 +1,9 @@
+{
+    "sowing_date": [
+        { "id_sowing_date": 1, "start_month": 5, "end_month": 6 },
+        { "id_sowing_date": 2, "start_month": 3, "end_month": 5 },
+        { "id_sowing_date": 3, "start_month": 10, "end_month": 12 },
+        { "id_sowing_date": 4, "start_month": 1, "end_month": 3 },
+        { "id_sowing_date": 5, "start_month": 7, "end_month": 9 }
+    ]
+}
