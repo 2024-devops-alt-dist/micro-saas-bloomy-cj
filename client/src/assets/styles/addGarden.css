@@ -1,0 +1,53 @@
+.btn-garden-bloomy, .btn-select-manual {
+    padding: var(--space-md) var(--space-md1);     
+    border-radius: var(--border-radius-s);   
+}
+
+.btn-garden-bloomy {
+    background-color: var(--color-secondary);     
+    color: #ffffff;            
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+    transition: all 0.3s ease;       
+}
+
+.btn-garden-bloomy p {
+    color: #ffffff;           
+}
+
+.btn-garden-bloomy:hover {
+    background-color: var(--color-secondary-bis); 
+}
+
+.btn-select-manual {
+    border: 2px solid var(--color-secondary); 
+    color: var(--color-secondary);
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-select-manual:hover {
+    background-color: var(--color-secondary-opc-min);
+}
+
+.btn-select-manual p {
+    color: var(--color-secondary);
+}
+
+.btn-select-manual .btn-arrow {
+    color: var(--color-secondary);
+}
+
+/* RESPONSIVE */
+@media (min-width: 640px) {
+    .add-garden-buttons {
+        flex-direction: row;
+        justify-content: center;
+        gap: 1rem; 
+        margin: var(--space-md1) 0;
+    }
+
+    .add-garden-buttons button {
+        flex: 1;
+        min-width: 300px;
+    }
+}
+

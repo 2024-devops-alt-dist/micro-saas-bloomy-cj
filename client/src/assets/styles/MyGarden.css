@@ -1,0 +1,160 @@
+/*  HEADER  */
+.mygarden-header {
+    padding: var(--space-md) var(--space-md2); 
+    border-bottom: 1px solid #D1FAE5; 
+}
+
+.mygarden-header h1 {
+    font-family: 'test-font', sans-serif; 
+    font-size: var(--text-3xl); 
+    font-weight: 700; 
+}
+
+.mygarden-header button {
+    color: var(--color-secondary-bis); 
+    font-weight: 500; 
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s ease-in-out;
+}
+
+.mygarden-header button:hover {
+    color: var(--color-secondary); 
+}
+
+.mygarden-header button svg {
+    font-size: var(--text-xl); 
+}
+
+/* MES JARDINS */
+.mygarden-main {
+    flex: 1;
+    padding: var(--space-sm4) var(--space-md2);
+    overflow: auto;
+}
+/* --- Liste Jardins */
+.garden-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 12px;
+    padding: var(--space-md) 0;
+    overflow-x: auto;
+    overflow-y: hidden; 
+    width: 100%;
+    -webkit-overflow-scrolling: touch;
+}
+
+.garden-list::-webkit-scrollbar {
+    display: none;
+}
+
+.garden-card {
+    position: relative;
+    width: 110px;
+    height: 110px;
+    flex-shrink: 0;
+    border-radius: var(--border-radius-s);
+    cursor: pointer;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding: var(--space-sm);
+
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+.garden-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+}
+
+.garden-img-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    filter: brightness(60%);
+}
+
+.garden-img-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.65) 100%);
+}
+
+.garden-name {
+    position: relative;
+    z-index: 3;
+    color: white;
+    font-weight: 600;
+    font-size: var(--text-sm);
+    text-align: center;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    word-break: break-word;
+}
+
+
+/* --- Section statistiques */
+.garden-stats {
+    margin-top: var(--space-sm4);
+    width: 100%;
+}
+
+.garden-stats h2 {
+    font-size: var(--text-1xl); 
+    font-weight: 400; 
+    text-align: left;
+    margin-bottom: var(--space-md1);
+    width: 100%; 
+}
+
+.stats-card {
+    border: 1px solid #E5E7EB; 
+    border-radius: var(--border-radius-s); 
+    padding: var(--space-md); 
+    text-align: center;
+    color: #6B7280; 
+    max-width: 28rem; 
+    margin-bottom: var(--space-sm4);
+}
+
+.stats-card p {
+    color: #858585 ;
+}
+
+.garden-stats img {
+    margin-top: var(--space-md);
+}
+
+/* --- Etat vide */
+.empty-garden {
+    gap: 1rem;
+    margin-top: var(--space-lg1);
+}
+
+.empty-garden p {
+    font-size: var(--text-base);
+}
+
+@media (min-width: 768px) {
+    .garden-list {
+        scrollbar-width: thin; 
+    }
+    
+    .garden-list::-webkit-scrollbar {
+        display: block;
+        height: 6px;
+    }
+    
+    .garden-list::-webkit-scrollbar-thumb {
+        background: rgba(0,0,0,0.25);
+        border-radius: 999px;
+    }
+}

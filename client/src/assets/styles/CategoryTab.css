@@ -1,0 +1,53 @@
+@import "./variables.css";
+
+.category-tabs-container {
+    display: flex;
+    align-items: center;
+    padding: var(--space-sm2) var(--space-sm2) var(--space-sm2) var(--space-md);
+    gap: var(--space-sm);
+    border-bottom: 1px solid #e6f4ea;
+}
+
+.category-label {
+    flex-shrink: 0;
+    margin-right: var(--space-sm);
+    font-size: var(--text-xs);
+}
+
+.category-scroll {
+    display: flex;
+    gap: var(--space-xxxs);
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+    cursor: grab;
+}
+
+.category-scroll:active {
+    cursor: grabbing;
+}
+
+.category-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.category-button {
+    padding: var(--space-xxxs) var(--space-sm1);
+    border-radius: var(--border-radius-xl);
+    border: 1px solid #d1d5db9c;
+    color: var(--text-dark);
+    font-size: var(--text-xs);
+}
+
+.category-button:hover {
+    background-color: #55a32b1c;
+    border-color: #55a32b10;
+}
+
+.category-button.active {
+    background-color: var(--color-secondary-bis);
+    color: white;
+    font-weight: 500;
+    border-color: var(--color-secondary-bis);
+}

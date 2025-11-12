@@ -1,0 +1,83 @@
+@font-face {
+    font-family: 'Ananda';
+    src: url('/assets/fonts/ananda/Ananda_Black_Personal_Use.ttf') format('ttf');
+}
+
+@font-face {
+    font-family: 'Bebas Neus';
+    src: url('/assets/fonts/BebasNeue-Regular.otf') format('otf');
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('/assets/fonts/roboto/Roboto-Medium.ttf') format('ttf');
+}
+
+:root {
+    /* Couleurs */
+    --color-primary: #274914;    
+    --color-secondary: #438122;  
+    --color-secondary-bis: #55a32b; 
+    --color-secondary-opc-min: #43812217; 
+    --color-light-green: #C8D6A2;
+    --color-orange: #E0912F;     
+    --color-red: #D35B50;
+    --color-border-input-focus: #4381225b;
+    --color-bar-text-input: #414141; 
+    --text-light: #A0A0A0;
+    --text-light-placeholder: #9ca3afc0; 
+    --text-dark: #454545;
+    --color-hover-btn: #64be33;  
+    --color-desable-btn: #55a32bb0;  
+
+    /* Typographie */
+    --font-ananda: 'Ananda', sans-serif;
+    --font-bebas-neus: 'Bebas Neus', sans-serif;
+    --font-roboto: 'Roboto', sans-serif;
+
+    /* Tailles de texte */
+    --text-xs: 0.75rem; /* 12px */
+    --text-xs1: 0.813rem; /* 13px */
+    --text-sm: 0.875rem; /* 14px */
+    --text-sm1: 0.938rem; /* 15px */
+    --text-base: 1rem; /* 16px */
+    --text-lg: 1.25rem; /* 20px */
+    --text-xl: 1.5rem; /* 24px */
+    --text-1xl: 1.563rem; /* 25px */
+    --text-2xl: 1.75rem; /* 28px */
+    --text-3xl: 2rem; /* 32px */
+    --text-4xl: 2.188rem; /* 35px */
+
+     /* Tailles de container */
+    --size-xxl: 5.625rem; /* 90px */
+
+    /* Espacements */
+    --space-xxxs: 0.2rem; /* 3px */
+    --space-xxs: 0.25rem; /* 4px */
+    --space-xs: 0.3rem; /* 5px */
+    --space-xs1: 0.4rem; /* 6.5px */
+    --space-xs2: 0.438rem; /* 7px */
+    --space-sm: 0.5rem; /* 8px */
+    --space-sm1: 0.625rem; /* 10px */
+    --space-sm2: 0.75rem; /* 12px */
+    --space-sm3: 0.813rem; /* 13px */
+    --space-sm4: 0.875rem; /* 14px */
+    --space-md: 1rem; /* 16px */
+    --space-md1: 1.25rem; /* 20px */
+    --space-md2: 1.5rem; /* 24px */
+    --space-md3: 1.563rem; /* 25px */
+    --space-md4: 1.875rem; /* 30px */
+    --space-lg: 2rem; /* 32px */
+    --space-lg1: 2.5rem; /* 40px */
+    --space-xl: 2.813rem; /* 45px */
+    --space-xl1: 3rem; /* 48px */
+    --space-xl2: 3.438rem; /* 55px */
+    --space-xxl: 4rem; /* 64px */
+
+    /* Border Radius */
+    --border-radius-xs: 0.5rem; /* 8px */
+    --border-radius-s: 0.75rem; /* 12px */
+    --border-radius-m: 1.063rem; /* 17px */
+    --border-radius-l: 1.375rem; /* 22px */
+    --border-radius-xl: 2.19rem; /* 35px */
+}

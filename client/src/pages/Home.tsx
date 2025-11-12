@@ -1,6 +1,6 @@
-import { CustomButton } from "../components/button";
+import { CustomButton } from "../features/buttons/button";
 import { Flex } from "@radix-ui/themes";
-import "../assets/home.css";
+import "../assets/styles/home.css";
 import { useState } from "react";
 import { getHealth } from "../services/api";
 

@@ -1,0 +1,152 @@
+/* Bloc 1 : Banner */
+
+.plant-image-container {
+    position: relative;
+    width: 100%;
+    height: 260px;
+    margin-bottom: var(--space-md3);
+}
+
+.plant-image-wrapper img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    object-position: center;
+}
+
+.plant-image-wrapper::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    z-index: 1;
+}
+
+.add-to-garden-btn {
+    position: absolute;
+    bottom: -18px; 
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    
+    background: #7CC76A;
+    color: white;
+    border-radius: var(--border-radius-l);
+    padding: var(--space-sm1) var(--space-md1);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: none;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+}
+
+.btn-icon {
+    font-size: var(--text-lg);
+    line-height: 0;
+}
+
+/* Bloc 2 : Title / Categories & Level */
+.plant-header-info {
+    text-align: center;
+    margin-bottom: var(--space-md);
+}
+
+.plant-name {
+    font-size: var(--text-3xl);
+    font-weight: bolder;
+    margin-bottom: var(--space-md1);
+    text-transform: uppercase;
+}
+
+.plant-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.plant-level {
+    margin-left: auto; 
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    text-align: end;
+}
+
+/* Bloc 4 : A propos */
+.plant-description h3 {
+    font-weight: 500;
+    margin-bottom: var(--space-sm1); 
+}
+
+.plant-description p {
+    margin-left: var(--space-md); 
+    margin-right: var(--space-md);
+    line-height: 1.5;
+    text-align: justify;
+}
+
+.plant-info-block {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    
+    width: 100vw; 
+    position: relative;
+    left: 50%; 
+    right: 50%;
+    margin-left: -50vw;  
+    margin-right: -50vw;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-left: 6px;
+    padding-right: 6px;
+
+    background-color: #7dc76a2f;
+    padding: var(--space-sm2) var(--space-sm4);
+}
+
+.plant-info-item {
+    display: flex;
+    flex-direction: row; 
+    align-items: center;
+    gap: var(--space-sm); 
+    font-weight: 500;
+    text-align: left;
+}
+
+.info-icon {
+    width: var(--space-md2);
+    height: var(--space-md2);
+}
+
+/* Bloc 5 : Variety onglet */
+.varieties-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: var(--space-sm2);
+}
+
+.variety-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: var(--space-xs);
+    background: #55a32b1a;
+    border-radius: var(--border-radius-xs);
+    cursor: pointer;
+    transition: .2s;
+}
+
+.variety-item:hover {
+    background: #55a32b2a;
+}
+
+.variety-item img {
+    width: 53px;
+    height: 53px;
+    border-radius: var(--border-radius-xs);
+    object-fit: cover;
+}
