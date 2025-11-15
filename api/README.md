@@ -34,6 +34,3 @@ npm run dev
 - `npm run dev` : Démarre le serveur en mode développement
 - `npm run build` : Compile le projet TypeScript
 
-## Auteur
-
-Projet réalisé dans le cadre de la formation SIMPLON.
