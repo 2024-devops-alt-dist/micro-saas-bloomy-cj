@@ -27,9 +27,9 @@ export default async function seedCommon(prisma: PrismaClient) {
 
     await prisma.exposition.createMany({
         data: [
-            { name: 'Ombre', icon: 'ombre-icon.png', description: 'exposition inférieure à ? heures' },
-            { name: 'Mi-ombre', icon: 'mi-ombre-icon.png', description: 'exposition inférieure à ? heures' },
-            { name: 'Plein soleil', icon: 'soleil-icon.png', description: 'exposition supérieure à ? heures' },
+            { name: 'Ombre', icon: 'ombre-icon.png', description: 'moins de 4h d\'ensoleillement direct ou moins de 8h d\'ensoleillement indirect.' },
+            { name: 'Mi-ombre', icon: 'mi-ombre-icon.png', description: 'de 4 à 6h d\'ensoleillement direct ou plus de 8h d\'ensoleillement indirect, filtré par des arbres apr exemple.' },
+            { name: 'Plein soleil', icon: 'soleil-icon.png', description: 'Plus de 6h d\'ensoleillement direct par jour.' },
         ],
         skipDuplicates: true,
     });

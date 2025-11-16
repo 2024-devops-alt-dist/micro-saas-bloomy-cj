@@ -6,17 +6,17 @@ export default async function seedWateringAndPictures(prisma: PrismaClient) {
             {
                 name: 'Faible',
                 icon: 'water1-icon.png',
-                description: 'Arrosage occasionnel, sol sec entre deux arrosages (1 fois / semaine voire moins)',
+                description: 'Nécessite un arrosage seulement en cas de fortes cheleurs et lors de la formation des fruits/feuille/racines.',
             },
             {
-                name: 'Modéré',
+                name: 'Moyen',
                 icon: 'water2-icon.png',
-                description: 'Sol légèrement humide en permanence, arrosage régulier (2–3 fois / semaine)',
+                description: 'Nécessite un arrosage lorsque le terreau est sec sur 3 cm de profondeur.',
             },
             {
                 name: 'Très élevé / exigeant',
                 icon: 'water3-icon.png',
-                description: 'Arrosage quasi quotidien, souvent en pot petit / exposition plein soleil',
+                description: 'Nécessite un arrosage entre 2 à 4 fois par semaine en fonction du stade de la maturité et de la chaleur',
             },
         ],
         skipDuplicates: true,

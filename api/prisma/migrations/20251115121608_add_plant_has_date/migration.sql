@@ -1,23 +1,23 @@
 -- CreateTable
 CREATE TABLE "PlantHasSowingDate" (
-    "plantId" INTEGER NOT NULL,
-    "sowingDateId" INTEGER NOT NULL,
+    "plantId" INT NOT NULL,
+    "sowingDateId" INT NOT NULL,
 
     CONSTRAINT "PlantHasSowingDate_pkey" PRIMARY KEY ("plantId","sowingDateId")
 );
 
 -- CreateTable
 CREATE TABLE "PlantHasHarvestDate" (
-    "plantId" INTEGER NOT NULL,
-    "harvestDateId" INTEGER NOT NULL,
+    "plantId" INT NOT NULL,
+    "harvestDateId" INT NOT NULL,
 
     CONSTRAINT "PlantHasHarvestDate_pkey" PRIMARY KEY ("plantId","harvestDateId")
 );
 
 -- CreateTable
 CREATE TABLE "PlantHasPlantDate" (
-    "plantId" INTEGER NOT NULL,
-    "plantDateId" INTEGER NOT NULL,
+    "plantId" INT NOT NULL,
+    "plantDateId" INT NOT NULL,
 
     CONSTRAINT "PlantHasPlantDate_pkey" PRIMARY KEY ("plantId","plantDateId")
 );
