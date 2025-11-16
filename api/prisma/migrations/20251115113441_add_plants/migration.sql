@@ -1,23 +1,18 @@
 -- CreateTable
 CREATE TABLE "Plant" (
-    "id" SERIAL NOT NULL,
-    "slug" VARCHAR(280) NOT NULL,
+    "id" SERIAL PRIMARY KEY,
+    "slug" VARCHAR(280) NOT NULL UNIQUE,
     "parent_slug" VARCHAR(280),
     "name" VARCHAR(280) NOT NULL,
     "description" TEXT NOT NULL,
     "space_between" VARCHAR(280),
     "temperature" VARCHAR(280),
-    "id_difficulty" INTEGER,
-    "id_exposition" INTEGER,
-    "id_watering" INTEGER,
-    "id_picture_plant" INTEGER,
-    "id_localisation" INTEGER,
-
-    CONSTRAINT "Plant_pkey" PRIMARY KEY ("id")
+    "id_difficulty" INT,
+    "id_exposition" INT,
+    "id_watering" INT,
+    "id_picture_plant" INT,
+    "id_localisation" INT
 );
-
--- CreateIndex
-CREATE UNIQUE INDEX "Plant_slug_key" ON "Plant"("slug");
 
 -- AddForeignKey
 ALTER TABLE "Plant" ADD CONSTRAINT "Plant_id_difficulty_fkey" FOREIGN KEY ("id_difficulty") REFERENCES "Difficulty"("id") ON DELETE SET NULL ON UPDATE CASCADE;
