@@ -13,8 +13,8 @@ const startServer = async (): Promise<void> => {
     await connectDB();
 
     // Démarre le serveur uniquement si la connexion réussit
-    app.listen(config.DB_PORT, () => {
-      logger.info(`🚀 Le serveur fonctionne : ${config.DB_PORT}`);
+    app.listen(config.API_PORT, () => {
+      logger.info(`🚀 Le serveur fonctionne : ${config.API_PORT}`);
     });
   } catch (err) {
     console.error("❌ Le serveur n'a pas pu démarrer :", err);
