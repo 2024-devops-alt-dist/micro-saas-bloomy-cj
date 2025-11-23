@@ -3,34 +3,50 @@ import { PrismaClient } from "../generated/prisma/client";
 
 const prisma = new PrismaClient();
 
+// Helper pour formater la plante
+const formatPlant = (plant: any) => ({
+    ...plant,
+    categories: plant.categories?.map((pc: any) => pc.category) || [],
+    toxicPets: plant.toxicPets?.map((tp: any) => ({
+        ...tp,
+        pet: tp.pet || null
+    })) || [],
+    sowingDates: plant.sowingDates?.map((d: any) => d.sowingDate) || [],
+    plantDates: plant.plantDates?.map((d: any) => d.plantDate) || [],
+    harvestDates: plant.harvestDates?.map((d: any) => d.harvestDate) || [],
+});
+
 export const plantController = {
     getAll: async (_req: Request, res: Response) => {
         try {
-        const plants = await prisma.plant.findMany({
-            include: {
-                difficulty: true,
-                exposition: true,
-                localisation: true,
-                watering: true,
-                picturePlant: true,
-                categories: { include: { category: true } },
-                tags: { include: { tag: true } },
-                sowingDates: { include: { sowingDate: true } },
-                harvestDates: { include: { harvestDate: true } },
-                plantDates: { include: { plantDate: true } },
-            },
-        });
-            res.status(200).json(plants);
+            const plants = await prisma.plant.findMany({
+                include: {
+                    difficulty: true,
+                    exposition: true,
+                    localisation: true,
+                    watering: true,
+                    picturePlant: true,
+                    categories: { include: { category: true } },
+                    tags: { include: { tag: true } },
+                    sowingDates: { include: { sowingDate: true } },
+                    harvestDates: { include: { harvestDate: true } },
+                    plantDates: { include: { plantDate: true } },
+                    toxicPets: { include: { pet: true } }, // Inclure le pet
+                },
+            });
+
+            const formattedPlants = plants.map(formatPlant);
+
+            res.status(200).json(formattedPlants);
         } catch (error) {
+            console.error(error);
             res.status(500).json({ message: "Erreur serveur", error });
         }
     },
 
     getById: async (req: Request, res: Response) => {
         try {
-            const { id } = req.params;
-            const plantId = Number(id);
-
+            const plantId = Number(req.params.id);
             if (isNaN(plantId)) {
                 return res.status(400).json({ message: "ID invalide." });
             }
@@ -48,20 +64,22 @@ export const plantController = {
                     sowingDates: { include: { sowingDate: true } },
                     harvestDates: { include: { harvestDate: true } },
                     plantDates: { include: { plantDate: true } },
+                    toxicPets: { include: { pet: true } }, // Inclure le pet
                 },
             });
 
             if (!plant) {
-                return res.status(404).json({ message: `Plante avec l'ID ${id} introuvable.` });
+                return res.status(404).json({ message: `Plante avec l'ID ${plantId} introuvable.` });
             }
 
-            return res.status(200).json(plant);
-
+            const formattedPlant = formatPlant(plant);
+            res.status(200).json(formattedPlant);
         } catch (error) {
             console.error(error);
-            return res.status(500).json({ message: "Erreur serveur", error });
+            res.status(500).json({ message: "Erreur serveur", error });
         }
     },
+
 
     create: async (req: Request, res: Response) => {
         try {

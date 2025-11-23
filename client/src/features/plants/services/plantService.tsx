@@ -1,49 +1,78 @@
-import mockDataPlants from "../data/mockPlants.json";
+import type { Plant } from "../../../models/plant/IPlant";
+// import mockDataPlants from "../data/mockPlants.json";
 
-// const USE_MOCK = true;
-export interface DateRange {
-    start: string; // format: YYYY-MM-DD
-    end: string;   // format: YYYY-MM-DD
-}
+// const USE_MOCK = false; 
 
-export interface Plant {
-    id: number;
-    parent_slug?: string | null;
-    slug?: string | null;
+const API_URL = import.meta.env.VITE_API_URL + "/plants";
 
-    name: string;
-    description: string;
-    category: string;
-    space_between: number;          
-    toxic_for_pets: boolean;        
-    temperature: string;            
-    watering: string;               
-    difficulty: string;       
-    exposition: string;       
-    main_goal: string;      
-    main_picture: string;   
-    
-    sowing_date: DateRange;   
-    plant_date: DateRange | null; 
-    harvest_date: DateRange; 
-}
+/* REAL API */
 
-const mockApi = {
+const realApi = {
     async getAll(): Promise<Plant[]> {
-        return [...mockDataPlants.plants];
+        const res = await fetch(API_URL);
+
+        if (!res.ok) throw new Error("Erreur lors de la récupération des plantes");
+
+        return (await res.json()) as Plant[];
     },
 
-    async getById(id: number): Promise<Plant | null> {
-        const plant = mockDataPlants.plants.find((p) => p.id === id);
-        return plant || null;
+    async getById(id: number): Promise<Plant> {
+        const res = await fetch(`${API_URL}/${id}`);
+
+        if (!res.ok) throw new Error(`Erreur lors de la récupération de la plante ${id}`);
+
+        return (await res.json()) as Plant;
     },
+
+    // async create(data: Partial<Plant>): Promise<Plant> {
+    //     const res = await fetch(API_URL, {
+    //         method: "POST",
+    //         headers: { "Content-Type": "application/json" },
+    //         body: JSON.stringify(data),
+    //     });
+
+    //     if (!res.ok) throw new Error("Erreur lors de la création de la plante");
+
+    //     return (await res.json()) as Plant;
+    // },
+
+    // async update(id: number, data: Partial<Plant>): Promise<Plant> {
+    //     const res = await fetch(`${API_URL}/${id}`, {
+    //         method: "PUT",
+    //         headers: { "Content-Type": "application/json" },
+    //         body: JSON.stringify(data),
+    //     });
+
+    //     if (!res.ok) throw new Error(`Erreur lors de la mise à jour de la plante ${id}`);
+
+    //     return (await res.json()) as Plant;
+    // },
+
+    // async delete(id: number): Promise<{ message: string }> {
+    //     const res = await fetch(`${API_URL}/${id}`, {
+    //         method: "DELETE",
+    //     });
+
+    //     if (!res.ok) throw new Error(`Erreur lors de la suppression de la plante ${id}`);
+
+    //     return (await res.json()) as { message: string };
+    // },
 };
 
-// const realApi = {
-//     async getAll() { /* fetch('/api/...') */ },
-//     async create() { /* fetch POST */ },
-//     async delete() { /* fetch DELETE */ }
+/* MOCK API */
+
+// const mockApi = {
+//     async getAll(): Promise<Plant[]> {
+//         return [...mockDataPlants.plants] as Plant[];
+//     },
+
+//     async getById(id: number): Promise<Plant | null> {
+//         const plant = mockDataPlants.plants.find((p) => p.id === id);
+//         return (plant as Plant) || null;
+//     },
 // };
 
+/* -------------------------------- EXPORT FINAL -------------------------------- */
+
+export const plantService = realApi;
 // export const plantService = USE_MOCK ? mockApi : realApi;
-export const plantService = mockApi;

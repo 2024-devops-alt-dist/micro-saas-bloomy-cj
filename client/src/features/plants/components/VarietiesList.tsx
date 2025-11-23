@@ -1,5 +1,5 @@
 import React from "react";
-import type { Plant } from "../services/plantService";
+import type { Plant } from "../../../models/plant/IPlant";
 
 interface VarietiesListProps {
     varieties: Plant[];
@@ -18,7 +18,7 @@ const VarietiesList: React.FC<VarietiesListProps> = ({ varieties, onSelect }) =>
                 className="variety-item" 
                 onClick={() => onSelect(v.id)}
             >
-                <img src={v.main_picture} alt={v.name} />
+                <img src={`/assets/pictures/${v.picturePlant?.name || "default.png"}`} />
                 <p>{v.name}</p>
             </div>
             ))

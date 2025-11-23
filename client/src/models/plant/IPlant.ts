@@ -2,6 +2,7 @@ import type { Category } from "../common/ICategory";
 import type { Difficulty } from "../common/IDifficulty";
 import type { Exposition } from "../common/IExposition";
 import type { Localisation } from "../common/ILocalisation";
+import type { Pet } from "../common/IPet";
 import type { Garden } from "../garden/IGarden";
 import type { User } from "../IUser";
 import type { HarvestDate, PlantDate, SowingDate } from "./IDate";
@@ -35,8 +36,8 @@ export interface Plant {
     plantDates?: PlantDate[];
     
     tags?: Tag[];
-    categories?: Category[];
-    toxicPets?: PlantHasToxicPet[];
+    categories?: Category[]; 
+    toxicPets?: (PlantHasToxicPet & { pet?: Pet })[];
     gardens?: Garden[];
     favoryUsers?: User[];
 }

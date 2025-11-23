@@ -1,4 +1,4 @@
-import { type Plant } from "../../plants/services/plantService";
+import type { Plant } from "../../../models/plant/IPlant";
 import mockDataGarden from "../data/mockGarden.json";
 
 // const USE_MOCK = true;

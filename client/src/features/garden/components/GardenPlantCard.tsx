@@ -1,8 +1,8 @@
 import React from "react";
-import { type Plant } from "../../plants/services/plantService";
 import { FiTrash2 } from "react-icons/fi";
 import { FaSeedling, FaTag } from "react-icons/fa";
 import LearnMoreButton from "../../buttons/LearnMoreButton";
+import type { Plant } from "../../../models/plant/IPlant";
 
 interface GardenPlantCardProps {
     plant: Plant;
@@ -10,39 +10,41 @@ interface GardenPlantCardProps {
 }
 
 const GardenPlantCard: React.FC<GardenPlantCardProps> = ({ plant, onRemove }) => {
-    // const [plant, setPlant] = useState<Plant | null>(null);
-
-    // useEffect(() => {
-    //     const fetchPlant = async () => {
-    //         const data = await plantService.getById(plant );
-    //         setPlant(data);
-    //     };
-    //     fetchPlant();
-    // }, [plantId]);
-
-    // if (!plant) return <p>Chargement...</p>;
-    
     return (
         <div className="garden-plant-card">
-            
             <div className="plant-image-desc">
-                <img src={plant.main_picture} alt={plant.name} className="plant-image" />
+                <img
+                    src={`/assets/pictures/${plant.picturePlant?.name}`}
+                    alt={plant.name}
+                    className="plant-image"
+                />
                 <div className="plant-image-overlay"></div>
             </div>
 
             <div className="card-left">
-                <h3 className="plant-name-card ">{plant.name}</h3>
+                <h3 className="plant-name-card">{plant.name}</h3>
 
                 <div className="plant-meta-container">
-                    <div className="meta-item">
-                        <FaSeedling className="meta-icon" />
-                        <span>{plant.main_goal}</span>
-                    </div>
+                    {plant.categories?.[0] && (
+                        <div className="meta-item">
+                            <FaSeedling className="meta-icon" />
+                            <span>{plant.categories[0].name}</span>
+                        </div>
+                    )}
 
-                    <div className="meta-item">
-                        <FaTag className="meta-icon" />
-                        <span>{plant.category}</span>
-                    </div>
+                    {plant.toxicPets?.[0]?.pet && (
+                        <div className="meta-item">
+                            <FaTag className="meta-icon" />
+                            <span>{plant.toxicPets[0].pet.name}</span>
+                            {plant.toxicPets[0].pet.icon && (
+                                <img
+                                    src={`/assets/icons/${plant.toxicPets[0].pet.icon}`}
+                                    alt={plant.toxicPets[0].pet.name}
+                                    className="pet-icon"
+                                />
+                            )}
+                        </div>
+                    )}
                 </div>
 
                 <div className="card-actions">
