@@ -1,6 +1,6 @@
 import React from "react";
 import "../../../assets/styles/CalendarPlant.css";
-import type { Plant } from "../services/plantService";
+import type { Plant } from "../../../models/plant/IPlant";
 
 interface CalendarPlantProps {
   plant: Plant;
@@ -8,56 +8,65 @@ interface CalendarPlantProps {
 
 const months = ["jan", "fév", "mar", "avr", "mai", "jun", "jul", "aoû", "sep", "oct", "nov", "déc"];
 
-const CalendarPlant: React.FC<CalendarPlantProps> = ({ plant }) => {
+// start et end sont des numéros de mois → 1 à 12
+const renderTimeline = (start: number, end: number) => {
+  const startIndex = start - 1; 
+  const endIndex = end - 1;
 
-  const renderTimeline = (start: string, end: string) => {
-    // Convertit les 3 premières lettres pour correspondre au tableau months
-    const startIndex = months.findIndex(m => m.toLowerCase() === start.slice(0,3).toLowerCase());
-    const endIndex = months.findIndex(m => m.toLowerCase() === end.slice(0,3).toLowerCase());
-
-    return months.map((month, index) => {
-      const active = startIndex <= endIndex
+  return months.map((month, index) => {
+    const active =
+      startIndex <= endIndex
         ? index >= startIndex && index <= endIndex
-        : index >= startIndex || index <= endIndex; // traverse décembre
+        : index >= startIndex || index <= endIndex; // gestion de la boucle (ex: oct → fév)
 
-      return (
-        <div className={`month-box ${active ? "active" : ""}`} key={month}>
-          {month}
-        </div>
-      );
-    });
-  };
+    return (
+      <div className={`month-box ${active ? "active" : ""}`} key={month}>
+        {month}
+      </div>
+    );
+  });
+};
+
+const CalendarPlant: React.FC<CalendarPlantProps> = ({ plant }) => {
+  // L'API peut renvoyer deux formats :
+  // - [{ sowingDate: {...} }, ...]
+  // - [{ id:..., start_month:..., end_month:... }, ...]
+  // On gère les deux cas en prenant soit la propriété wrapper soit l'objet lui-même.
+  const sowingRaw: any = plant.sowingDates?.[0];
+  const plantingRaw: any = plant.plantDates?.[0];
+  const harvestRaw: any = plant.harvestDates?.[0];
+
+  const sowing: any = sowingRaw?.sowingDate ?? sowingRaw;
+  const planting: any = plantingRaw?.plantDate ?? plantingRaw;
+  const harvest: any = harvestRaw?.harvestDate ?? harvestRaw;
 
   return (
     <div className="calendar-plant-container">
       <h3 className="calendar-title">📅 Calendrier de Culture</h3>
 
-      {/* Semis */}
-      {plant.sowing_date && (
+      {sowing && sowing.start_month && sowing.end_month && (
         <div className="calendar-section">
           <p className="calendar-label">🌱 Semis</p>
           <div className="calendar-row">
-            {renderTimeline(plant.sowing_date.start, plant.sowing_date.end)}
+            {renderTimeline(sowing.start_month, sowing.end_month)}
           </div>
         </div>
       )}
 
-      {/* Plantation */}
-      {plant.plant_date && (
+      {planting && planting.start_month && planting.end_month && (
         <div className="calendar-section">
           <p className="calendar-label">🌿 Plantation</p>
           <div className="calendar-row">
-            {renderTimeline(plant.plant_date.start, plant.plant_date.end)}
+            {renderTimeline(planting.start_month, planting.end_month)}
           </div>
         </div>
       )}
 
-      {/* Récolte */}
-      {plant.harvest_date && (
+      {harvest && harvest.start_month && harvest.end_month && (
         <div className="calendar-section">
           <p className="calendar-label">🍅 Récolte</p>
           <div className="calendar-row">
-            {renderTimeline(plant.harvest_date.start, plant.harvest_date.end)}
+            {renderTimeline(harvest.start_month, harvest.end_month)}
           </div>
         </div>
       )}

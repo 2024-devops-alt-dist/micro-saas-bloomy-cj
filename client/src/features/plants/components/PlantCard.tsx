@@ -1,8 +1,8 @@
 // src/components/PlantCard.tsx
 import React from "react";
-import type { Plant } from "../services/plantService";
 import "../../../assets/styles/PlantCard.css";
 import { useNavigate } from "react-router-dom";
+import type { Plant } from "../../../models/plant/IPlant";
 
 interface PlantCardProps {
     plant: Plant;
@@ -23,7 +23,7 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant, gardenDraft }) => {
                 {isSelected && (
                     <img src="/assets/icons/check.png" alt="check" className="selected-check" />
                 )}
-                <img src={plant.main_picture} alt={plant.name} />
+                <img src={`/assets/pictures/${plant.picturePlant?.name}`} alt={plant.name} />
             </div>
             <h3 className="plant-card-name">{plant.name}</h3>
         </div>

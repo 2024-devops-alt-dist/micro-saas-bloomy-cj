@@ -3,12 +3,12 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import "../../../assets/styles/global.css";
 import "../../../assets/styles/DetailsPlant.css";
 import { plantService } from "../services/plantService";
-import type { Plant } from "../services/plantService";
 import AddToGardenButton from "../../buttons/AddToGardenButton";
 import NavBarDetailPlant from "../components/NavBarDetailPlant";
 import HeaderAddGarden from "../../../shared/headerAddGarden";
 import VarietiesList from "../components/VarietiesList";
 import AboutPlant from "../components/AboutPlant";
+import type { Plant } from "../../../models/plant/IPlant";
 
 const DetailsPlant: React.FC = () => {
     const navigate = useNavigate();
@@ -47,7 +47,7 @@ const DetailsPlant: React.FC = () => {
                 const parentPlant = allPlants.find(p => p.slug === data?.parent_slug);
                 // Trouver toutes les variétés de la même plante mère
                 const siblingVarieties = allPlants.filter(
-                    p => p.parent_slug === data?.parent_slug && p.id !== data?.id // sauf la variété actuelle
+                    p => p.parent_slug === data?.parent_slug && p.id !== data?.id // sauf variété actuelle
                 );
                 // plante mère + variétés sœurs
                 related = parentPlant ? [parentPlant, ...siblingVarieties] : siblingVarieties;
@@ -93,7 +93,7 @@ const DetailsPlant: React.FC = () => {
         <main className="flex flex-col h-screen bg-white mt-15">
             <div className="plant-image-container">
                 <div className="plant-image-wrapper">
-                    <img src={plant.main_picture} alt={plant.name} />
+                    <img src={`/assets/pictures/${plant.picturePlant?.name}`} alt={plant.name} />
                 </div>
 
                 <AddToGardenButton label="Ajouter au jardin" onClick={handleAddToGarden}/>
@@ -105,10 +105,10 @@ const DetailsPlant: React.FC = () => {
                     <div className="plant-meta gap-6">
                         <div className="plant-category flex items-center gap-2">
                             <img src="/assets/icons/comestible.png" alt="" className="w-5 h-5 object-contain" />
-                            <p>{plant.category}</p>
+                            <p>{plant.categories?.[0]?.name}</p>
                         </div>
                         <div className="plant-level flex items-center gap-2 ml-auto">
-                            <p>{plant.difficulty}</p>
+                            <p>{plant.difficulty?.name}</p>
                             <img src="/assets/icons/level.png" alt="" className="w-5 h-5 object-contain" />
                         </div>
                     </div>
