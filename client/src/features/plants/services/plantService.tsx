@@ -1,27 +1,19 @@
 import type { Plant } from "../../../models/plant/IPlant";
-// import mockDataPlants from "../data/mockPlants.json";
+import api from "../../../services/api";
 
-// const USE_MOCK = false; 
-
-const API_URL = import.meta.env.VITE_API_URL + "/plants";
+const PLANTS_URL = "/plants";
 
 /* REAL API */
 
 const realApi = {
     async getAll(): Promise<Plant[]> {
-        const res = await fetch(API_URL);
-
-        if (!res.ok) throw new Error("Erreur lors de la récupération des plantes");
-
-        return (await res.json()) as Plant[];
+        const res = await api.get<Plant[]>(PLANTS_URL);
+        return res.data as Plant[];
     },
 
     async getById(id: number): Promise<Plant> {
-        const res = await fetch(`${API_URL}/${id}`);
-
-        if (!res.ok) throw new Error(`Erreur lors de la récupération de la plante ${id}`);
-
-        return (await res.json()) as Plant;
+        const res = await api.get<Plant>(`${PLANTS_URL}/${id}`);
+        return res.data as Plant;
     },
 
     // async create(data: Partial<Plant>): Promise<Plant> {

@@ -12,7 +12,7 @@ const AddGarden: React.FC = () => {
 
     return (
         <>
-        <HeaderAddGarden showBack={false} />
+        <HeaderAddGarden showBack={false} showLogout={true} />
 
         <main className="main-navbar">
             <img src={mascotWelcome} alt="Mascotte Bloomy" className="w-46 h-46 mb-2" />

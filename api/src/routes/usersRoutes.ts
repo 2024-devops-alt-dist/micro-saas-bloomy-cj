@@ -1,5 +1,8 @@
 import { Router } from "express";
 import { usersController } from "../controllers/usersController";
+import authMiddleware from "../middlewares/auth";
+import isAdmin from "../middlewares/isAdmin";
+import isSelfOrAdmin from "../middlewares/isSelfOrAdmin";
 export const router = Router();
 
 /**
@@ -15,7 +18,7 @@ export const router = Router();
  *       500:
  *         description: Erreur serveur
  */
-router.get("/users", usersController.getAll);
+router.get("/users", authMiddleware, isAdmin, usersController.getAll);
 
 /**
  * @swagger
@@ -34,7 +37,7 @@ router.get("/users", usersController.getAll);
  *       404:
  *         description: Utilisateur introuvable
  */
-router.get("/users/:id", usersController.getById);
+router.get("/users/:id", authMiddleware, isSelfOrAdmin, usersController.getById);
 
 /**
  * @swagger
@@ -107,7 +110,7 @@ router.post("/users", usersController.create);
  *       500:
  *         description: Erreur serveur
  */
-router.delete("/users/:id", usersController.delete);
+router.delete("/users/:id", authMiddleware, isSelfOrAdmin, usersController.delete);
 
 /**
  * @swagger
@@ -153,5 +156,5 @@ router.delete("/users/:id", usersController.delete);
  *       500:
  *         description: Erreur serveur
  */
-router.patch("/users/:id", usersController.update);
+router.patch("/users/:id", authMiddleware, isSelfOrAdmin, usersController.update);
 

@@ -11,23 +11,29 @@ import PanierGarden from "./features/garden/pages/PanierGarden";
 import AddGardenInfoFacultative from "./features/garden/pages/AddGarden1/AddGardenInfoFacultative";
 import GardenSuccess from "./features/garden/pages/GardenSuccess";
 import MyGarden from "./features/profil/pages/MyGarden";
+import Login from "./features/auth/pages/Login";
+import { AuthProvider } from "./features/auth/context/AuthContext";
+import ProtectedRoute from "./features/auth/components/ProtectedRoute";
 
 function App() {
   return (
     <BrowserRouter>
-      <div>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/addGarden" element={<AddGarden />} />
-          <Route path="/addGardenInfo" element={<AddGardenInfo />} />
-          <Route path="/addGardenInfoFa" element={<AddGardenInfoFacultative />} />
-          <Route path="/gardenSelectPlants" element={<GardenSelectPlants />} />
-          <Route path="/plants/:id" element={<DetailsPlant />} />
-          <Route path="/panierGarden" element={<PanierGarden />} />
-          <Route path="/garden-success" element={<GardenSuccess />} />
-          <Route path="/mes-jardins" element={<MyGarden />} />
-        </Routes>
-      </div>
+      <AuthProvider>
+        <div>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/addGarden" element={<ProtectedRoute><AddGarden /></ProtectedRoute>} />
+            <Route path="/addGardenInfo" element={<ProtectedRoute><AddGardenInfo /></ProtectedRoute>} />
+            <Route path="/addGardenInfoFa" element={<ProtectedRoute><AddGardenInfoFacultative /></ProtectedRoute>} />
+            <Route path="/gardenSelectPlants" element={<ProtectedRoute><GardenSelectPlants /></ProtectedRoute>} />
+            <Route path="/plants/:id" element={<DetailsPlant />} />
+            <Route path="/panierGarden" element={<ProtectedRoute><PanierGarden /></ProtectedRoute>} />
+            <Route path="/garden-success" element={<ProtectedRoute><GardenSuccess /></ProtectedRoute>} />
+            <Route path="/mes-jardins" element={<ProtectedRoute><MyGarden /></ProtectedRoute>} />
+          </Routes>
+        </div>
+      </AuthProvider>
     </BrowserRouter>
   );
 }
