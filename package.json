@@ -20,6 +20,7 @@
   "homepage": "https://github.com/2024-devops-alt-dist/micro-saas-bloomy-cj#readme",
   "devDependencies": {
     "@playwright/test": "^1.56.1",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.8.1"
   }
 }

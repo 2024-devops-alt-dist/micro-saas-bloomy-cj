@@ -1,5 +1,7 @@
 import { Router } from "express";
 import { plantController } from "../controllers/plantController";
+import authMiddleware from "../middlewares/auth";
+import isAdmin from "../middlewares/isAdmin";
 export const router = Router();
 
 /**
@@ -116,7 +118,7 @@ router.get("/plants/:id", plantController.getById);
  *       500:
  *         description: Erreur serveur
  */
-router.post("/plants", plantController.create);
+router.post("/plants", authMiddleware, isAdmin, plantController.create);
 
 /**
  * @swagger
@@ -142,7 +144,7 @@ router.post("/plants", plantController.create);
  *       500:
  *         description: Erreur serveur
  */
-router.delete("/plants/:id", plantController.delete);
+router.delete("/plants/:id", authMiddleware, isAdmin, plantController.delete);
 
 /**
  * @swagger
@@ -228,4 +230,4 @@ router.delete("/plants/:id", plantController.delete);
  *       500:
  *         description: Erreur serveur
  */
-router.put("/plants/:id", plantController.update);
+router.put("/plants/:id", authMiddleware, isAdmin, plantController.update);

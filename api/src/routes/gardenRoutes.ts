@@ -1,5 +1,7 @@
 import { Router } from "express";
 import { gardenController } from "../controllers/gardenController";
+import authMiddleware from "../middlewares/auth";
+import isSelfOrAdmin from "../middlewares/isSelfOrAdmin";
 export const router = Router();
 
 /**
@@ -15,7 +17,7 @@ export const router = Router();
  *       500:
  *         description: Erreur serveur
  */
-router.get("/gardens", gardenController.getAll);
+router.get("/gardens", authMiddleware, isSelfOrAdmin, gardenController.getAll);
 
 /**
  * @swagger
@@ -41,7 +43,7 @@ router.get("/gardens", gardenController.getAll);
  *       500:
  *         description: Erreur serveur
  */
-router.get("/gardens/:id", gardenController.getById);
+router.get("/gardens/:id", authMiddleware, isSelfOrAdmin, gardenController.getById);
 
 /**
  * @swagger
@@ -89,7 +91,7 @@ router.get("/gardens/:id", gardenController.getById);
  *       500:
  *         description: Erreur serveur
  */
-router.post("/gardens", gardenController.create);
+router.post("/gardens", authMiddleware, isSelfOrAdmin, gardenController.create);
 
 /**
  * @swagger
@@ -142,7 +144,7 @@ router.post("/gardens", gardenController.create);
  *       500:
  *         description: Erreur serveur
  */
-router.put("/gardens/:id", gardenController.update);
+router.put("/gardens/:id", authMiddleware, isSelfOrAdmin, gardenController.update);
 
 /**
  * @swagger
@@ -168,4 +170,4 @@ router.put("/gardens/:id", gardenController.update);
  *       500:
  *         description: Erreur serveur
  */
-router.delete("/gardens/:id", gardenController.delete);
+router.delete("/gardens/:id", authMiddleware, isSelfOrAdmin, gardenController.delete);
