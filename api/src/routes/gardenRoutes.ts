@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { gardenController } from "../controllers/gardenController";
 import authMiddleware from "../middlewares/auth";
-import isSelfOrAdmin from "../middlewares/isSelfOrAdmin";
+import isGardenOwnerOrAdmin from "../middlewares/isGardenOwnerOrAdmin";
 export const router = Router();
 
 /**
@@ -17,7 +17,7 @@ export const router = Router();
  *       500:
  *         description: Erreur serveur
  */
-router.get("/gardens", authMiddleware, isSelfOrAdmin, gardenController.getAll);
+router.get("/gardens", authMiddleware, gardenController.getAll);
 
 /**
  * @swagger
@@ -43,7 +43,10 @@ router.get("/gardens", authMiddleware, isSelfOrAdmin, gardenController.getAll);
  *       500:
  *         description: Erreur serveur
  */
-router.get("/gardens/:id", authMiddleware, isSelfOrAdmin, gardenController.getById);
+// route spécifique pour récupérer les jardins de l'utilisateur connecté (place before :id)
+router.get("/gardens/me", authMiddleware, gardenController.getMine);
+
+router.get("/gardens/:id", authMiddleware, gardenController.getById);
 
 /**
  * @swagger
@@ -91,7 +94,7 @@ router.get("/gardens/:id", authMiddleware, isSelfOrAdmin, gardenController.getBy
  *       500:
  *         description: Erreur serveur
  */
-router.post("/gardens", authMiddleware, isSelfOrAdmin, gardenController.create);
+router.post("/gardens", authMiddleware, gardenController.create);
 
 /**
  * @swagger
@@ -144,7 +147,7 @@ router.post("/gardens", authMiddleware, isSelfOrAdmin, gardenController.create);
  *       500:
  *         description: Erreur serveur
  */
-router.put("/gardens/:id", authMiddleware, isSelfOrAdmin, gardenController.update);
+router.put("/gardens/:id", authMiddleware, isGardenOwnerOrAdmin, gardenController.update);
 
 /**
  * @swagger
@@ -170,4 +173,4 @@ router.put("/gardens/:id", authMiddleware, isSelfOrAdmin, gardenController.updat
  *       500:
  *         description: Erreur serveur
  */
-router.delete("/gardens/:id", authMiddleware, isSelfOrAdmin, gardenController.delete);
+router.delete("/gardens/:id", authMiddleware, isGardenOwnerOrAdmin, gardenController.delete);

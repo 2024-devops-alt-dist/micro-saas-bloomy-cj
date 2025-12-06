@@ -14,7 +14,8 @@ const MyGarden: React.FC = () => {
     useEffect(() => {
         const fetchGardens = async () => {
             try {
-                const data = await gardenService.getAll();
+                // Récupère directement les jardins du user connecté depuis l'API
+                const data = await gardenService.getMine();
                 setGardens(data);
             } catch (error) {
                 console.error("Erreur lors du chargement des jardins :", error);

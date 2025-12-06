@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
-import { PrismaClient } from "../generated/prisma/client";
-
-const prisma = new PrismaClient();
+import { prisma } from "../lib/prisma"; 
 
 export const gardenController = {
     getAll: async (_req: Request, res: Response) => {
@@ -129,20 +127,85 @@ export const gardenController = {
         }
     },
 
+    // Récupère les jardins de l'utilisateur connecté
+    getMine: async (req: Request, res: Response) => {
+        try {
+            const userPayload = (req as any).user;
+            if (!userPayload) return res.status(401).json({ message: "Non authentifié." });
+
+            const userId = Number(userPayload.id);
+
+            const gardens = await prisma.garden.findMany({
+                where: { id_user: userId },
+                include: {
+                    user: {
+                        select: {
+                            id: true,
+                            lastname: true,
+                            firstname: true,
+                            email: true,
+                            picture_profil: true,
+                            registration_date: true,
+                            role: true
+                        }
+                    },
+                    localisation: true,
+                    pictureGarden: true,
+                    difficulty: true,
+                    exposition: true,
+                    pets: { include: { pet: true } },
+                    plants: {
+                        include: {
+                            plant: {
+                                include: {
+                                    difficulty: true,
+                                    exposition: true,
+                                    localisation: true,
+                                    watering: true,
+                                    picturePlant: true,
+                                    categories: { include: { category: true } },
+                                    tags: { include: { tag: true } },
+                                    sowingDates: { include: { sowingDate: true } },
+                                    harvestDates: { include: { harvestDate: true } },
+                                    plantDates: { include: { plantDate: true } },
+                                    toxicPets: true
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            return res.status(200).json(gardens);
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({
+                message: "Erreur serveur lors de la récupération des jardins de l'utilisateur.",
+                error
+            });
+        }
+    },
+
     create: async (req: Request, res: Response) => {
         try {
-            const { name, description, id_user, id_localisation, id_picture_garden, id_difficulty, id_exposition, plants, pets } = req.body;
+            const { name, description, id_localisation, id_picture_garden, id_difficulty, id_exposition, plants, pets } = req.body;
 
-            if (!name || !id_user) {
-                return res.status(400).json({ message: "Le nom et l'ID utilisateur sont obligatoires." });
+            // L'utilisateur authentifié fourni par le middleware `auth`
+            const authUser = (req as any).user;
+            if (!authUser || !authUser.id) {
+                return res.status(401).json({ message: "Non authentifié. Impossible de créer un jardin." });
             }
 
-            // Création du jardin
+            if (!name) {
+                return res.status(400).json({ message: "Le nom du jardin est obligatoire." });
+            }
+
+            // Création du jardin lié à l'utilisateur authentifié
             const garden = await prisma.garden.create({
                 data: {
                     name,
                     description,
-                    id_user,
+                    id_user: authUser.id,
                     id_localisation,
                     id_picture_garden,
                     id_difficulty,
@@ -152,25 +215,25 @@ export const gardenController = {
 
             const gardenId = garden.id;
 
-            // Relations Many-to-Many 
-            if (Array.isArray(plants)) {
-                await prisma.gardenHasPlant.createMany({
-                    data: plants.map((plantId: number) => ({
-                        gardenId,
-                        plantId
-                    })),
-                    skipDuplicates: true
-                });
+            // Relations Many-to-Many: accept either ids or objects
+            if (Array.isArray(plants) && plants.length > 0) {
+                const plantIds = plants.map((p: any) => (typeof p === "number" ? p : p?.id)).filter(Boolean);
+                if (plantIds.length > 0) {
+                    await prisma.gardenHasPlant.createMany({
+                        data: plantIds.map((plantId: number) => ({ gardenId, plantId })),
+                        skipDuplicates: true
+                    });
+                }
             }
 
-            if (Array.isArray(pets)) {
-                await prisma.gardenHasPet.createMany({
-                    data: pets.map((petId: number) => ({
-                        gardenId,
-                        petId
-                    })),
-                    skipDuplicates: true
-                });
+            if (Array.isArray(pets) && pets.length > 0) {
+                const petIds = pets.map((p: any) => (typeof p === "number" ? p : p?.id)).filter(Boolean);
+                if (petIds.length > 0) {
+                    await prisma.gardenHasPet.createMany({
+                        data: petIds.map((petId: number) => ({ gardenId, petId })),
+                        skipDuplicates: true
+                    });
+                }
             }
 
             // Re-fetch complet avec relations

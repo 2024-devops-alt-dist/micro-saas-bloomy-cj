@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import { PrismaClient } from "../generated/prisma/client";
+import { prisma } from "../lib/prisma"; 
 import bcrypt from "bcrypt";
 import logger from "../middlewares/logger";
 import { createAccessToken, createRefreshToken, verifyRefreshToken } from "../middlewares/jwt";
 
-const prisma = new PrismaClient();
+
 
 const COOKIE_OPTIONS = {
   httpOnly: true,

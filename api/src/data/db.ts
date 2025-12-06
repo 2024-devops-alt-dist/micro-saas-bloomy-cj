@@ -1,8 +1,6 @@
 import { Pool } from "pg";
 import logger from "../middlewares/logger.js";
-import { PrismaClient } from "../generated/prisma/client.js";
-
-const prisma = new PrismaClient();
+import { prisma } from "../lib/prisma"; 
 
 export const connectDB = async () => {
   try {
