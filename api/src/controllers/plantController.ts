@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
-import { PrismaClient } from "../generated/prisma/client";
-
-const prisma = new PrismaClient();
+import { prisma } from "../lib/prisma"; 
 
 // Helper pour formater la plante
 const formatPlant = (plant: any) => ({

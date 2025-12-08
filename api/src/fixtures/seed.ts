@@ -1,4 +1,4 @@
-import { PrismaClient } from "../generated/prisma/client";
+import { prisma } from "../lib/prisma"; 
 import seedCommon from "./seeds/SCommon";
 import seedPictureGarden from "./seeds/SPictureGarden";
 import seedUsers from "./seeds/SUser";
@@ -14,8 +14,6 @@ import seedGarden from "./seeds/SGarden";
 import seedGardenHasPet from "./seeds/SGardenHasPet";
 import seedGardenHasPlant from "./seeds/SGardenHasPlants";
 import seedUserHasFavory from "./seeds/SUserHasFavory";
-
-const prisma = new PrismaClient();
 
 async function main() {
     await seedUsers(prisma);

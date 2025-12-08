@@ -31,6 +31,11 @@ jobs:
       - name: Installer les dépendances
         run: npm ci # utilise le package-lock = plus fiable
 
+      - name: Generate Prisma Client
+        run: npx prisma generate
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
       - name: Lint du code
         run: npm run lint
 

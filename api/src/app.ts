@@ -6,6 +6,7 @@ import { router as plantRoutes } from "./routes/plantRoutes";
 import { router as usersRoutes } from "./routes/usersRoutes";
 import { router as gardenRoutes } from "./routes/gardenRoutes";
 import { router as authRoutes } from "./routes/authRoutes";
+import { router as commonRoutes } from "./routes/commonRoutes";
 
 const app: Application = express();
 const port = process.env.API_PORT;
@@ -37,6 +38,7 @@ app.use('/api', plantRoutes);
 app.use('/api', usersRoutes);
 app.use('/api', gardenRoutes);
 app.use('/api', authRoutes);
+app.use('/api', commonRoutes);
 
 // Configurer Swagger
 setupSwagger(app);

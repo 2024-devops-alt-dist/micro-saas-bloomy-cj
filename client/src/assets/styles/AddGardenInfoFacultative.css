@@ -1,0 +1,11 @@
+select.input-text.placeholder-select {
+    color: #9ca3af; 
+}
+
+select.input-text option {
+    color: #111827; 
+}
+
+select.input-text option.placeholder-option {
+    color: #9ca3af; 
+}

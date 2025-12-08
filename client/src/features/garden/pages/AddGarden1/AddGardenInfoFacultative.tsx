@@ -5,6 +5,8 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import HeaderAddGarden from "../../../../shared/headerAddGarden";
+import { commonService } from "../../services/commonService";
+import "../../../../assets/styles/AddGardenInfoFacultative.css";
 
 //  Schéma de validation
 const gardenFacSchema = z.object({
@@ -19,7 +21,10 @@ const AddGardenInfoFacultative : React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const gardenDraft = location.state?.gardenDraft;
+
     const [errorMessage, setErrorMessage] = useState("");
+    const [localisations, setLocalisations] = useState<Array<{ id: number; name: string; icon?: string }>>([]);
+    const [loadingLoc, setLoadingLoc] = useState(false);
 
     const { register, handleSubmit, watch, formState: { errors }, setValue, getValues } = useForm<GardenFacValues>({
         resolver: zodResolver(gardenFacSchema),
@@ -32,6 +37,7 @@ const AddGardenInfoFacultative : React.FC = () => {
 
     const watchedFields = watch();
 
+
     const hasChanges =
         (watchedFields.description?.trim() || "") !== "" ||
         (watchedFields.localisation?.trim() || "") !== "" ||
@@ -43,6 +49,29 @@ const AddGardenInfoFacultative : React.FC = () => {
             setErrorMessage("");
         }
     }, [watchedFields, errorMessage, hasChanges]);
+
+    useEffect(() => {
+        // Récupère les localisations depuis l'API
+        let mounted = true;
+        const fetchLocalisations = async () => {
+            setLoadingLoc(true);
+            try {
+                const data = await commonService.getLocalisations();
+                if (!mounted) return;
+                setLocalisations(data || []);
+            } catch (err) {
+                console.error("Erreur récupération localisations:", err);
+            } finally {
+                if (mounted) setLoadingLoc(false);
+            }
+        };
+
+        fetchLocalisations();
+
+        return () => {
+            mounted = false;
+        };
+    }, []);
 
     const onSubmit = (data: GardenFacValues) => {
         if (!data.description?.trim() && !data.localisation?.trim() && data.pets === false) {
@@ -68,10 +97,11 @@ const AddGardenInfoFacultative : React.FC = () => {
             <HeaderAddGarden showBack={true} />
 
             <main className="main-footer">
-                <form className="w-full max-w-xs text-left space-y-6" onSubmit={handleSubmit(onSubmit)}>
+                <form className="w-full text-left space-y-6" onSubmit={handleSubmit(onSubmit)}>
                     <div>
-                        <label className="block mb-1">Description :</label>
+                        <label htmlFor="description" className="block mb-2">Description :</label>
                         <textarea
+                            id="description"
                             placeholder="Décrivez votre jardin ..."
                             className="input-text"
                             {...register("description")}
@@ -81,13 +111,21 @@ const AddGardenInfoFacultative : React.FC = () => {
                             <p className="error-alerte mt-1">⚠️ {errors.description.message}</p>
                         )}
                         
-                        <label className="block mb-1 mt-4">Localisation :</label>
-                        <input
-                            type="text"
-                            placeholder="ex: Sud-Est, Nord, etc ..."
-                            className="input-text"
-                            {...register("localisation")}
-                        />
+                        <label htmlFor="localisation" className="block mb-2 mt-3">Où se situe votre jardin ?</label>
+                        {loadingLoc ? (
+                            <div className="input-text">Chargement...</div>
+                        ) : (
+                            <select
+                                id="localisation"
+                                className={`input-text placeholder-select`}
+                                {...register("localisation")}
+                            >
+                                <option className="placeholder-option" value="">Choisir une localisation</option>
+                                {localisations.map((loc) => (
+                                    <option key={loc.id} value={loc.name}>{loc.name}</option>
+                                ))}
+                            </select>
+                        )}
 
                         <span className="block mb-1 mt-5">Avez-vous des animaux ?</span>
                         <label className="mr-4">

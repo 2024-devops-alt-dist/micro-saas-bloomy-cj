@@ -1,44 +1,52 @@
 import type { Plant } from "../../../models/plant/IPlant";
-import mockDataGarden from "../data/mockGarden.json";
-
-// const USE_MOCK = true;
+import api from "../../../services/api";
 
 export interface Garden {
     id: number;
     name: string;
-    garden_img?: string; 
+    garden_img?: string;
     description: string;
     localisation: string;
     pets: boolean;
     plants?: Plant[];
+    user?: {
+        id: number;
+        firstname?: string;
+        lastname?: string;
+        email?: string;
+        picture_profil?: string;
+    };
 }
 
 export type GardenDraft = Omit<Garden, "id">;
 
-let localGardens: Garden[] = [...mockDataGarden.gardens.map(g => ({ ...g, plants: [] }))];
-// let localGardens: Garden[] = [];
+// NOTE: We previously had a mock implementation. Keep it commented for local dev if needed.
+// const USE_MOCK = true;
 
-const mockApi = {
+const realApi = {
     async getAll(): Promise<Garden[]> {
-        return localGardens;
+        const res = await api.get("/gardens");
+        return res.data;
+    },
+
+    async getMine(): Promise<Garden[]> {
+        const res = await api.get("/gardens/me");
+        return res.data;
     },
 
     async create(garden: Omit<Garden, "id">): Promise<Garden> {
-        const newGarden: Garden = { id: Date.now(), ...garden };
-        localGardens.push(newGarden);
-        return newGarden;
-    },
+        // Convert plants/pets arrays to arrays of ids when needed
+        const payload: any = { ...garden };
+        if (Array.isArray(garden.plants)) {
+            payload.plants = garden.plants.map((p: any) => (typeof p === "number" ? p : p?.id)).filter(Boolean);
+        }
+        if (Array.isArray((garden as any).pets)) {
+            payload.pets = (garden as any).pets.map((p: any) => (typeof p === "number" ? p : p?.id)).filter(Boolean);
+        }
 
-    async clearAll() {
-        localGardens = [];
+        const res = await api.post("/gardens", payload);
+        return res.data;
     }
 };
 
-// const realApi = {
-//    async getAll() { /* fetch('/api/...') */ },
-//   async create() { /* fetch POST */ },
-//   async delete() { /* fetch DELETE */ }
-// };
-
-// export const gardenService = USE_MOCK ? mockApi : realApi;
-export const gardenService = mockApi;
+export const gardenService = realApi;

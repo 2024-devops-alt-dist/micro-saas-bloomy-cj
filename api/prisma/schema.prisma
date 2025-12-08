@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client"
   output   = "../src/generated/prisma"
@@ -11,81 +5,67 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
-enum niveau_toxicite_enum {
-  Faible
-  Modéré
-  Élevé
 }
 
 model User {
-  id                Int      @id @default(autoincrement())
-  lastname          String   @db.VarChar(100)
-  firstname         String   @db.VarChar(100)
-  email             String   @unique @db.VarChar(250)
-  password          String   @db.VarChar(280)
-  picture_profil    String?  @db.VarChar(280)
-  registration_date DateTime @default(dbgenerated("CURRENT_DATE")) @db.Date
-  role              String   @default("user")
-
-  gardens        Garden[]
-  favoryPlants   UserHasFavory[]
+  id                Int             @id @default(autoincrement())
+  lastname          String          @db.VarChar(100)
+  firstname         String          @db.VarChar(100)
+  email             String          @unique @db.VarChar(250)
+  password          String          @db.VarChar(280)
+  picture_profil    String?         @db.VarChar(280)
+  registration_date DateTime        @default(dbgenerated("CURRENT_DATE")) @db.Date
+  role              String          @default("user")
+  gardens           Garden[]
+  favoryPlants      UserHasFavory[]
 }
 
 model PictureGarden {
-  id   Int    @id @default(autoincrement())
-  name String @db.VarChar(280)
-
-  gardens  Garden[]
+  id      Int      @id @default(autoincrement())
+  name    String   @db.VarChar(280)
+  gardens Garden[]
 }
 
 model Difficulty {
-  id          Int     @id @default(autoincrement())
-  name        String  @db.VarChar(280)
-  description String  @db.Text
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(280)
+  description String
   score       Int
-  icon        String? @db.VarChar(280)
-
-  plants      Plant[]
+  icon        String?  @db.VarChar(280)
   gardens     Garden[]
+  plants      Plant[]
 }
 
 model Exposition {
-  id          Int    @id @default(autoincrement())
-  name        String @db.VarChar(280)
-  icon        String @db.VarChar(280)
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(280)
+  icon        String   @db.VarChar(280)
   description String
-
-  plants      Plant[]
   gardens     Garden[]
+  plants      Plant[]
 }
 
 model Localisation {
-  id   Int    @id @default(autoincrement())
-  name String @db.VarChar(280)
-  icon String @db.VarChar(280)
-
-  plants    Plant[]
-  gardens   Garden[]
+  id      Int      @id @default(autoincrement())
+  name    String   @db.VarChar(280)
+  icon    String   @db.VarChar(280)
+  gardens Garden[]
+  plants  Plant[]
 }
 
 model Pets {
-  id   Int     @id @default(autoincrement())
-  name String  @db.VarChar(280)
-  icon String? @db.VarChar(280)
-
-  plantsToxic PlantHasToxicPet[]
+  id          Int                @id @default(autoincrement())
+  name        String             @db.VarChar(280)
+  icon        String?            @db.VarChar(280)
   gardens     GardenHasPet[]
+  plantsToxic PlantHasToxicPet[]
 }
 
 model Category {
-  id   Int     @id @default(autoincrement())
-  name String  @db.VarChar(280)
-  icon String? @db.VarChar(280)
-
-  plants     PlantHasCategory[]
+  id     Int                @id @default(autoincrement())
+  name   String             @db.VarChar(280)
+  icon   String?            @db.VarChar(280)
+  plants PlantHasCategory[]
 }
 
 model Watering {
@@ -93,86 +73,75 @@ model Watering {
   name        String  @db.VarChar(280)
   icon        String  @db.VarChar(280)
   description String?
-
   plants      Plant[]
 }
 
 model PicturePlant {
-  id   Int    @id @default(autoincrement())
-  name String @db.VarChar(280)
-
+  id     Int     @id @default(autoincrement())
+  name   String  @db.VarChar(280)
   plants Plant[]
 }
 
 model HarvestDate {
-  id          Int @id @default(autoincrement())
+  id          Int                   @id @default(autoincrement())
   start_month Int
   end_month   Int
-
-  plants PlantHasHarvestDate[]
+  plants      PlantHasHarvestDate[]
 }
 
 model PlantDate {
-  id          Int @id @default(autoincrement())
+  id          Int                 @id @default(autoincrement())
   start_month Int
   end_month   Int
-
-  plants PlantHasPlantDate[]
+  plants      PlantHasPlantDate[]
 }
 
 model SowingDate {
-  id          Int @id @default(autoincrement())
+  id          Int                  @id @default(autoincrement())
   start_month Int
   end_month   Int
-
-  plants PlantHasSowingDate[]
+  plants      PlantHasSowingDate[]
 }
 
 model Tag {
-  id   Int    @id @default(autoincrement())
-  name String @db.VarChar(280) @unique
-
+  id     Int           @id @default(autoincrement())
+  name   String        @unique @db.VarChar(280)
   plants PlantHasTag[]
 }
 
-
 model Plant {
-  id               Int      @id @default(autoincrement())
-  slug             String   @unique @db.VarChar(280)
-  parent_slug      String?  @db.VarChar(280)
-  name             String   @db.VarChar(280)
+  id               Int                   @id @default(autoincrement())
+  slug             String                @unique @db.VarChar(280)
+  parent_slug      String?               @db.VarChar(280)
+  name             String                @db.VarChar(280)
   description      String
-  space_between    String?  @db.VarChar(280)
-  temperature      String?  @db.VarChar(280)
-  id_difficulty    Int?     
-  id_exposition    Int?     
-  id_watering      Int?     
-  id_picture_plant Int?     
-  id_localisation  Int?  
-
-  // Relations One-to-Many
-  difficulty       Difficulty?    @relation(fields: [id_difficulty], references: [id], onDelete: SetNull)
-  exposition       Exposition?    @relation(fields: [id_exposition], references: [id], onDelete: SetNull)
-  localisation     Localisation?  @relation(fields: [id_localisation], references: [id], onDelete: SetNull)
-  picturePlant     PicturePlant?  @relation(fields: [id_picture_plant], references: [id], onDelete: SetNull)
-  watering         Watering?      @relation(fields: [id_watering], references: [id], onDelete: SetNull)
-
-  sowingDates      PlantHasSowingDate[]
+  space_between    String?               @db.VarChar(280)
+  temperature      String?               @db.VarChar(280)
+  id_difficulty    Int?
+  id_exposition    Int?
+  id_watering      Int?
+  id_picture_plant Int?
+  id_localisation  Int?
+  gardens          GardenHasPlant[]
+  difficulty       Difficulty?           @relation(fields: [id_difficulty], references: [id])
+  exposition       Exposition?           @relation(fields: [id_exposition], references: [id])
+  localisation     Localisation?         @relation(fields: [id_localisation], references: [id])
+  picturePlant     PicturePlant?         @relation(fields: [id_picture_plant], references: [id])
+  watering         Watering?             @relation(fields: [id_watering], references: [id])
+  categories       PlantHasCategory[]
   harvestDates     PlantHasHarvestDate[]
   plantDates       PlantHasPlantDate[]
+  sowingDates      PlantHasSowingDate[]
   tags             PlantHasTag[]
-  categories       PlantHasCategory[]
   toxicPets        PlantHasToxicPet[]
-  gardens          GardenHasPlant[]
   favoryUsers      UserHasFavory[]
 }
 
 model PlantHasSowingDate {
   plantId      Int
   sowingDateId Int
-
-  plant      Plant      @relation(fields: [plantId], references: [id])
-  sowingDate SowingDate @relation(fields: [sowingDateId], references: [id])
+  plant        Plant      @relation(fields: [plantId], references: [id])
+  sowingDate   SowingDate @relation(fields: [sowingDateId], references: [id])
 
   @@id([plantId, sowingDateId])
 }
@@ -180,9 +149,8 @@ model PlantHasSowingDate {
 model PlantHasHarvestDate {
   plantId       Int
   harvestDateId Int
-
-  plant       Plant       @relation(fields: [plantId], references: [id])
-  harvestDate HarvestDate @relation(fields: [harvestDateId], references: [id])
+  harvestDate   HarvestDate @relation(fields: [harvestDateId], references: [id])
+  plant         Plant       @relation(fields: [plantId], references: [id])
 
   @@id([plantId, harvestDateId])
 }
@@ -190,9 +158,8 @@ model PlantHasHarvestDate {
 model PlantHasPlantDate {
   plantId     Int
   plantDateId Int
-
-  plant     Plant     @relation(fields: [plantId], references: [id])
-  plantDate PlantDate @relation(fields: [plantDateId], references: [id])
+  plantDate   PlantDate @relation(fields: [plantDateId], references: [id])
+  plant       Plant     @relation(fields: [plantId], references: [id])
 
   @@id([plantId, plantDateId])
 }
@@ -200,19 +167,17 @@ model PlantHasPlantDate {
 model PlantHasTag {
   plantId Int
   tagId   Int
-
-  plant Plant @relation(fields: [plantId], references: [id])
-  tag   Tag   @relation(fields: [tagId], references: [id])
+  plant   Plant @relation(fields: [plantId], references: [id])
+  tag     Tag   @relation(fields: [tagId], references: [id])
 
   @@id([plantId, tagId])
 }
 
 model PlantHasCategory {
-  plantId     Int
-  categoryId  Int
-
-  plant    Plant    @relation(fields: [plantId], references: [id])
-  category Category @relation(fields: [categoryId], references: [id])
+  plantId    Int
+  categoryId Int
+  category   Category @relation(fields: [categoryId], references: [id])
+  plant      Plant    @relation(fields: [plantId], references: [id])
 
   @@id([plantId, categoryId])
 }
@@ -221,41 +186,36 @@ model PlantHasToxicPet {
   plantId        Int
   petId          Int
   niveauToxicite niveau_toxicite_enum
-
-  plant Plant @relation(fields: [plantId], references: [id])
-  pet   Pets  @relation(fields: [petId], references: [id])
+  pet            Pets                 @relation(fields: [petId], references: [id])
+  plant          Plant                @relation(fields: [plantId], references: [id])
 
   @@id([plantId, petId])
 }
 
 model Garden {
-  id                Int           @id @default(autoincrement())
-  name              String        @db.VarChar(280)
+  id                Int              @id @default(autoincrement())
+  name              String           @db.VarChar(280)
   description       String?
-  createdAt         DateTime      @default(dbgenerated("CURRENT_DATE")) @db.Date
+  createdAt         DateTime         @default(dbgenerated("CURRENT_DATE")) @db.Date
   id_user           Int
   id_localisation   Int?
   id_picture_garden Int?
   id_difficulty     Int?
   id_exposition     Int?
-
-  // Relations
-  user          User            @relation(fields: [id_user], references: [id], onDelete: Cascade)
-  localisation  Localisation?   @relation(fields: [id_localisation], references: [id])
-  pictureGarden PictureGarden?  @relation(fields: [id_picture_garden], references: [id])
-  difficulty    Difficulty?     @relation(fields: [id_difficulty], references: [id])
-  exposition    Exposition?     @relation(fields: [id_exposition], references: [id])
-
-  pets             GardenHasPet[]
-  plants           GardenHasPlant[]
+  difficulty        Difficulty?      @relation(fields: [id_difficulty], references: [id])
+  exposition        Exposition?      @relation(fields: [id_exposition], references: [id])
+  localisation      Localisation?    @relation(fields: [id_localisation], references: [id])
+  pictureGarden     PictureGarden?   @relation(fields: [id_picture_garden], references: [id])
+  user              User             @relation(fields: [id_user], references: [id], onDelete: Cascade)
+  pets              GardenHasPet[]
+  plants            GardenHasPlant[]
 }
 
 model GardenHasPet {
   gardenId Int
   petId    Int
-
-  garden Garden @relation(fields: [gardenId], references: [id])
-  pet    Pets   @relation(fields: [petId], references: [id])
+  garden   Garden @relation(fields: [gardenId], references: [id])
+  pet      Pets   @relation(fields: [petId], references: [id])
 
   @@id([gardenId, petId])
 }
@@ -263,9 +223,8 @@ model GardenHasPet {
 model GardenHasPlant {
   gardenId Int
   plantId  Int
-
-  garden Garden @relation(fields: [gardenId], references: [id])
-  plant  Plant  @relation(fields: [plantId], references: [id])
+  garden   Garden @relation(fields: [gardenId], references: [id])
+  plant    Plant  @relation(fields: [plantId], references: [id])
 
   @@id([gardenId, plantId])
 }
@@ -273,9 +232,14 @@ model GardenHasPlant {
 model UserHasFavory {
   userId  Int
   plantId Int
-
-  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
-  plant Plant @relation(fields: [plantId], references: [id])
+  plant   Plant @relation(fields: [plantId], references: [id])
+  user    User  @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([userId, plantId])
+}
+
+enum niveau_toxicite_enum {
+  Faible
+  Modere @map("Modéré")
+  Eleve  @map("Élevé")
 }

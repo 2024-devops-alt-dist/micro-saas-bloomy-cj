@@ -195,3 +195,7 @@ form .input-text, .input-upload {
     font-size: var(--text-xs1);
     font-style: italic;
 }
+
+.placeholder-option {
+    color: red;
+}
