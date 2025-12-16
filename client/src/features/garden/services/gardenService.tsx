@@ -5,9 +5,9 @@ export interface Garden {
     id: number;
     name: string;
     garden_img?: string;
-    description: string;
-    localisation: string;
-    pets: boolean;
+    description?: string;
+    id_localisation?: number;
+    pets?: number[];
     plants?: Plant[];
     user?: {
         id: number;
@@ -34,17 +34,20 @@ const realApi = {
         return res.data;
     },
 
-    async create(garden: Omit<Garden, "id">): Promise<Garden> {
-        // Convert plants/pets arrays to arrays of ids when needed
+    async create(garden: GardenDraft): Promise<Garden> {
+        // On transforme plants/pets en IDs
         const payload: any = { ...garden };
         if (Array.isArray(garden.plants)) {
-            payload.plants = garden.plants.map((p: any) => (typeof p === "number" ? p : p?.id)).filter(Boolean);
+            payload.plants = garden.plants.map(p => (typeof p === "number" ? p : p?.id)).filter(Boolean);
         }
-        if (Array.isArray((garden as any).pets)) {
-            payload.pets = (garden as any).pets.map((p: any) => (typeof p === "number" ? p : p?.id)).filter(Boolean);
+        if (Array.isArray(garden.pets)) {
+            payload.pets = garden.pets.filter(Boolean);
         }
-
         const res = await api.post("/gardens", payload);
+        return res.data;
+    },
+    async getById(id: number): Promise<Garden> {
+        const res = await api.get(`/gardens/${id}`);
         return res.data;
     }
 };

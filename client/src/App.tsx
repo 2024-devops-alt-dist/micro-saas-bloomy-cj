@@ -29,7 +29,7 @@ function App() {
             <Route path="/gardenSelectPlants" element={<ProtectedRoute><GardenSelectPlants /></ProtectedRoute>} />
             <Route path="/plants/:id" element={<DetailsPlant />} />
             <Route path="/panierGarden" element={<ProtectedRoute><PanierGarden /></ProtectedRoute>} />
-            <Route path="/garden-success" element={<ProtectedRoute><GardenSuccess /></ProtectedRoute>} />
+            <Route path="/garden-success/:id" element={<ProtectedRoute><GardenSuccess /></ProtectedRoute>} />
             <Route path="/mes-jardins" element={<ProtectedRoute><MyGarden /></ProtectedRoute>} />
           </Routes>
         </div>

@@ -11,6 +11,10 @@ const realApi = {
     async getExpositions() {
         const res = await api.get('/expositions');
         return res.data;
+    },
+    async getPets() {
+        const res = await api.get('/pets');
+        return res.data;
     }
 };
 

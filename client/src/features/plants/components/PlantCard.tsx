@@ -1,12 +1,13 @@
-// src/components/PlantCard.tsx
 import React from "react";
 import "../../../assets/styles/PlantCard.css";
 import { useNavigate } from "react-router-dom";
+import { saveDraft } from "../../garden/services/gardenLocalStorage";
 import type { Plant } from "../../../models/plant/IPlant";
+import type { GardenDraft } from "../../garden/services/gardenService";
 
 interface PlantCardProps {
     plant: Plant;
-    gardenDraft: any;
+    gardenDraft?: GardenDraft;
 }
 
 const PlantCard: React.FC<PlantCardProps> = ({ plant, gardenDraft }) => {
@@ -14,7 +15,8 @@ const PlantCard: React.FC<PlantCardProps> = ({ plant, gardenDraft }) => {
     const isSelected = gardenDraft?.plants?.some((p: Plant) => p.id === plant.id);
 
     const handleClick = () => {
-        navigate(`/plants/${plant.id}`, { state: { gardenDraft } });
+        saveDraft(gardenDraft);
+        navigate(`/plants/${plant.id}`);
     };
 
     return (

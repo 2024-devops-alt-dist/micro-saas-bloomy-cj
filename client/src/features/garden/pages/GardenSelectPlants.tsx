@@ -2,19 +2,17 @@ import React from "react";
 import "../../../assets/styles/global.css";
 import "../../../assets/styles/GardenSelectPlants.css";
 import PlantList from "../../plants/pages/PlantList";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import CategoryTabs from "../components/CategoryTab";
 import SearchFilterBar from "../components/SearchFilterBar";
 import CustomButton from "../../buttons/CustomButton";
 import HeaderAddGarden from "../../../shared/headerAddGarden";
+import type { GardenDraft } from "../services/gardenService";
+import { getDraft, saveDraft } from "../services/gardenLocalStorage";
 
 const GardenSelectPlants : React.FC = () => {
     const navigate = useNavigate();
-
-    const location = useLocation();
-    const gardenDraft = location.state?.gardenDraft;
-
-    console.log("Draft reçu sur GardenSelectPlants :", gardenDraft);
+    const gardenDraft: GardenDraft | undefined = getDraft();
 
     return (
         <div>
@@ -30,11 +28,12 @@ const GardenSelectPlants : React.FC = () => {
                 <CategoryTabs />
 
                 <div style={{ padding: "20px" }}>
+                    {/* <PlantList selectedPlantIds={selectedPlantIds} gardenDraft={gardenDraft} /> */}
                     <PlantList />
                 </div>
 
                 <div className="fixed-button-container">
-                    <CustomButton label="Voir ma sélection" onClick={() => navigate("/panierGarden", { state: { gardenDraft } })}/>
+                    <CustomButton label="Voir ma sélection" onClick={() => { saveDraft(gardenDraft); navigate("/panierGarden"); }}/>
                 </div>
             </main>
 
