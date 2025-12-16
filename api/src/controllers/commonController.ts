@@ -34,5 +34,21 @@ export const commonController = {
             console.error(error);
             return res.status(500).json({ message: "Erreur lors de la récupération des expositions.", error });
         }
-    }
+    },
+    getAllPets: async (_req: Request, res: Response) => {
+        try {
+            const pets = await prisma.pets.findMany({
+                select: {
+                    id: true,
+                    name: true,
+                    icon: true,
+                }
+            });
+
+            return res.status(200).json(pets);
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ message: "Erreur lors de la récupération des animaux de compagnie.", error });
+        }
+    },
 };

@@ -1,7 +1,8 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import GardenPlantCard from "../components/GardenPlantCard";
 import CustomButton from "../../buttons/CustomButton";
 import { gardenService, type GardenDraft } from "../services/gardenService";
+import { getDraft, saveDraft, clearDraft } from "../services/gardenLocalStorage";
 import { useState } from "react";
 import "../../../assets/styles/global.css";
 import "../../../assets/styles/PanierGarden.css";
@@ -10,21 +11,18 @@ import HeaderAddGarden from "../../../shared/headerAddGarden";
 
 const PanierGarden : React.FC = () => {
     const navigate = useNavigate();
-    const location = useLocation();
-    const initialGardenDraft  = location.state?.gardenDraft as GardenDraft  | undefined;
+    const initialGardenDraft  = getDraft() as GardenDraft  | undefined;
     const [error, setError] = useState("");
     const [gardenDraft, setGardenDraft] = useState<GardenDraft>(
-    initialGardenDraft ?? {
-        name: "",
-        garden_img: "",
-        description: "",
-        localisation: "",
-        pets: false,
-        plants: []
-    }
-);
-
-    console.log("Draft reçu dans PanierGarden :", gardenDraft);
+        initialGardenDraft ?? {
+            name: "",
+            garden_img: "",
+            description: "",
+            id_localisation: undefined,
+            pets: [],
+            plants: []
+        }
+    );
 
     const handleRemovePlant = (plantId: number) => {
         if (!gardenDraft) return;
@@ -35,6 +33,7 @@ const PanierGarden : React.FC = () => {
         };
 
         setGardenDraft(updatedDraft);
+        saveDraft(updatedDraft);
     };
 
     const handleValidateGarden = async () => {
@@ -51,8 +50,9 @@ const PanierGarden : React.FC = () => {
             // On crée le jardin et on le stocke
             const createdGarden = await gardenService.create(gardenDraft);
 
-            // On passe le jardin créé à GardenSuccess si besoin
-            navigate("/garden-success", { state: { garden: createdGarden } });
+            // Supprime le draft et navigue vers la page de succès avec l'ID (on refetchera depuis l'API)
+            clearDraft();
+            navigate(`/garden-success/${createdGarden.id}`);
         } catch (error) {
             console.error("Erreur lors de la création du jardin :", error);
         }
@@ -69,7 +69,7 @@ const PanierGarden : React.FC = () => {
                 <hr className="border-t border-gray-200 w-full max-w-xs mb-5" />
 
                 <div className="mb-6">
-                    <button onClick={() => navigate("/gardenSelectPlants", { state: { gardenDraft } })} className="add-plant-btn">
+                    <button onClick={() => { saveDraft(gardenDraft); navigate("/gardenSelectPlants"); }} className="add-plant-btn">
                         + Ajouter une plante
                     </button>
                 </div>

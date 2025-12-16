@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "../../../assets/styles/global.css";
 import "../../../assets/styles/DetailsPlant.css";
 import { plantService } from "../services/plantService";
@@ -9,13 +9,13 @@ import HeaderAddGarden from "../../../shared/headerAddGarden";
 import VarietiesList from "../components/VarietiesList";
 import AboutPlant from "../components/AboutPlant";
 import type { Plant } from "../../../models/plant/IPlant";
+import type { GardenDraft } from "../../garden/services/gardenService";
+import { getDraft, saveDraft } from "../../garden/services/gardenLocalStorage";
 
 const DetailsPlant: React.FC = () => {
     const navigate = useNavigate();
     const { id } = useParams();
-    const location = useLocation();
-    const gardenDraft = location.state?.gardenDraft;
-    console.log("Draft reçu sur DetailsPlant :", gardenDraft);
+    const gardenDraft: GardenDraft | undefined = getDraft();
     
     const [plant, setPlant] = useState<Plant | null>(null);
     const [activeTab, setActiveTab] = useState("À propos");
@@ -75,16 +75,23 @@ const DetailsPlant: React.FC = () => {
             return;
         }
 
-        const updatedDraft = {
-            ...gardenDraft,
+        const updatedDraft: GardenDraft = {
+            name: gardenDraft?.name ?? "",
+            garden_img: gardenDraft?.garden_img ?? "",
+            description: gardenDraft?.description,
+            id_localisation: gardenDraft?.id_localisation,
+            pets: gardenDraft?.pets || [],
             plants: [...(gardenDraft?.plants || []), plant],
+            user: gardenDraft?.user,
         };
 
-        navigate("/panierGarden", { state: { gardenDraft: updatedDraft } });
+        saveDraft(updatedDraft);
+        navigate("/panierGarden");
     };
 
     const handleGoToPlant = (id: number) => {
-        navigate(`/plants/${id}`, { state: { gardenDraft } });
+        saveDraft(gardenDraft);
+        navigate(`/plants/${id}`);
     };
 
     return (
