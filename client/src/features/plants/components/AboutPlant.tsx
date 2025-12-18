@@ -1,5 +1,5 @@
 import React from "react";
-import CalendarPlant from "./CalendarPlant";
+import CalendarPlant from "./CalendarPlant/CalendarPlant";
 import type { Plant } from "../../../models/plant/IPlant";
 
 interface AboutPlantProps {

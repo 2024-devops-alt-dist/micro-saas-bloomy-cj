@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { prisma } from "../lib/prisma"; 
 import bcrypt from "bcrypt";
+import { parseId, handleServerError } from "../utils/requestUtils";
 
 
 export const usersController = {
@@ -54,8 +55,12 @@ export const usersController = {
     getById: async (req: Request, res: Response) => {
         const { id } = req.params;
         try {
+            const userId = parseId(id);
+            if (userId === null) return res.status(400).json({ message: "ID invalide." });
+
+            // Recherche de l'utilisateur + relations
             const user = await prisma.user.findUnique({
-                where: { id: Number(id) },
+                where: { id: userId },
                 include: {
                     gardens: true,
                     favoryPlants: {
@@ -70,14 +75,11 @@ export const usersController = {
                 return res.status(404).json({ message: `Utilisateur avec l'ID ${id} introuvable` });
             }
 
+            // Suppression du mot de passe avant réponse
             const { password, ...safeUser } = user;
             return res.status(200).json(safeUser);
         } catch (error) {
-            console.error(error);
-            return res.status(500).json({
-                message: `Erreur serveur lors de la récupération de l'utilisateur ${id}`,
-                error,
-            });
+            return handleServerError(res, `Erreur serveur lors de la récupération de l'utilisateur ${id}`, error);
         }
     },
 
@@ -85,7 +87,7 @@ export const usersController = {
         const { firstname, lastname, email, password, picture_profil, role } = req.body;
 
         try {
-            // VALIDATIONS/CONTRAINTE DE CREATION
+            // Validation et contrainte de création
             if (!firstname || firstname.length < 2) {
                 return res.status(400).json({
                     message: "Le prénom doit contenir au moins 2 caractères."
@@ -130,7 +132,7 @@ export const usersController = {
 
             const hashedPassword = await bcrypt.hash(password, 10);
 
-            // INSERTION EN BDD
+            // insertion en bdd
             const newUser = await prisma.user.create({
                 data: {
                     firstname,
@@ -142,7 +144,7 @@ export const usersController = {
                 },
             });
 
-            // On retire le mot de passe avant retour
+            // Retire le mdp avant retour
             const { password: _, ...safeUser } = newUser;
 
             return res.status(201).json(safeUser);
@@ -159,29 +161,16 @@ export const usersController = {
     delete: async (req: Request, res: Response) => {
         const { id } = req.params;
         try {
-            const userId = Number(id);
+            const userId = parseId(id);
+            if (userId === null) return res.status(400).json({ message: "ID invalide." });
 
-            if (isNaN(userId)) {
-                return res.status(400).json({ message: "ID invalide." });
-            }
+            const user = await prisma.user.findUnique({ where: { id: userId } });
+            if (!user) return res.status(404).json({ message: `Utilisateur avec l'ID ${id} introuvable.` });
 
-            const user = await prisma.user.findUnique({
-                where: { id: userId }
-            });
-
-            if (!user) {
-                return res.status(404).json({ message: `Utilisateur avec l'ID ${id} introuvable.` });
-            }
-
-            await prisma.user.delete({
-                where: { id: userId }
-            });
-
+            await prisma.user.delete({ where: { id: userId } });
             return res.status(200).json({ message: `Utilisateur avec l'ID ${id} supprimé avec succès.` });
-
         } catch (error) {
-            console.error(error);
-            return res.status(500).json({ message: "Erreur serveur lors de la suppression de l'utilisateur.", error });
+            return handleServerError(res, "Erreur serveur lors de la suppression de l'utilisateur.", error);
         }
     },
 
@@ -190,16 +179,12 @@ export const usersController = {
         const { firstname, lastname, email, password, picture_profil, role } = req.body;
 
         try {
-            const userId = Number(id);
-            if (isNaN(userId)) {
-                return res.status(400).json({ message: "ID invalide." });
-            }
+            const userId = parseId(id);
+            if (userId === null) return res.status(400).json({ message: "ID invalide." });
 
             const existingUser = await prisma.user.findUnique({ where: { id: userId } });
-            if (!existingUser) {
-                return res.status(404).json({ message: `Utilisateur avec l'ID ${id} introuvable.` });
-            }
-
+            if (!existingUser) return res.status(404).json({ message: `Utilisateur avec l'ID ${id} introuvable.` });
+            
             // Validations (seulement pour les champs fournis)
             if (firstname !== undefined && firstname.length < 2) {
                 return res.status(400).json({ message: "Le prénom doit contenir au moins 2 caractères." });

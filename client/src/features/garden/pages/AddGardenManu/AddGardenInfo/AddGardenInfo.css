@@ -1,0 +1,26 @@
+/* Layout général */
+/* .add-garden {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem;
+    text-align: center;
+} */
+
+.remove-file {
+    margin-left: 0.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.remove-file:hover {
+    color: #ef4444;
+}
+
+.error-alerte {
+    margin-top: 0.5rem;
+    color: #dc2626;
+    font-size: 0.875rem;
+}

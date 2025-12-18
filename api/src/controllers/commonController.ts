@@ -4,13 +4,7 @@ import { prisma } from "../lib/prisma";
 export const commonController = {
     getAllLocalisation: async (_req: Request, res: Response) => {
         try {
-            const localisations = await prisma.localisation.findMany({
-                select: {
-                    id: true,
-                    name: true,
-                    icon: true,
-                }
-            });
+            const localisations = await prisma.localisation.findMany();
 
             return res.status(200).json(localisations);
         } catch (error) {
@@ -20,14 +14,7 @@ export const commonController = {
     },
     getAllExpositions: async (_req: Request, res: Response) => {
         try {
-            const expositions = await prisma.exposition.findMany({
-                select: {
-                    id: true,
-                    name: true,
-                    description: true,
-                    icon: true,
-                }
-            });
+            const expositions = await prisma.exposition.findMany();
 
             return res.status(200).json(expositions);
         } catch (error) {
@@ -37,13 +24,7 @@ export const commonController = {
     },
     getAllPets: async (_req: Request, res: Response) => {
         try {
-            const pets = await prisma.pets.findMany({
-                select: {
-                    id: true,
-                    name: true,
-                    icon: true,
-                }
-            });
+            const pets = await prisma.pets.findMany();
 
             return res.status(200).json(pets);
         } catch (error) {

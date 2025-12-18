@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import "../../../../assets/styles/global.css";
+import "../../../../../assets/styles/global.css";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import HeaderAddGarden from "../../../../shared/headerAddGarden";
-import { commonService } from "../../services/commonService";
-import "../../../../assets/styles/AddGardenInfoFacultative.css";
-import type { Pet } from "../../../../models/common/IPet";
-import type { GardenDraft } from "../../services/gardenService";
-import { getDraft, saveDraft } from "../../services/gardenLocalStorage";
+import HeaderAddGarden from "../../../../../shared/headerAddGarden";
+import { commonService } from "../../../services/commonService";
+import "./AddGardenInfoFacultative.css";
+import type { Pet } from "../../../../../models/common/IPet";
+import type { GardenDraft } from "../../../services/gardenService";
+import { getDraft, saveDraft } from "../../../services/gardenLocalStorage";
 
 //  Schéma de validation
 const gardenFacSchema = z.object({

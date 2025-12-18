@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { plantService } from "../services/plantService";
-import PlantCard from "../components/PlantCard";
+import PlantCard from "../components/PlantCard/PlantCard";
 import type { Plant } from "../../../models/plant/IPlant";
 import { /* useLocation */ } from "react-router-dom";
 import { getDraft } from "../../garden/services/gardenLocalStorage";

@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiPlus } from "react-icons/fi";
-import { gardenService, type Garden } from "../../garden/services/gardenService";
-import NavBarMobile from "../../../shared/navbar-mobile";
-import "../../../assets/styles/global.css";
-import "../../../assets/styles/MyGarden.css";
-import Groupe71 from "../../../assets/pictures/Group_71.png"
+import { gardenService, type Garden } from "../../../garden/services/gardenService";
+import NavBarMobile from "../../../../shared/navbar-mobile";
+import "../../../../assets/styles/global.css";
+import "./MyGarden.css";
 
 const MyGarden: React.FC = () => {
     const navigate = useNavigate();
@@ -60,7 +59,7 @@ const MyGarden: React.FC = () => {
                             <p>Vous retrouverez ici vos statistiques après avoir réalisé vos premiers pas</p>
                         </div>
 
-                        <img src={Groupe71} alt="Statistiques à venir"/>
+                        <img src="/assets/icons/Group_71.png" alt="Statistiques à venir"/>
                     </div>
                 </>
             ) : (

@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import GardenPlantCard from "../components/GardenPlantCard";
-import CustomButton from "../../buttons/CustomButton";
-import { gardenService, type GardenDraft } from "../services/gardenService";
-import { getDraft, saveDraft, clearDraft } from "../services/gardenLocalStorage";
+import GardenPlantCard from "../../components/GardenPlantCard";
+import CustomButton from "../../../buttons/CustomButton";
+import { gardenService, type GardenDraft } from "../../services/gardenService";
+import { getDraft, saveDraft, clearDraft } from "../../services/gardenLocalStorage";
 import { useState } from "react";
-import "../../../assets/styles/global.css";
-import "../../../assets/styles/PanierGarden.css";
-import HeaderAddGarden from "../../../shared/headerAddGarden";
+import "../../../../assets/styles/global.css";
+import "./PanierGarden.css";
+import HeaderAddGarden from "../../../../shared/headerAddGarden";
 
 
 const PanierGarden : React.FC = () => {
@@ -66,7 +66,7 @@ const PanierGarden : React.FC = () => {
                 <h1 className="text-center title-custom-panier mb-3 ">Votre sélection pour le jardin</h1>
                 <h2 className="text-center mb-4">{gardenDraft?.name}</h2>
 
-                <hr className="border-t border-gray-200 w-full max-w-xs mb-5" />
+                <hr className="separator" />
 
                 <div className="mb-6">
                     <button onClick={() => { saveDraft(gardenDraft); navigate("/gardenSelectPlants"); }} className="add-plant-btn">

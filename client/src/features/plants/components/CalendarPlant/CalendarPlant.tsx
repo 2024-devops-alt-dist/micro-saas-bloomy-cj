@@ -1,6 +1,6 @@
 import React from "react";
-import "../../../assets/styles/CalendarPlant.css";
-import type { Plant } from "../../../models/plant/IPlant";
+import "./CalendarPlant.css";
+import type { Plant } from "../../../../models/plant/IPlant";
 
 interface CalendarPlantProps {
   plant: Plant;
