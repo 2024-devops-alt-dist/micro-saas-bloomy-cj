@@ -199,3 +199,11 @@ form .input-text, .input-upload {
 .placeholder-option {
     color: red;
 }
+
+.separator {
+    width: 100%;
+    max-width: 20rem;      
+    margin-bottom: 2rem; 
+    border: none;
+    border-top: 1px solid #e5e7eb;
+}

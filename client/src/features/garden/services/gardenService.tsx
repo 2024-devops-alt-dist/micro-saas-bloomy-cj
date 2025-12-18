@@ -43,8 +43,22 @@ const realApi = {
         if (Array.isArray(garden.pets)) {
             payload.pets = garden.pets.filter(Boolean);
         }
-        const res = await api.post("/gardens", payload);
-        return res.data;
+        try {
+            const res = await api.post("/gardens", payload);
+            return res.data;
+        } catch (err: any) {
+            // Si token expiré ou invalide, tenter un refresh automatique côté serveur
+            if (err.response?.status === 401) {
+                try {
+                    await api.post("/refresh");
+                    const retry = await api.post("/gardens", payload);
+                    return retry.data;
+                } catch (err2) {
+                    throw err2;
+                }
+            }
+            throw err;
+        }
     },
     async getById(id: number): Promise<Garden> {
         const res = await api.get(`/gardens/${id}`);

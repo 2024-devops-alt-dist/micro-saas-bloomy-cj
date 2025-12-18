@@ -1,14 +1,14 @@
 import React from "react";
-import "../../../assets/styles/global.css";
-import "../../../assets/styles/GardenSelectPlants.css";
-import PlantList from "../../plants/pages/PlantList";
+import "../../../../assets/styles/global.css";
+import "./GardenSelectPlants.css";
+import PlantList from "../../../plants/pages/PlantList";
 import { useNavigate } from "react-router-dom";
-import CategoryTabs from "../components/CategoryTab";
-import SearchFilterBar from "../components/SearchFilterBar";
-import CustomButton from "../../buttons/CustomButton";
-import HeaderAddGarden from "../../../shared/headerAddGarden";
-import type { GardenDraft } from "../services/gardenService";
-import { getDraft, saveDraft } from "../services/gardenLocalStorage";
+import CategoryTabs from "../../components/CategoryTab/CategoryTab";
+import SearchFilterBar from "../../components/SearchFilterBar/SearchFilterBar";
+import CustomButton from "../../../buttons/CustomButton";
+import HeaderAddGarden from "../../../../shared/headerAddGarden";
+import type { GardenDraft } from "../../services/gardenService";
+import { getDraft, saveDraft } from "../../services/gardenLocalStorage";
 
 const GardenSelectPlants : React.FC = () => {
     const navigate = useNavigate();

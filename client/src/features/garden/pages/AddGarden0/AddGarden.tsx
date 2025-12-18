@@ -1,10 +1,9 @@
 import React from "react";
-import mascotWelcome from "../../../assets/pictures/mascot-welcome.png";
-import "../../../assets/styles/global.css";
+import "../../../../assets/styles/global.css";
 import { useNavigate } from "react-router-dom";
-import NavBarMobile from "../../../shared/navbar-mobile";
-import "../../../assets/styles/addGarden.css";
-import HeaderAddGarden from "../../../shared/headerAddGarden";
+import NavBarMobile from "../../../../shared/navbar-mobile";
+import "./addGarden.css";
+import HeaderAddGarden from "../../../../shared/headerAddGarden";
 // import NavBarDesktop from "../../../shared/navbar-desktop";
 
 const AddGarden: React.FC = () => {
@@ -15,7 +14,7 @@ const AddGarden: React.FC = () => {
         <HeaderAddGarden showBack={false} showLogout={true} />
 
         <main className="main-navbar">
-            <img src={mascotWelcome} alt="Mascotte Bloomy" className="w-46 h-46 mb-2" />
+            <img src="/assets/mascot/mascot-welcome.png" alt="Mascotte Bloomy" className="w-46 h-46 mb-2" />
 
             <h1 className="mb-4">Créez votre jardin</h1>
             <p className="mb-6">Choisissez votre méthode préférée pour commencer votre aventure jardinage :</p>

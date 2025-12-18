@@ -7,6 +7,7 @@ import { router as usersRoutes } from "./routes/usersRoutes";
 import { router as gardenRoutes } from "./routes/gardenRoutes";
 import { router as authRoutes } from "./routes/authRoutes";
 import { router as commonRoutes } from "./routes/commonRoutes";
+import errorHandler from "./middlewares/errorHandler";
 
 const app: Application = express();
 const port = process.env.API_PORT;
@@ -42,5 +43,8 @@ app.use('/api', commonRoutes);
 
 // Configurer Swagger
 setupSwagger(app);
+
+// Middleware d'erreurs centralisé
+app.use(errorHandler);
 
 export default app;

@@ -1,5 +1,5 @@
 import React from "react";
-import "../../../assets/styles/NavBarDetailPlant.css";
+import "./NavBarDetailPlant.css";
 
 interface PlantNavbarProps {
     activeTab: string;

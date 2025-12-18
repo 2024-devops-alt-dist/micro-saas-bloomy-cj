@@ -1,80 +1,58 @@
 import { Request, Response } from "express";
 import { prisma } from "../lib/prisma"; 
+import { parseId, handleServerError } from "../utils/requestUtils";
+
+const PLANT_INCLUDES = {
+    difficulty: true,
+    exposition: true,
+    localisation: true,
+    watering: true,
+    picturePlant: true,
+    categories: { include: { category: true } },
+    tags: { include: { tag: true } },
+    sowingDates: { include: { sowingDate: true } },
+    harvestDates: { include: { harvestDate: true } },
+    plantDates: { include: { plantDate: true } },
+    toxicPets: { include: { pet: true } },
+} as const;
 
 // Helper pour formater la plante
 const formatPlant = (plant: any) => ({
     ...plant,
-    categories: plant.categories?.map((pc: any) => pc.category) || [],
-    toxicPets: plant.toxicPets?.map((tp: any) => ({
-        ...tp,
-        pet: tp.pet || null
+    categories: plant.categories?.map((plantCategory: any) => plantCategory.category) || [],
+    toxicPets: plant.toxicPets?.map((toxicPetRelation: any) => ({
+        ...toxicPetRelation,
+        pet: toxicPetRelation.pet || null
     })) || [],
-    sowingDates: plant.sowingDates?.map((d: any) => d.sowingDate) || [],
-    plantDates: plant.plantDates?.map((d: any) => d.plantDate) || [],
-    harvestDates: plant.harvestDates?.map((d: any) => d.harvestDate) || [],
+    sowingDates: plant.sowingDates?.map((sowingRelation: any) => sowingRelation.sowingDate) || [],
+    plantDates: plant.plantDates?.map((plantDateRelation: any) => plantDateRelation.plantDate) || [],
+    harvestDates: plant.harvestDates?.map((harvestRelation: any) => harvestRelation.harvestDate) || [],
 });
 
 export const plantController = {
     getAll: async (_req: Request, res: Response) => {
         try {
-            const plants = await prisma.plant.findMany({
-                include: {
-                    difficulty: true,
-                    exposition: true,
-                    localisation: true,
-                    watering: true,
-                    picturePlant: true,
-                    categories: { include: { category: true } },
-                    tags: { include: { tag: true } },
-                    sowingDates: { include: { sowingDate: true } },
-                    harvestDates: { include: { harvestDate: true } },
-                    plantDates: { include: { plantDate: true } },
-                    toxicPets: { include: { pet: true } }, // Inclure le pet
-                },
-            });
-
+            const plants = await prisma.plant.findMany({ include: PLANT_INCLUDES as any });
             const formattedPlants = plants.map(formatPlant);
-
             res.status(200).json(formattedPlants);
         } catch (error) {
-            console.error(error);
-            res.status(500).json({ message: "Erreur serveur", error });
+            return handleServerError(res, "Erreur serveur", error);
         }
     },
 
     getById: async (req: Request, res: Response) => {
         try {
-            const plantId = Number(req.params.id);
-            if (isNaN(plantId)) {
-                return res.status(400).json({ message: "ID invalide." });
-            }
+            const plantId = parseId(req.params.id);
+            if (plantId === null) return res.status(400).json({ message: "ID invalide." });
 
-            const plant = await prisma.plant.findUnique({
-                where: { id: plantId },
-                include: {
-                    difficulty: true,
-                    exposition: true,
-                    localisation: true,
-                    watering: true,
-                    picturePlant: true,
-                    categories: { include: { category: true } },
-                    tags: { include: { tag: true } },
-                    sowingDates: { include: { sowingDate: true } },
-                    harvestDates: { include: { harvestDate: true } },
-                    plantDates: { include: { plantDate: true } },
-                    toxicPets: { include: { pet: true } }, // Inclure le pet
-                },
-            });
+            const plant = await prisma.plant.findUnique({ where: { id: plantId }, include: PLANT_INCLUDES as any });
 
-            if (!plant) {
-                return res.status(404).json({ message: `Plante avec l'ID ${plantId} introuvable.` });
-            }
+            if (!plant) return res.status(404).json({ message: `Plante avec l'ID ${plantId} introuvable.` });
 
             const formattedPlant = formatPlant(plant);
-            res.status(200).json(formattedPlant);
+            return res.status(200).json(formattedPlant);
         } catch (error) {
-            console.error(error);
-            res.status(500).json({ message: "Erreur serveur", error });
+            return handleServerError(res, "Erreur serveur", error);
         }
     },
 
@@ -89,7 +67,7 @@ export const plantController = {
                 return res.status(400).json({ message: `Une plante avec le slug '${slug}' existe déjà.` });
             }
 
-            // Création de la plante (partie simple)
+            // Création de la plante (sans relation)
             const plant = await prisma.plant.create({
                 data: {
                     slug,
@@ -161,33 +139,17 @@ export const plantController = {
 
             if (Array.isArray(toxicPets)) {
                 await prisma.plantHasToxicPet.createMany({
-                    data: toxicPets.map((tp: any) => ({
+                    data: toxicPets.map((toxicPet: any) => ({
                         plantId,
-                        petId: tp.petId,
-                        niveauToxicite: tp.niveauToxicite
+                        petId: toxicPet.petId,
+                        niveauToxicite: toxicPet.niveauToxicite
                     })),
                     skipDuplicates: true
                 });
             }
 
             // Re-fetch avec includes
-            const createdPlant = await prisma.plant.findUnique({
-                where: { id: plantId },
-                include: {
-                    difficulty: true,
-                    exposition: true,
-                    localisation: true,
-                    watering: true,
-                    picturePlant: true,
-                    categories: { include: { category: true } },
-                    tags: { include: { tag: true } },
-                    sowingDates: { include: { sowingDate: true } },
-                    harvestDates: { include: { harvestDate: true } },
-                    plantDates: { include: { plantDate: true } },
-                    toxicPets: true
-                },
-            });
-
+            const createdPlant = await prisma.plant.findUnique({ where: { id: plantId }, include: PLANT_INCLUDES as any });
             return res.status(201).json(createdPlant);
 
         } catch (error) {
@@ -198,11 +160,8 @@ export const plantController = {
     
     delete: async (req: Request, res: Response) => {
         try {
-            const plantId = Number(req.params.id);
-
-            if (isNaN(plantId)) {
-                return res.status(400).json({ message: "ID invalide." });
-            }
+            const plantId = parseId(req.params.id);
+            if (plantId === null) return res.status(400).json({ message: "ID invalide." });
 
             // Vérifier que la plante existe
             const plant = await prisma.plant.findUnique({
@@ -214,64 +173,33 @@ export const plantController = {
             }
 
             // Supprimer les relations Many-to-Many
-            await prisma.plantHasCategory.deleteMany({
-                where: { plantId }
-            });
+            await prisma.plantHasCategory.deleteMany({ where: { plantId } });
+            await prisma.plantHasTag.deleteMany({ where: { plantId } });
+            await prisma.plantHasSowingDate.deleteMany({ where: { plantId } });
+            await prisma.plantHasHarvestDate.deleteMany({ where: { plantId } });
+            await prisma.plantHasPlantDate.deleteMany({ where: { plantId } });
+            await prisma.plantHasToxicPet.deleteMany({ where: { plantId } });
+            await prisma.gardenHasPlant.deleteMany({ where: { plantId } });
 
-            await prisma.plantHasTag.deleteMany({
-                where: { plantId }
-            });
-
-            await prisma.plantHasSowingDate.deleteMany({
-                where: { plantId }
-            });
-
-            await prisma.plantHasHarvestDate.deleteMany({
-                where: { plantId }
-            });
-
-            await prisma.plantHasPlantDate.deleteMany({
-                where: { plantId }
-            });
-
-            await prisma.plantHasToxicPet.deleteMany({
-                where: { plantId }
-            });
-
-            await prisma.gardenHasPlant.deleteMany({
-                where: { plantId }
-            });
-
-            // Enfin : supprimer la plante
-            await prisma.plant.delete({
-                where: { id: plantId }
-            });
+            // Suppression finale de la plante
+            await prisma.plant.delete({ where: { id: plantId } });
 
             return res.status(200).json({ message: "Plante supprimée avec succès." });
 
         } catch (error) {
-            console.error(error);
-            return res.status(500).json({
-                message: "Erreur serveur lors de la suppression de la plante.",
-                error
-            });
+            return handleServerError(res, "Erreur serveur lors de la suppression de la plante.", error);
         }
     },
 
     update: async (req: Request, res: Response) => {
         try {
-            const plantId = Number(req.params.id);
-
-            if (isNaN(plantId)) {
-                return res.status(400).json({ message: "ID invalide." });
-            }
+            const plantId = parseId(req.params.id);
+            if (plantId === null) return res.status(400).json({ message: "ID invalide." });
 
             const { slug, parent_slug, name, description, space_between, temperature, id_difficulty, id_exposition, id_watering, id_picture_plant, id_localisation, categories, tags, sowingDates, harvestDates, plantDates, toxicPets } = req.body;
 
             // Vérifier si la plante existe
-            const existingPlant = await prisma.plant.findUnique({
-                where: { id: plantId }
-            });
+            const existingPlant = await prisma.plant.findUnique({ where: { id: plantId } });
 
             if (!existingPlant) {
                 return res.status(404).json({ message: `Plante avec l'id ${plantId} introuvable.` });
@@ -286,22 +214,19 @@ export const plantController = {
             }
 
             // Mise à jour des champs simples
-            await prisma.plant.update({
-                where: { id: plantId },
-                data: {
-                    slug,
-                    parent_slug,
-                    name,
-                    description,
-                    space_between,
-                    temperature,
-                    id_difficulty,
-                    id_exposition,
-                    id_watering,
-                    id_picture_plant,
-                    id_localisation
-                }
-            });
+            await prisma.plant.update({ where: { id: plantId }, data: {
+                slug,
+                parent_slug,
+                name,
+                description,
+                space_between,
+                temperature,
+                id_difficulty,
+                id_exposition,
+                id_watering,
+                id_picture_plant,
+                id_localisation
+            }});
 
             // Nettoyer et réinsérer relations Many-to-Many 
             await prisma.plantHasCategory.deleteMany({ where: { plantId } });
@@ -359,40 +284,20 @@ export const plantController = {
 
             if (Array.isArray(toxicPets)) {
                 await prisma.plantHasToxicPet.createMany({
-                    data: toxicPets.map((tp: any) => ({
+                    data: toxicPets.map((toxicPet: any) => ({
                         plantId,
-                        petId: tp.petId,
-                        niveauToxicite: tp.niveauToxicite
+                        petId: toxicPet.petId,
+                        niveauToxicite: toxicPet.niveauToxicite
                     }))
                 });
             }
 
-            // 🔍 Réponse finale avec toutes les relations
-            const fullPlant = await prisma.plant.findUnique({
-                where: { id: plantId },
-                include: {
-                    difficulty: true,
-                    exposition: true,
-                    localisation: true,
-                    watering: true,
-                    picturePlant: true,
-                    categories: { include: { category: true } },
-                    tags: { include: { tag: true } },
-                    sowingDates: { include: { sowingDate: true } },
-                    harvestDates: { include: { harvestDate: true } },
-                    plantDates: { include: { plantDate: true } },
-                    toxicPets: true
-                }
-            });
-
+            // Réponse finale avec toutes les relations
+            const fullPlant = await prisma.plant.findUnique({ where: { id: plantId }, include: PLANT_INCLUDES as any });
             return res.status(200).json(fullPlant);
 
         } catch (error) {
-            console.error(error);
-            return res.status(500).json({
-                message: "Erreur serveur lors de la mise à jour de la plante.",
-                error
-            });
+            return handleServerError(res, "Erreur serveur lors de la mise à jour de la plante.", error);
         }
     }
 };

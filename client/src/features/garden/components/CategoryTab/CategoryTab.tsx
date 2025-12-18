@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import "../../../assets/styles/CategoryTab.css";
+import "./CategoryTab.css";
 
 const CategoryTabs: React.FC = () => {
     const [activeCategory, setActiveCategory] = useState("populaire");

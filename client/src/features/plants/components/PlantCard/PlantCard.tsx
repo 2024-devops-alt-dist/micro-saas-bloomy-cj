@@ -1,9 +1,9 @@
 import React from "react";
-import "../../../assets/styles/PlantCard.css";
+import "./PlantCard.css";
 import { useNavigate } from "react-router-dom";
-import { saveDraft } from "../../garden/services/gardenLocalStorage";
-import type { Plant } from "../../../models/plant/IPlant";
-import type { GardenDraft } from "../../garden/services/gardenService";
+import { saveDraft } from "../../../garden/services/gardenLocalStorage";
+import type { Plant } from "../../../../models/plant/IPlant";
+import type { GardenDraft } from "../../../garden/services/gardenService";
 
 interface PlantCardProps {
     plant: Plant;

@@ -1,6 +1,6 @@
 import React from "react";
 import { FiFilter, FiSearch } from "react-icons/fi";
-import "../../../assets/styles/SearchFilterBar.css";
+import "./SearchFilterBar.css";
 
 const SearchFilterBar: React.FC = () => {
 // Ici intégrer zod et reacthook si n"cessaire

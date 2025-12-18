@@ -13,7 +13,7 @@ export const connectDB = async () => {
   }
 };
 
-// Gestion de la fermeture gracieuse des connexions
+// Gestion de la fermeture 
 export const closeDB = async (): Promise<void> => {
   try {
     await prisma.$disconnect();

@@ -1,114 +1,65 @@
 import { Request, Response } from "express";
 import { prisma } from "../lib/prisma"; 
+import { parseId, handleServerError } from "../utils/requestUtils";
+
+const USER_SELECT = {
+    id: true,
+    lastname: true,
+    firstname: true,
+    email: true,
+    picture_profil: true,
+    registration_date: true,
+    role: true
+} as const;
+
+const PLANT_INCLUDES = {
+    difficulty: true,
+    exposition: true,
+    localisation: true,
+    watering: true,
+    picturePlant: true,
+    categories: { include: { category: true } },
+    tags: { include: { tag: true } },
+    sowingDates: { include: { sowingDate: true } },
+    harvestDates: { include: { harvestDate: true } },
+    plantDates: { include: { plantDate: true } },
+    toxicPets: true
+} as const;
 
 export const gardenController = {
     getAll: async (_req: Request, res: Response) => {
         try {
-            const gardens = await prisma.garden.findMany({
-                include: {
-                    // exclure le mdp des données user remontées
-                    user: {
-                        select: {
-                            id: true,
-                            lastname: true,
-                            firstname: true,
-                            email: true,
-                            picture_profil: true,
-                            registration_date: true,
-                            role: true
-                        }
-                    },
-                    localisation: true,
-                    pictureGarden: true,
-                    difficulty: true,
-                    exposition: true,
-                    pets: {
-                        include: {
-                            pet: true
-                        }
-                    },
-                    plants: {
-                        include: {
-                            plant: {
-                                include: {
-                                    difficulty: true,
-                                    exposition: true,
-                                    localisation: true,
-                                    watering: true,
-                                    picturePlant: true,
-                                    categories: { include: { category: true } },
-                                    tags: { include: { tag: true } },
-                                    sowingDates: { include: { sowingDate: true } },
-                                    harvestDates: { include: { harvestDate: true } },
-                                    plantDates: { include: { plantDate: true } },
-                                    toxicPets: true
-                                }
-                            }
-                        }
-                    }
-                }
-            });
+            const gardens = await prisma.garden.findMany({ include: {
+                user: { select: USER_SELECT },
+                localisation: true,
+                pictureGarden: true,
+                difficulty: true,
+                exposition: true,
+                pets: { include: { pet: true } },
+                plants: { include: { plant: { include: PLANT_INCLUDES as any } } }
+            } });
 
             return res.status(200).json(gardens);
         } catch (error) {
-            console.error(error);
-            return res.status(500).json({
-                message: "Erreur serveur lors de la récupération des jardins.",
-                error
-            });
+            return handleServerError(res, "Erreur serveur lors de la récupération des jardins.", error);
         }
     },
 
     getById: async (req: Request, res: Response) => {
         try {
-            const id = Number(req.params.id);
-
-            if (isNaN(id)) {
-                return res.status(400).json({ message: "ID invalide." });
-            }
+            const id = parseId(req.params.id);
+            if (id === null) return res.status(400).json({ message: "ID invalide." });
 
             const garden = await prisma.garden.findUnique({
                 where: { id },
                 include: {
-                    user: {
-                        select: {
-                            id: true,
-                            lastname: true,
-                            firstname: true,
-                            email: true,
-                            picture_profil: true,
-                            registration_date: true,
-                            role: true
-                        }
-                    },
+                    user: { select: USER_SELECT },
                     localisation: true,
                     pictureGarden: true,
                     difficulty: true,
                     exposition: true,
-                    pets: {
-                        include: {
-                            pet: true
-                        }
-                    },
-                    plants: {
-                        include: {
-                            plant: {
-                                include: {
-                                    difficulty: true,
-                                    exposition: true,
-                                    localisation: true,
-                                    watering: true,
-                                    picturePlant: true,
-                                    categories: { include: { category: true } },
-                                    tags: { include: { tag: true } },
-                                    sowingDates: { include: { sowingDate: true } },
-                                    harvestDates: { include: { harvestDate: true } },
-                                    plantDates: { include: { plantDate: true } },
-                                    toxicPets: true
-                                }
-                            }
-                        }
-                    }
+                    pets: { include: { pet: true } },
+                    plants: { include: { plant: { include: PLANT_INCLUDES as any } } }
                 }
             });
 
@@ -130,59 +81,29 @@ export const gardenController = {
     // Récupère les jardins de l'utilisateur connecté
     getMine: async (req: Request, res: Response) => {
         try {
+            // User injecté par le middleware d'authentification
             const userPayload = (req as any).user;
             if (!userPayload) return res.status(401).json({ message: "Non authentifié." });
 
-            const userId = Number(userPayload.id);
+            const userId = parseId(userPayload.id);
+            if (userId === null) return res.status(401).json({ message: "Non authentifié." });
 
             const gardens = await prisma.garden.findMany({
                 where: { id_user: userId },
                 include: {
-                    user: {
-                        select: {
-                            id: true,
-                            lastname: true,
-                            firstname: true,
-                            email: true,
-                            picture_profil: true,
-                            registration_date: true,
-                            role: true
-                        }
-                    },
+                    user: { select: USER_SELECT },
                     localisation: true,
                     pictureGarden: true,
                     difficulty: true,
                     exposition: true,
                     pets: { include: { pet: true } },
-                    plants: {
-                        include: {
-                            plant: {
-                                include: {
-                                    difficulty: true,
-                                    exposition: true,
-                                    localisation: true,
-                                    watering: true,
-                                    picturePlant: true,
-                                    categories: { include: { category: true } },
-                                    tags: { include: { tag: true } },
-                                    sowingDates: { include: { sowingDate: true } },
-                                    harvestDates: { include: { harvestDate: true } },
-                                    plantDates: { include: { plantDate: true } },
-                                    toxicPets: true
-                                }
-                            }
-                        }
-                    }
+                    plants: { include: { plant: { include: PLANT_INCLUDES as any } } }
                 }
             });
 
             return res.status(200).json(gardens);
         } catch (error) {
-            console.error(error);
-            return res.status(500).json({
-                message: "Erreur serveur lors de la récupération des jardins de l'utilisateur.",
-                error
-            });
+            return handleServerError(res, "Erreur serveur lors de la récupération des jardins de l'utilisateur.", error);
         }
     },
 
@@ -190,7 +111,7 @@ export const gardenController = {
         try {
             const { name, description, id_localisation, id_picture_garden, id_difficulty, id_exposition, plants, pets } = req.body;
 
-            // L'utilisateur authentifié fourni par le middleware `auth`
+            // user authentifié fourni par le middleware `auth`
             const authUser = (req as any).user;
             if (!authUser || !authUser.id) {
                 return res.status(401).json({ message: "Non authentifié. Impossible de créer un jardin." });
@@ -200,7 +121,7 @@ export const gardenController = {
                 return res.status(400).json({ message: "Le nom du jardin est obligatoire." });
             }
 
-            // Création du jardin lié à l'utilisateur authentifié
+            // Création du jardin lié au user connecté
             const garden = await prisma.garden.create({
                 data: {
                     name,
@@ -215,9 +136,12 @@ export const gardenController = {
 
             const gardenId = garden.id;
 
-            // Relations Many-to-Many: accept either ids or objects
+            /**
+             * Gestion des relations many-to-many Garden ↔ Plant
+             * Accepte soit des IDs, soit des objets contenant un id
+             */
             if (Array.isArray(plants) && plants.length > 0) {
-                const plantIds = plants.map((p: any) => (typeof p === "number" ? p : p?.id)).filter(Boolean);
+                const plantIds = plants.map((plantItem: any) => (typeof plantItem === "number" ? plantItem : plantItem?.id)).filter(Boolean);
                 if (plantIds.length > 0) {
                     await prisma.gardenHasPlant.createMany({
                         data: plantIds.map((plantId: number) => ({ gardenId, plantId })),
@@ -226,8 +150,11 @@ export const gardenController = {
                 }
             }
 
+            /**
+             * Gestion des relations many-to-many Garden ↔ Pet
+             */
             if (Array.isArray(pets) && pets.length > 0) {
-                const petIds = pets.map((p: any) => (typeof p === "number" ? p : p?.id)).filter(Boolean);
+                const petIds = pets.map((petItem: any) => (typeof petItem === "number" ? petItem : petItem?.id)).filter(Boolean);
                 if (petIds.length > 0) {
                     await prisma.gardenHasPet.createMany({
                         data: petIds.map((petId: number) => ({ gardenId, petId })),
@@ -240,41 +167,13 @@ export const gardenController = {
             const createdGarden = await prisma.garden.findUnique({
                 where: { id: gardenId },
                 include: {
-                    user: {
-                        select: {
-                            id: true,
-                            lastname: true,
-                            firstname: true,
-                            email: true,
-                            picture_profil: true,
-                            registration_date: true,
-                            role: true
-                        }
-                    },
+                    user: { select: USER_SELECT },
                     localisation: true,
                     pictureGarden: true,
                     difficulty: true,
                     exposition: true,
                     pets: { include: { pet: true } },
-                    plants: {
-                        include: {
-                            plant: {
-                                include: {
-                                    difficulty: true,
-                                    exposition: true,
-                                    localisation: true,
-                                    watering: true,
-                                    picturePlant: true,
-                                    categories: { include: { category: true } },
-                                    tags: { include: { tag: true } },
-                                    sowingDates: { include: { sowingDate: true } },
-                                    harvestDates: { include: { harvestDate: true } },
-                                    plantDates: { include: { plantDate: true } },
-                                    toxicPets: true
-                                }
-                            }
-                        }
-                    }
+                    plants: { include: { plant: { include: PLANT_INCLUDES as any } } }
                 }
             });
 
@@ -291,10 +190,8 @@ export const gardenController = {
 
     update: async (req: Request, res: Response) => {
         try {
-            const id = Number(req.params.id);
-            if (isNaN(id)) {
-                return res.status(400).json({ message: "ID invalide." });
-            }
+            const id = parseId(req.params.id);
+            if (id === null) return res.status(400).json({ message: "ID invalide." });
 
             const { name, description, id_localisation, id_picture_garden, id_difficulty, id_exposition, plants, pets } = req.body;
 
@@ -398,10 +295,8 @@ export const gardenController = {
 
     delete: async (req: Request, res: Response) => {
         try {
-            const id = Number(req.params.id);
-            if (isNaN(id)) {
-                return res.status(400).json({ message: "ID invalide." });
-            }
+            const id = parseId(req.params.id);
+            if (id === null) return res.status(400).json({ message: "ID invalide." });
 
             // Vérifier que le jardin existe
             const existingGarden = await prisma.garden.findUnique({ where: { id } });

@@ -1,6 +1,14 @@
 import { Request, Response, NextFunction } from "express";
 import { prisma } from "../lib/prisma"; 
 
+/**
+ * Middleware : vérifie si l'utilisateur
+ * - est le propriétaire du jardin
+ * - OU est administrateur
+ *
+ * Utilisé pour protéger les routes :
+ * update / delete d’un jardin
+ */
 export default async function isGardenOwnerOrAdmin(req: Request, res: Response, next: NextFunction) {
     try {
         const user = (req as any).user;

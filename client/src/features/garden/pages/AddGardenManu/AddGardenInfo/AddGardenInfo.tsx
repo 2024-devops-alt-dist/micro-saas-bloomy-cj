@@ -1,12 +1,12 @@
 import React from "react";
-import "../../../../assets/styles/global.css";
+import "../../../../../assets/styles/global.css";
 import { useNavigate } from "react-router-dom";
-import { saveDraft } from "../../services/gardenLocalStorage";
+import { saveDraft } from "../../../services/gardenLocalStorage";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import HeaderAddGarden from "../../../../shared/headerAddGarden";
-import type { GardenDraft } from "../../services/gardenService";
+import HeaderAddGarden from "../../../../../shared/headerAddGarden";
+import type { GardenDraft } from "../../../services/gardenService";
 
 //  Schéma de validation
 const gardenSchema = z.object({
@@ -53,9 +53,9 @@ const AddGardenInfo : React.FC = () => {
                 <h1 className="mb-3">C’est parti !</h1>
                 <p className="mb-7">Renseignez les informations de votre jardin.</p>
                 <img src="assets/mascot/mascot-relax.png" alt="Mascotte Bloomy" className="w-55 mb-6"/>
-                <hr className="border-t border-gray-200 w-full max-w-xs mb-8" />
+                <hr className="separator" />
 
-                <form className="w-full max-w-xs text-left space-y-6 cust-padding-form" onSubmit={handleSubmit(onSubmit)}>
+                <form className="cust-padding-form w-full max-w-xs text-left space-y-6" onSubmit={handleSubmit(onSubmit)}>
                     <div>
                         <label className="block mb-1">Nom de votre jardin :</label>
                         <div className={`relative name-field ${nameValue.length === 25 ? 'is-full' : ''}`}>
@@ -68,7 +68,7 @@ const AddGardenInfo : React.FC = () => {
                             />
                             <p className="name-count">{nameValue.length}/25</p>
                         </div>
-                        {errors.name && <p className="error-alerte mt-2">⚠️ {errors.name.message}</p>}
+                        {errors.name && <p className="error-alerte">⚠️ {errors.name.message}</p>}
                     </div>
 
                     <div>
@@ -94,7 +94,7 @@ const AddGardenInfo : React.FC = () => {
                                 }}
                             />
                             {selectedFile && (
-                                <button type="button" className="ml-2 text-black hover:text-red-500 transition-colors duration-150"
+                                <button type="button" className="remove-file"
                                     onClick={() => {
                                         setValue("garden_img", undefined);
                                         if (fileInputRef.current) fileInputRef.current.value = "";

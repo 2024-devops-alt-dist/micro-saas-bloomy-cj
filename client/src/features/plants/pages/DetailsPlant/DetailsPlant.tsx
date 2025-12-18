@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import "../../../assets/styles/global.css";
-import "../../../assets/styles/DetailsPlant.css";
-import { plantService } from "../services/plantService";
-import AddToGardenButton from "../../buttons/AddToGardenButton";
-import NavBarDetailPlant from "../components/NavBarDetailPlant";
-import HeaderAddGarden from "../../../shared/headerAddGarden";
-import VarietiesList from "../components/VarietiesList";
-import AboutPlant from "../components/AboutPlant";
-import type { Plant } from "../../../models/plant/IPlant";
-import type { GardenDraft } from "../../garden/services/gardenService";
-import { getDraft, saveDraft } from "../../garden/services/gardenLocalStorage";
+import "../../../../assets/styles/global.css";
+import "./DetailsPlant.css";
+import { plantService } from "../../services/plantService";
+import AddToGardenButton from "../../../buttons/AddToGardenButton";
+import NavBarDetailPlant from "../../components/NavBarDetailPlant/NavBarDetailPlant";
+import HeaderAddGarden from "../../../../shared/headerAddGarden";
+import VarietiesList from "../../components/VarietiesList";
+import AboutPlant from "../../components/AboutPlant";
+import type { Plant } from "../../../../models/plant/IPlant";
+import type { GardenDraft } from "../../../garden/services/gardenService";
+import { getDraft, saveDraft } from "../../../garden/services/gardenLocalStorage";
 
 const DetailsPlant: React.FC = () => {
     const navigate = useNavigate();
