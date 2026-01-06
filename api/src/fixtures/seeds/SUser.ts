@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 
 export default async function seedUsers(prisma: PrismaClient) {
   const saltRounds = 10;
-
+  
   const users = [
     {
       lastname: "Dupont",
@@ -88,7 +88,6 @@ export default async function seedUsers(prisma: PrismaClient) {
   ];
 
   let count = 0;
-
   for (const user of users) {
     await prisma.user.create({
       data: {

@@ -35,6 +35,8 @@ async function main() {
     console.log("✔ Seeding completed !");
 }
 
+export default main;
+
 main()
     .catch((e) => {
         console.error("❌ Seed error", e);
