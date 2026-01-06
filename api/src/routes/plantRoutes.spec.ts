@@ -1,92 +1,134 @@
-// import { describe, it, beforeAll, afterAll, expect } from "vitest";
-// import request from "supertest";
-// import { prisma } from "../lib/prisma";
-// import 'dotenv/config';
-// import app from "../app";
+import { describe, it, beforeAll, afterAll, expect, vi } from "vitest";
+import request from "supertest";
+import express, { Express } from "express";
+import cookieParser from "cookie-parser";
 
-// describe("Plant Routes (DB test)", () => {
-//   let plantId: number;
+import { router as plantRoutes } from "./plantRoutes";
+import { plantController } from "../controllers/plantController";
+import { prisma } from "../lib/prisma";
 
-//   beforeAll(async () => {
-//     // --- Cleanup complet dans le bon ordre pour FK ---
-//     await prisma.userHasFavory.deleteMany();
-//     await prisma.gardenHasPlant.deleteMany();
-//     await prisma.plantHasToxicPet.deleteMany();
-//     await prisma.plantHasPlantDate.deleteMany();
-//     await prisma.plantHasHarvestDate.deleteMany();
-//     await prisma.plantHasSowingDate.deleteMany();
-//     await prisma.plantHasTag.deleteMany();
-//     await prisma.plantHasCategory.deleteMany();
-//     await prisma.plant.deleteMany();
+// --- Mock des middlewares pour simplifier les tests ---
+vi.mock("../middlewares/auth", () => {
+    return {
+        default: (req: any, _res: any, next: any) => {
+            // On simule un utilisateur connecté
+            req.user = { id: 1, role: "admin" };
+            next();
+        }
+    };
+});
 
-//     // --- Seed minimal ---
-//     const plant = await prisma.plant.create({
-//       data: {
-//         slug: "test-plant",
-//         name: "Test Plant",
-//         description: "Plant pour test",
-//         space_between: "10cm",
-//         temperature: "20-25°C",
-//         id_difficulty: 1,
-//         id_exposition: 1,
-//         id_watering: 1,
-//         id_picture_plant: 1,
-//         id_localisation: 1,
-//       },
-//     });
-//     plantId = plant.id;
-//   });
+vi.mock("../middlewares/isAdmin", () => {
+    return {
+        default: (_req: any, _res: any, next: any) => {
+            // On autorise toujours l'accès admin
+            next();
+        }
+    };
+});
 
-//   afterAll(async () => {
-//     // --- Cleanup après tests ---
-//     await prisma.userHasFavory.deleteMany();
-//     await prisma.gardenHasPlant.deleteMany();
-//     await prisma.plantHasToxicPet.deleteMany();
-//     await prisma.plantHasPlantDate.deleteMany();
-//     await prisma.plantHasHarvestDate.deleteMany();
-//     await prisma.plantHasSowingDate.deleteMany();
-//     await prisma.plantHasTag.deleteMany();
-//     await prisma.plantHasCategory.deleteMany();
-//     await prisma.plant.deleteMany();
-//     await prisma.$disconnect();
-//   });
+describe("Routes /plants", () => {
+    let app: Express;
 
-//   it("GET /plants retourne 200 et liste de plantes", async () => {
-//     const res = await request(app).get("/plants");
-//     expect(res.status).toBe(200);
-//     expect(res.body).toHaveLength(1);
-//     expect(res.body[0].slug).toBe("tomate");
-//   });
+    beforeAll(() => {
+        app = express();
+        app.use(cookieParser());
+        app.use(express.json());
+        app.use("/", plantRoutes);
+    });
 
-//   it("GET /plants/:id retourne 200 pour une plante existante", async () => {
-//     const res = await request(app).get(`/plants/${plantId}`);
-//     expect(res.status).toBe(200);
-//     expect(res.body.id).toBe(plantId);
-//   });
+    afterAll(async () => {
+        await prisma.$disconnect();
+    });
 
-//   it("POST /plants crée une plante", async () => {
-//     const res = await request(app)
-//       .post("/plants")
-//       .send({
-//         slug: "new-plant",
-//         name: "Nouvelle Plante",
-//         description: "Créée via test",
-//         space_between: "15cm",
-//         temperature: "18-22°C",
-//         id_difficulty: 1,
-//         id_exposition: 1,
-//         id_watering: 1,
-//         id_picture_plant: 1,
-//         id_localisation: 1,
-//       });
-//     expect(res.status).toBe(201);
-//     expect(res.body.slug).toBe("new-plant");
-//   });
+    it("GET /plants → doit retourner 200 avec toutes les plantes", async () => {
+        const res = await request(app).get("/plants");
+        expect(res.status).toBe(200);
+        expect(res.body).toBeInstanceOf(Array);
+    });
 
-//   it("DELETE /plants/:id supprime une plante", async () => {
-//     const newPlant = await prisma.plant.findUnique({ where: { slug: "new-plant" } });
-//     const res = await request(app).delete(`/plants/${newPlant!.id}`);
-//     expect(res.status).toBe(200);
-//     expect(res.body.message).toContain("supprimée avec succès");
-//   });
-// });
+    it("GET /plants/:id → doit retourner 200 pour une plante existante", async () => {
+        const plant = await prisma.plant.findFirst();
+        if (!plant) return;
+
+        const res = await request(app).get(`/plants/${plant.id}`);
+        expect(res.status).toBe(200);
+        expect(res.body.id).toBe(plant.id);
+    });
+
+    it("GET /plants/:id → doit retourner 404 pour une plante inexistante", async () => {
+        const res = await request(app).get("/plants/999999999");
+        expect(res.status).toBe(404);
+        expect(res.body.message).toMatch(/introuvable/i);
+    });
+
+    it("POST /plants → doit créer une nouvelle plante et retourner 201", async () => {
+        const slug = `test-plant-${Date.now()}`;
+        const res = await request(app)
+            .post("/plants")
+            .send({
+                slug,
+                parent_slug: null,
+                name: "Plante test router",
+                description: "Description test",
+                space_between: "30",
+                temperature: "20-25",
+                id_difficulty: 1,
+                id_exposition: 1,
+                id_watering: 1,
+                id_picture_plant: null,
+                id_localisation: 1,
+                categories: [],
+                tags: [],
+                sowingDates: [],
+                harvestDates: [],
+                plantDates: [],
+                toxicPets: []
+            });
+
+        expect(res.status).toBe(201);
+        expect(res.body.slug).toBe(slug);
+
+        // Cleanup : supprimer la plante
+        await prisma.plant.delete({ where: { id: res.body.id } });
+    });
+
+    it("PUT /plants/:id → doit mettre à jour une plante existante", async () => {
+        const plant = await prisma.plant.findFirst();
+        if (!plant) return;
+
+        const res = await request(app)
+            .put(`/plants/${plant.id}`)
+            .send({ name: "Nom modifié" });
+
+        expect(res.status).toBe(200);
+        expect(res.body.name).toBe("Nom modifié");
+
+        // Restauration du nom original
+        await prisma.plant.update({ where: { id: plant.id }, data: { name: plant.name } });
+    });
+
+    it("DELETE /plants/:id → doit supprimer une plante", async () => {
+        const plant = await prisma.plant.create({
+            data: {
+                slug: `temp-delete-${Date.now()}`,
+                name: "Plante temporaire",
+                description: "",
+                space_between: "10",
+                temperature: "20",
+                id_difficulty: 1,
+                id_exposition: 1,
+                id_watering: 1,
+                id_picture_plant: null,
+                id_localisation: 1
+            }
+        });
+
+        const res = await request(app).delete(`/plants/${plant.id}`);
+        expect(res.status).toBe(200);
+        expect(res.body.message).toMatch(/supprimée/i);
+
+        const check = await prisma.plant.findUnique({ where: { id: plant.id } });
+        expect(check).toBeNull();
+    });
+});

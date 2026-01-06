@@ -3,22 +3,9 @@ import { prisma } from "../lib/prisma";
 import { plantController } from "./plantController";
 import { Request, Response } from "express";
 import dotenv from "dotenv";
-
+import { createMockResponse } from "../test/utils/testHelpers";
 dotenv.config({ path: ".env.test" });
 
-// Helper pour mocker Response Express
-const createMockResponse = () => {
-    const res: Partial<Response> = {};
-    res.status = function (code: number) {
-        (this as any)._status = code;
-        return this as Response;
-    };
-    res.json = function (data: any) {
-        (this as any)._body = data;
-        return this as Response;
-    };
-    return res as Response & { _status?: number; _body?: any };
-};
 
 describe("plantController.getAll (DB test existante)", () => {
     let existingPlants: any[] = [];
