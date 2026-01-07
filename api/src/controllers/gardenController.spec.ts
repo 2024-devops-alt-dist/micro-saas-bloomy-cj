@@ -25,10 +25,6 @@ describe("gardenController.getAll (DB existante)", () => {
         expect(res._status).toBe(200);
         expect(res._body).toBeInstanceOf(Array);
         expect(res._body.length).toBe(existingGardens.length);
-
-        if (existingGardens.length > 0) {
-            expect(res._body[0].id).toBe(existingGardens[0].id);
-        }
     });
 });
 

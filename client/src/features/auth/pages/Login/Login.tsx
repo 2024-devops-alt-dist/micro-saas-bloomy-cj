@@ -8,7 +8,7 @@ import { useAuth } from "../../context/AuthContext";
 
 // Schéma validation Zod
 const loginSchema = z.object({
-    email: z.email("Format Email invalide - ex : jean.marc@gmail.com").min(1, "L'email est obligatoire."),
+    email: z.string().min(1, "L'email est obligatoire.").email("Format Email invalide - ex : jean.marc@gmail.com"),
     password: z.string().min(8, "Le mot de passe doit contenir au moins 8 caractères."),
 });
 

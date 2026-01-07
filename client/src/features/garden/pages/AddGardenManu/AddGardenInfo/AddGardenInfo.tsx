@@ -57,10 +57,11 @@ const AddGardenInfo : React.FC = () => {
 
                 <form className="cust-padding-form w-full max-w-xs text-left space-y-6" onSubmit={handleSubmit(onSubmit)}>
                     <div>
-                        <label className="block mb-1">Nom de votre jardin :</label>
+                        <label htmlFor="garden-name" className="block mb-1">Nom de votre jardin :</label>
                         <div className={`relative name-field ${nameValue.length === 25 ? 'is-full' : ''}`}>
                             <input
                                 type="text"
+                                id="garden-name"
                                 placeholder="Écrire ..."
                                 {...register("name")}
                                 maxLength={25}
