@@ -133,7 +133,6 @@ jobs:
     name: Build & Deploy Backend
     runs-on: ubuntu-latest
     needs: backend
-    if: github.ref == 'refs/heads/main'
 
     steps:
       - name: Checkout repository
@@ -148,8 +147,8 @@ jobs:
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/bloomy-api:latest ./api
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/bloomy-api:latest
 
-      - name: Trigger Render deploy
-        run: |
-          curl -X POST \
-            -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
-            https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys
+      # - name: Trigger Render deploy
+      #   run: |
+      #     curl -X POST \
+      #       -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+      #       https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys
