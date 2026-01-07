@@ -2,7 +2,7 @@
 FROM node:latest 
 
 # Étape 2 : Définir le répertoire de travail
-WORKDIR /app
+WORKDIR /api
 
 # Étape 3 : Copier les fichiers package.json et package-lock.json
 COPY package*.json ./
