@@ -94,9 +94,9 @@ export default async function seedPlantHasDate(prisma: PrismaClient) {
         { plantId: 28, plantDateId: 2 },
     ];
 
-    await prisma.plantHasSowingDate.createMany({ data: plantHasSowingDates });
-    await prisma.plantHasHarvestDate.createMany({ data: plantHasHarvestDates });
-    await prisma.plantHasPlantDate.createMany({ data: plantHasPlantDates });
+    await prisma.plantHasSowingDate.createMany({ data: plantHasSowingDates, skipDuplicates: true });
+    await prisma.plantHasHarvestDate.createMany({ data: plantHasHarvestDates, skipDuplicates: true });
+    await prisma.plantHasPlantDate.createMany({ data: plantHasPlantDates, skipDuplicates: true });
 
     console.log("✔ Plant-Date relations seeded!");
 }
