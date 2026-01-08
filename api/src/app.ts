@@ -13,13 +13,31 @@ const app: Application = express();
 const port = process.env.API_PORT;
 
 // Middleware CORS pour autoriser ton frontend
+// app.use(
+//   cors({
+//     origin: (process.env.FRONT_URL || "http://localhost:5173"), 
+//     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+//     credentials: true,
+//   })
+// );
+
+const allowedOrigins = (process.env.FRONT_URL || "http://localhost:5173")
+  .split(",")
+  .map(url => url.trim());
+
 app.use(
   cors({
-    origin: (process.env.FRONT_URL || "http://localhost:5173"), 
+    origin: (origin, callback) => {
+      // si la requête n'a pas d'origine (ex: Postman), autoriser
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+      callback(new Error("Not allowed by CORS"));
+    },
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     credentials: true,
   })
 );
+
 
 app.get("/api/health", async (_req, res) => {
   try {

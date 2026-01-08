@@ -120,6 +120,6 @@ export default async function seedPlantHasTag(prisma: PrismaClient) {
         { plantId: 28, tagId: 8 },
     ];
 
-    await prisma.plantHasTag.createMany({ data: plantHasTags });
+    await prisma.plantHasTag.createMany({ data: plantHasTags, skipDuplicates: true });
     console.log("✔ Plant-Tag relations seeded!");
 }
