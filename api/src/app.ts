@@ -21,16 +21,13 @@ const port = process.env.API_PORT;
 //   })
 // );
 
-const allowedOrigins = (process.env.FRONT_URL || "http://localhost:5173")
-  .split(",")
-  .map(url => url.trim());
+const allowedOrigin = process.env.FRONT_URL || "http://localhost:5173";
 
 app.use(
   cors({
     origin: (origin, callback) => {
-      // si la requête n'a pas d'origine (ex: Postman), autoriser
       if (!origin) return callback(null, true);
-      if (allowedOrigins.includes(origin)) return callback(null, true);
+      if (origin === allowedOrigin) return callback(null, true);
       callback(new Error("Not allowed by CORS"));
     },
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
