@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.ts",
   "scripts": {
-    "start": "tsx src/server.ts",
+    "start": "npx prisma generate && tsx src/server.ts",
     "build": "tsc",
     "dev": "tsx watch src/server.ts",
     "create-fixtures": "tsx src/db/createFixtures.ts",
