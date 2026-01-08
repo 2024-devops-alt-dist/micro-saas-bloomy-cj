@@ -4,6 +4,8 @@ FROM node:latest
 # Étape 2 : Définir le répertoire de travail
 WORKDIR /app
 
+RUN npm install -g prisma
+
 # Étape 3 : Copier les fichiers package.json et package-lock.json
 COPY package*.json ./
 
@@ -13,8 +15,11 @@ RUN npm install
 # Étape 5 : Copier tout le reste du projet
 COPY . .
 
+# RUN prisma generate 
+
 # Étape 7 : Exposer le port de l'API
 EXPOSE 3000
 
 # Étape 8 : Commande pour démarrer le serveur
-CMD ["npm", "run", "dev"]
+# CMD ["npm", "run", "start"]
+CMD ["sh", "-c", "npx prisma generate && npx prisma migrate deploy && npx prisma db seed && npm run start"]

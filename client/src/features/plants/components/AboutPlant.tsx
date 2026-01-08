@@ -1,6 +1,6 @@
 import React from "react";
-import type { Plant } from "../services/plantService";
-import CalendarPlant from "./CalendarPlant";
+import CalendarPlant from "./CalendarPlant/CalendarPlant";
+import type { Plant } from "../../../models/plant/IPlant";
 
 interface AboutPlantProps {
     plant: Plant;
@@ -21,17 +21,30 @@ const AboutPlant: React.FC<AboutPlantProps> = ({ plant }) => {
             </div>
             <div className="plant-info-item">
                 <img src="/assets/icons/water.png" alt="Arrosage" className="info-icon" />
-                <p>{plant.watering}</p>
+                <p>{plant.watering?.name}</p>
             </div>
             <div className="plant-info-item">
                 <img src="/assets/icons/sun.png" alt="Exposition" className="info-icon" />
-                <p>{plant.exposition}</p>
+                <p>{plant.exposition?.name}</p>
             </div>
         </div>
 
         <div className="mt-4 text-sm text-gray-700">
             <p>Température : {plant.temperature}</p>
-            <p>Toxique pour animaux : {plant.toxic_for_pets ? "Oui" : "Non"}</p>
+            {plant.toxicPets && plant.toxicPets.length > 0 ? (
+        <div>
+            <p>Toxique pour les animaux :</p>
+            <ul className="ml-4 list-disc">
+                {plant.toxicPets.map((tox) => (
+                    <li key={tox.petId}>
+                        {tox.pet?.name} : {tox.niveauToxicite}
+                    </li>
+                ))}
+            </ul>
+        </div>
+    ) : (
+        <p>Toxique pour les animaux : Non</p>
+    )}
         </div>
 
         <CalendarPlant plant={plant} />

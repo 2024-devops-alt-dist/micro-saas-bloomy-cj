@@ -1,5 +1,6 @@
 services:
 
+  # DB DEV
   db:
     image: postgres:latest
     container_name: postgres_container_bloomy
@@ -12,6 +13,19 @@ services:
       - 5432:5432
     volumes:
       - postgres_db:/var/lib/postgresql/data
+
+  # DB TEST
+  db_test:
+    image: postgres:latest
+    container_name: postgres_container_bloomy_test
+    environment:
+      POSTGRES_DB: bloomy_test
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_db_test:/var/lib/postgresql/data
 
   api:
     build:
@@ -46,3 +60,4 @@ services:
 
 volumes:
   postgres_db:
+  postgres_db_test:

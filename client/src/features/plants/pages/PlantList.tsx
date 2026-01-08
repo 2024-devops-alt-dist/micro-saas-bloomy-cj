@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { plantService } from "../services/plantService";
-import type { Plant } from "../services/plantService";
-import PlantCard from "../components/PlantCard";
-import { useLocation } from "react-router-dom";
+import PlantCard from "../components/PlantCard/PlantCard";
+import type { Plant } from "../../../models/plant/IPlant";
+import { /* useLocation */ } from "react-router-dom";
+import { getDraft } from "../../garden/services/gardenLocalStorage";
 
 const PlantList: React.FC = () => {
     const [plants, setPlants] = useState<Plant[]>([]);
     const [loading, setLoading] = useState(true);
-    const location = useLocation();
-    const gardenDraft = location.state?.gardenDraft;
-    console.log("Draft reçu dans PlantList :", gardenDraft);
+    
+    const gardenDraft = getDraft();
 
     useEffect(() => {
         const fetchPlants = async () => {

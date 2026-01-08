@@ -45,6 +45,10 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*"],
+  "include": [
+    "src/**/*",
+    "prisma/**/*",
+    "src/generated/**/*"
+  ],
   "exclude": ["node_modules", "dist"]
 }

@@ -1,0 +1,49 @@
+import React from "react";
+import "../../../../assets/styles/global.css";
+import { useNavigate } from "react-router-dom";
+import NavBarMobile from "../../../../shared/navbar-mobile";
+import "./addGarden.css";
+import HeaderAddGarden from "../../../../shared/headerAddGarden";
+// import NavBarDesktop from "../../../shared/navbar-desktop";
+
+const AddGarden: React.FC = () => {
+    const navigate = useNavigate();
+
+    return (
+        <>
+        <HeaderAddGarden showBack={false} showLogout={true} />
+
+        <main className="main-navbar">
+            <img src="/assets/mascot/mascot-welcome.png" alt="Mascotte Bloomy" className="w-46 h-46 mb-2" />
+
+            <h1 className="mb-4">Créez votre jardin</h1>
+            <p className="mb-6">Choisissez votre méthode préférée pour commencer votre aventure jardinage :</p>
+
+            <div className="add-garden-buttons flex flex-col gap-4 w-full max-w-sm">
+                <button className="flex justify-between items-center py-4 px-5 btn-garden-bloomy">
+                    <div className="text-left">
+                        <h3 className="font-semibold">Avec l’aide de Bloomy</h3>
+                        <p>Répondez à quelques questions pour des recommandations personnalisées</p>
+                    </div>
+                    <span className="text-white text-2xl">›</span>
+                </button>
+
+                <button className="flex justify-between items-center py-4 px-5 btn-select-manual"  onClick={() => navigate("/addGardenInfo")}>
+                    <div className="text-left">
+                        <h3 className="font-semibold">Sélection manuelle</h3>
+                        <p>Choisissez vous-même les plantes que vous souhaitez cultiver</p>
+                    </div>
+                    <span className="btn-arrow text-2xl">›</span>
+                </button>
+            </div>
+
+            <p className="mt-6">Vous pouvez en créer autant que vous voulez.</p>
+        </main>
+
+        {/* Navigation bar */}
+        <NavBarMobile />
+        </>
+    );
+};
+
+export default AddGarden;

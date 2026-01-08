@@ -1,0 +1,245 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id                Int             @id @default(autoincrement())
+  lastname          String          @db.VarChar(100)
+  firstname         String          @db.VarChar(100)
+  email             String          @unique @db.VarChar(250)
+  password          String          @db.VarChar(280)
+  picture_profil    String?         @db.VarChar(280)
+  registration_date DateTime        @default(dbgenerated("CURRENT_DATE")) @db.Date
+  role              String          @default("user")
+  gardens           Garden[]
+  favoryPlants      UserHasFavory[]
+}
+
+model PictureGarden {
+  id      Int      @id @default(autoincrement())
+  name    String   @db.VarChar(280)
+  gardens Garden[]
+}
+
+model Difficulty {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(280)
+  description String
+  score       Int
+  icon        String?  @db.VarChar(280)
+  gardens     Garden[]
+  plants      Plant[]
+}
+
+model Exposition {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(280)
+  icon        String   @db.VarChar(280)
+  description String
+  gardens     Garden[]
+  plants      Plant[]
+}
+
+model Localisation {
+  id      Int      @id @default(autoincrement())
+  name    String   @db.VarChar(280)
+  icon    String   @db.VarChar(280)
+  gardens Garden[]
+  plants  Plant[]
+}
+
+model Pets {
+  id          Int                @id @default(autoincrement())
+  name        String             @db.VarChar(280)
+  icon        String?            @db.VarChar(280)
+  gardens     GardenHasPet[]
+  plantsToxic PlantHasToxicPet[]
+}
+
+model Category {
+  id     Int                @id @default(autoincrement())
+  name   String             @db.VarChar(280)
+  icon   String?            @db.VarChar(280)
+  plants PlantHasCategory[]
+}
+
+model Watering {
+  id          Int     @id @default(autoincrement())
+  name        String  @db.VarChar(280)
+  icon        String  @db.VarChar(280)
+  description String?
+  plants      Plant[]
+}
+
+model PicturePlant {
+  id     Int     @id @default(autoincrement())
+  name   String  @db.VarChar(280)
+  plants Plant[]
+}
+
+model HarvestDate {
+  id          Int                   @id @default(autoincrement())
+  start_month Int
+  end_month   Int
+  plants      PlantHasHarvestDate[]
+}
+
+model PlantDate {
+  id          Int                 @id @default(autoincrement())
+  start_month Int
+  end_month   Int
+  plants      PlantHasPlantDate[]
+}
+
+model SowingDate {
+  id          Int                  @id @default(autoincrement())
+  start_month Int
+  end_month   Int
+  plants      PlantHasSowingDate[]
+}
+
+model Tag {
+  id     Int           @id @default(autoincrement())
+  name   String        @unique @db.VarChar(280)
+  plants PlantHasTag[]
+}
+
+model Plant {
+  id               Int                   @id @default(autoincrement())
+  slug             String                @unique @db.VarChar(280)
+  parent_slug      String?               @db.VarChar(280)
+  name             String                @db.VarChar(280)
+  description      String
+  space_between    String?               @db.VarChar(280)
+  temperature      String?               @db.VarChar(280)
+  id_difficulty    Int?
+  id_exposition    Int?
+  id_watering      Int?
+  id_picture_plant Int?
+  id_localisation  Int?
+  gardens          GardenHasPlant[]
+  difficulty       Difficulty?           @relation(fields: [id_difficulty], references: [id])
+  exposition       Exposition?           @relation(fields: [id_exposition], references: [id])
+  localisation     Localisation?         @relation(fields: [id_localisation], references: [id])
+  picturePlant     PicturePlant?         @relation(fields: [id_picture_plant], references: [id])
+  watering         Watering?             @relation(fields: [id_watering], references: [id])
+  categories       PlantHasCategory[]
+  harvestDates     PlantHasHarvestDate[]
+  plantDates       PlantHasPlantDate[]
+  sowingDates      PlantHasSowingDate[]
+  tags             PlantHasTag[]
+  toxicPets        PlantHasToxicPet[]
+  favoryUsers      UserHasFavory[]
+}
+
+model PlantHasSowingDate {
+  plantId      Int
+  sowingDateId Int
+  plant        Plant      @relation(fields: [plantId], references: [id])
+  sowingDate   SowingDate @relation(fields: [sowingDateId], references: [id])
+
+  @@id([plantId, sowingDateId])
+}
+
+model PlantHasHarvestDate {
+  plantId       Int
+  harvestDateId Int
+  harvestDate   HarvestDate @relation(fields: [harvestDateId], references: [id])
+  plant         Plant       @relation(fields: [plantId], references: [id])
+
+  @@id([plantId, harvestDateId])
+}
+
+model PlantHasPlantDate {
+  plantId     Int
+  plantDateId Int
+  plantDate   PlantDate @relation(fields: [plantDateId], references: [id])
+  plant       Plant     @relation(fields: [plantId], references: [id])
+
+  @@id([plantId, plantDateId])
+}
+
+model PlantHasTag {
+  plantId Int
+  tagId   Int
+  plant   Plant @relation(fields: [plantId], references: [id])
+  tag     Tag   @relation(fields: [tagId], references: [id])
+
+  @@id([plantId, tagId])
+}
+
+model PlantHasCategory {
+  plantId    Int
+  categoryId Int
+  category   Category @relation(fields: [categoryId], references: [id])
+  plant      Plant    @relation(fields: [plantId], references: [id])
+
+  @@id([plantId, categoryId])
+}
+
+model PlantHasToxicPet {
+  plantId        Int
+  petId          Int
+  niveauToxicite niveau_toxicite_enum
+  pet            Pets                 @relation(fields: [petId], references: [id])
+  plant          Plant                @relation(fields: [plantId], references: [id])
+
+  @@id([plantId, petId])
+}
+
+model Garden {
+  id                Int              @id @default(autoincrement())
+  name              String           @db.VarChar(280)
+  description       String?
+  createdAt         DateTime         @default(dbgenerated("CURRENT_DATE")) @db.Date
+  id_user           Int
+  id_localisation   Int?
+  id_picture_garden Int?
+  id_difficulty     Int?
+  id_exposition     Int?
+  difficulty        Difficulty?      @relation(fields: [id_difficulty], references: [id])
+  exposition        Exposition?      @relation(fields: [id_exposition], references: [id])
+  localisation      Localisation?    @relation(fields: [id_localisation], references: [id])
+  pictureGarden     PictureGarden?   @relation(fields: [id_picture_garden], references: [id])
+  user              User             @relation(fields: [id_user], references: [id], onDelete: Cascade)
+  pets              GardenHasPet[]
+  plants            GardenHasPlant[]
+}
+
+model GardenHasPet {
+  gardenId Int
+  petId    Int
+  garden   Garden @relation(fields: [gardenId], references: [id])
+  pet      Pets   @relation(fields: [petId], references: [id])
+
+  @@id([gardenId, petId])
+}
+
+model GardenHasPlant {
+  gardenId Int
+  plantId  Int
+  garden   Garden @relation(fields: [gardenId], references: [id])
+  plant    Plant  @relation(fields: [plantId], references: [id])
+
+  @@id([gardenId, plantId])
+}
+
+model UserHasFavory {
+  userId  Int
+  plantId Int
+  plant   Plant @relation(fields: [plantId], references: [id])
+  user    User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, plantId])
+}
+
+enum niveau_toxicite_enum {
+  Faible
+  Modere @map("Modéré")
+  Eleve  @map("Élevé")
+}

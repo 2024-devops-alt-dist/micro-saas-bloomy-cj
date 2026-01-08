@@ -17,6 +17,21 @@ jobs:
       run:
         working-directory: ./api
 
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: ${{ secrets.DB_TEST_NAME }}
+          POSTGRES_USER: ${{ secrets.DB_TEST_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.DB_TEST_PASSWORD }}
+        ports:
+          - 5433:5432
+        options: >-
+          --health-cmd="pg_isready -U admin -d bloomy_test"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
     steps:
       - name: Checkout du code
         uses: actions/checkout@v4
@@ -31,17 +46,24 @@ jobs:
       - name: Installer les dépendances
         run: npm ci # utilise le package-lock = plus fiable
 
+      - name: Generate Prisma Client
+        run: npx prisma generate
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
       - name: Lint du code
         run: npm run lint
-
-      - name: Tests unitaires
-        run: npm test --if-present
 
       - name: Audit de sécurité
         run: npm audit --audit-level=high
       
       - name: controle du typage
         run: tsc --noEmit 
+
+      - name: Tests unitaires
+        run: npm run test --if-present
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL_TEST }}
 
       - name: Build du projet
         run: npm run build
@@ -103,3 +125,31 @@ jobs:
         run: |
           docker build -t test-api ./api
           docker build -t test-client ./client
+
+# ======================
+# DOCKER + DEPLOY
+# ======================
+  deploy-backend:
+    name: Build & Deploy Backend
+    runs-on: ubuntu-latest
+    needs: backend
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Login Docker Hub
+        run: |
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login \
+            -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+
+      - name: Build & Push image
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/bloomy-api:latest ./api
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/bloomy-api:latest
+
+      # - name: Trigger Render deploy
+      #   run: |
+      #     curl -X POST \
+      #       -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+      #       https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys

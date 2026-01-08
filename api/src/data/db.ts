@@ -1,22 +1,11 @@
 import { Pool } from "pg";
 import logger from "../middlewares/logger.js";
-
-export const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASSWORD || "",
-  port: parseInt(process.env.DB_PORT || "5432"),
-  max: 20,
-  idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 2000,
-  //connectionString: process.env.DATABASE_URL,
-});
+import { prisma } from "../lib/prisma"; 
 
 export const connectDB = async () => {
   try {
     // Vérifie que la connexion est possible
-    await pool.query("SELECT 1");
+    await prisma.$connect();
     logger.info("✅ Connexion BDD PostgreSQL validé.");
   } catch (err) {
     logger.error("❌ Erreur de connexion à PostgreSQL:", err);
@@ -24,10 +13,10 @@ export const connectDB = async () => {
   }
 };
 
-// Gestion de la fermeture gracieuse des connexions
+// Gestion de la fermeture 
 export const closeDB = async (): Promise<void> => {
   try {
-    await pool.end();
+    await prisma.$disconnect();
     logger.info("🛑 PostgreSQL déconnexion.");
   } catch (err) {
     logger.error("❌ Échec de la fermeture de la connexion PostgreSQL:", err);

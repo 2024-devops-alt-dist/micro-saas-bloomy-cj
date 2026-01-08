@@ -1,5 +1,13 @@
 import express, { Application } from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
+import { setupSwagger } from "./swagger";
+import { router as plantRoutes } from "./routes/plantRoutes";
+import { router as usersRoutes } from "./routes/usersRoutes";
+import { router as gardenRoutes } from "./routes/gardenRoutes";
+import { router as authRoutes } from "./routes/authRoutes";
+import { router as commonRoutes } from "./routes/commonRoutes";
+import errorHandler from "./middlewares/errorHandler";
 
 const app: Application = express();
 const port = process.env.API_PORT;
@@ -7,8 +15,9 @@ const port = process.env.API_PORT;
 // Middleware CORS pour autoriser ton frontend
 app.use(
   cors({
-    origin: "http://localhost:5173", // ton frontend Vite
-    methods: ["GET", "POST"],
+    origin: (process.env.FRONT_URL || "http://localhost:5173"), 
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+    credentials: true,
   })
 );
 
@@ -19,5 +28,23 @@ app.get("/api/health", async (_req, res) => {
     res.status(500).json({ status: "error", message: "Database connection failed" });
   }
 });
+
+// Middleware pour parser le JSON dans les requêtes
+app.use(express.json());
+
+// Middleware pour parser les cookies
+app.use(cookieParser());
+
+app.use('/api', plantRoutes);
+app.use('/api', usersRoutes);
+app.use('/api', gardenRoutes);
+app.use('/api', authRoutes);
+app.use('/api', commonRoutes);
+
+// Configurer Swagger
+setupSwagger(app);
+
+// Middleware d'erreurs centralisé
+app.use(errorHandler);
 
 export default app;

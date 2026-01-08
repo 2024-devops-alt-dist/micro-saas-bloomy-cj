@@ -3,7 +3,7 @@
 # 🌸 Micro SaaS Bloomy
 
 > 🔗 Contexte du projet disponible dans le repo original : 
-> [2024-devops-alt-dist/micro-saas-bloomy-cj](https://github.com/2024-devops-alt-dist/micro-saas-bloomy-cj)
+> [2024-devops-alt-dist/micro-saas-bloomy-cj](https://github.com/2024-devops-alt-dist/bloomy_CJ)
 
 Ce projet a été construit sous la forme d'un **monorepo** contenant deux sous-applications :
 - `api/` → Backend Node.js / Express
@@ -43,6 +43,25 @@ npm install --save-dev @evilmartians/lefthook
 npx lefthook install
 ```
 
+---
+### Configuration des variables d’environnement
+Dans le dossier api, créez un fichier .env :
+```
+DB_USER=****************
+DB_PASSWORD==****************
+DB_NAME==****************
+DB_HOST==****************
+JWT_ACCESS_SECRET==****************
+JWT_REFRESH_SECRET==****************
+JWT_ACCESS_EXPIRES==****************
+JWT_REFRESH_EXPIRES==****************
+DB_PORT==****************
+API_PORT==****************
+FRONT_URL==****************
+
+DATABASE_URL==****************
+VITE_API_URL==****************
+```
 ---
 
 ## 🧩 Lancer les apps

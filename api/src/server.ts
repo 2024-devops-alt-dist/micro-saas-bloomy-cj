@@ -4,6 +4,7 @@ import "dotenv/config";
 import app from "./app.js";
 import { connectDB, closeDB } from "./data/db.js";
 import logger from "./middlewares/logger.js";
+import { config } from "./config/env.js";
 
 // Fonction principale pour démarrer le serveur
 const startServer = async (): Promise<void> => {
@@ -12,9 +13,8 @@ const startServer = async (): Promise<void> => {
     await connectDB();
 
     // Démarre le serveur uniquement si la connexion réussit
-    const PORT = process.env.PORT || 3000;
-    app.listen(PORT, () => {
-      logger.info(`🚀 Le serveur fonctionne : ${PORT}`);
+    app.listen(config.API_PORT, () => {
+      logger.info(`🚀 Le serveur fonctionne : ${config.API_PORT}`);
     });
   } catch (err) {
     console.error("❌ Le serveur n'a pas pu démarrer :", err);

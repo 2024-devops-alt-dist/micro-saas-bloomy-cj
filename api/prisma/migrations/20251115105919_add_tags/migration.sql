@@ -1,0 +1,5 @@
+CREATE TABLE "Tag" (
+    "id" SERIAL PRIMARY KEY,
+    "name" VARCHAR(280) NOT NULL UNIQUE
+);
+
