@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 
 export default async function seedUsers(prisma: PrismaClient) {
   const saltRounds = 10;
-  
+
   const users = [
     {
       lastname: "Dupont",
@@ -89,8 +89,13 @@ export default async function seedUsers(prisma: PrismaClient) {
 
   let count = 0;
   for (const user of users) {
-    await prisma.user.create({
-      data: {
+    await prisma.user.upsert({
+      where: { email: user.email },
+      update: {
+        ...user,
+        password: await bcrypt.hash(user.password, saltRounds), 
+      },
+      create: {
         ...user,
         password: await bcrypt.hash(user.password, saltRounds),
       },
@@ -98,5 +103,5 @@ export default async function seedUsers(prisma: PrismaClient) {
     count++;
   }
 
-  console.log(`✔ Users seeded! Inserted: ${count}`);
+  console.log(`✔ Users seeded! Upserted: ${count}`);
 }
