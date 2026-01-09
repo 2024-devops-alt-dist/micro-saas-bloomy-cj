@@ -3,12 +3,15 @@ import { prisma } from "../lib/prisma";
 import bcrypt from "bcrypt";
 import logger from "../middlewares/logger";
 import { createAccessToken, createRefreshToken, verifyRefreshToken } from "../middlewares/jwt";
+import type { CookieOptions } from "express";
 
-const COOKIE_OPTIONS = {
-  // httpOnly: true,
-  // secure: process.env.NODE_ENV === "production", // HTTPS uniquement en prod
-  // sameSite: process.env.NODE_ENV === "production" ? "none" as const : "lax" as const, // Politique CORS cookies
-  // path: '/', // Cookie dispo sur tout le site
+const isProd = process.env.NODE_ENV === "production";
+
+const COOKIE_OPTIONS: CookieOptions = {
+  httpOnly: true,
+  secure: isProd, // true en prod, false en dev
+  sameSite: isProd ? "none" : "lax", // "lax" en dev pour que localhost fonctionne
+  path: "/",
 };
 
 // note : garder en cohérence avec `JWT_ACCESS_EXPIRES_IN` / `JWT_REFRESH_EXPIRES_IN` dans config/env
