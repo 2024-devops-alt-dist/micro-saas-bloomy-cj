@@ -21,20 +21,21 @@ const port = process.env.API_PORT;
 //   })
 // );
 
-const allowedOrigin = process.env.FRONT_URL || "http://localhost:5173";
+// const allowedOrigin = process.env.FRONT_URL || "http://localhost:5173";
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (!origin) return callback(null, true);
-      if (origin === allowedOrigin) return callback(null, true);
-      callback(new Error("Not allowed by CORS"));
-    },
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-    credentials: true,
-  })
-);
+// app.use(
+//   cors({
+//     origin: (origin, callback) => {
+//       if (!origin) return callback(null, true);
+//       if (origin === allowedOrigin) return callback(null, true);
+//       callback(new Error("Not allowed by CORS"));
+//     },
+//     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+//     credentials: true,
+//   })
+// );
 
+app.use(cors());
 
 app.get("/api/health", async (_req, res) => {
   try {
