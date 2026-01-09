@@ -5,10 +5,10 @@ import logger from "../middlewares/logger";
 import { createAccessToken, createRefreshToken, verifyRefreshToken } from "../middlewares/jwt";
 
 const COOKIE_OPTIONS = {
-  httpOnly: true,
-  secure: process.env.NODE_ENV === "production", // HTTPS uniquement en prod
-  sameSite: process.env.NODE_ENV === "production" ? "none" as const : "lax" as const, // Politique CORS cookies
-  path: '/', // Cookie dispo sur tout le site
+  // httpOnly: true,
+  // secure: process.env.NODE_ENV === "production", // HTTPS uniquement en prod
+  // sameSite: process.env.NODE_ENV === "production" ? "none" as const : "lax" as const, // Politique CORS cookies
+  // path: '/', // Cookie dispo sur tout le site
 };
 
 // note : garder en cohérence avec `JWT_ACCESS_EXPIRES_IN` / `JWT_REFRESH_EXPIRES_IN` dans config/env
