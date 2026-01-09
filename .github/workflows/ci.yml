@@ -148,8 +148,6 @@ jobs:
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/bloomy-api:latest ./api
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/bloomy-api:latest
 
-      # - name: Trigger Render deploy
-      #   run: |
-      #     curl -X POST \
-      #       -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
-      #       https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys
+      - name: Trigger Render deploy
+        run: |
+          curl https://api.render.com/deploy/srv-d5f8faur433s7397bo4g?key=A_t8ONAGhPM

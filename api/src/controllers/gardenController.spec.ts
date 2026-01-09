@@ -125,6 +125,18 @@ describe("gardenController.create", () => {
 
     beforeAll(async () => {
         user = await prisma.user.findFirst();
+
+        if (!user) {
+            user = await prisma.user.create({
+                data: {
+                    email: "vitest@test.com",
+                    lastname: "Test",
+                    firstname: "User",
+                    role: "user",
+                    password: "123456789"
+                }
+            });
+        }
     });
 
     it("doit retourner 401 si non authentifié", async () => {
