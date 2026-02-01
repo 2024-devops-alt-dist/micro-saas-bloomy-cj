@@ -19,9 +19,9 @@ services:
     image: postgres:latest
     container_name: postgres_container_bloomy_test
     environment:
-      POSTGRES_DB: bloomy_test
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: ${DB_TEST_NAME}
+      POSTGRES_USER: ${DB_TEST_USER}
+      POSTGRES_PASSWORD: ${DB_TEST_PASSWORD}
     ports:
       - "5433:5432"
     volumes:

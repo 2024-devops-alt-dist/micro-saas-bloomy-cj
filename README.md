@@ -16,12 +16,16 @@ Ce projet a été construit sous la forme d'un **monorepo** contenant deux sous-
 - [Node.js](https://nodejs.org/) (>= 18 recommandé)
 - [npm](https://www.npmjs.com/)
 - [Git](https://git-scm.com/)
+- Docker
+- Docker Compose
 
 Vérifie les versions installées :
 ```bash
 node -v
 npm -v
 git --version
+docker --version
+docker compose version
 ```
 
 ---
@@ -57,10 +61,15 @@ JWT_ACCESS_EXPIRES==****************
 JWT_REFRESH_EXPIRES==****************
 DB_PORT==****************
 API_PORT==****************
-FRONT_URL==****************
+FRONT_URL=http://localhost:5173
 
 DATABASE_URL==****************
 VITE_API_URL==****************
+```
+
+Dans client/.env (frontend) :
+```
+VITE_API_URL=http://localhost:3000
 ```
 ---
 
@@ -75,6 +84,19 @@ cd client
 npm run dev
 ```
 
+## 🐳 Utilisation avec Docker
+Le projet peut être lancé entièrement en Docker (API + Front + DB).
+
+Lancer l'application(API + Front + DB) :
+```bash
+docker compose up --build
+```
+
+Arrêter l’application :
+```bash
+docker compose down
+```
+
 ## 💻 Lancer les commits
 ```bash
 # Backend
@@ -86,7 +108,24 @@ cd client
 git cz
 ```
 
-## 🧪 Tests E2E (Playwright)
+## 🧪 Procédures de tests 
+### Tests unitaires
+Backend (api/) :
+```bash
+cd api
+npm run test  
+npm run test:coverage
+```
+
+Frontend (client/) :
+```bash
+cd client
+npm test
+npm run test:ui
+npm run test:coverage
+```
+
+### Tests E2E (Playwright)
 Les tests End-to-End sont réalisés avec Playwright.
 
 ```bash
@@ -101,6 +140,8 @@ npx playwright test --ui
 
 Note : l'extension VsCode "[Playwright Test For VsCode](https://marketplace.visualstudio.com/items?itemName=ms-playwright.playwright)" est sympa pour lancer les tests rapidement.
 
+## 💻 Bonnes pratiques
+
 
 ## 🌐 URL de déploiement
-Le projet est déployé et accessible à l'adresse suivante : en cours ...
+Le projet est déployé et accessible à l'adresse suivante : https://micro-saas-bloomy-cj.vercel.app/
