@@ -7,9 +7,6 @@ on:
     branches: [ main, develop ]
 
 jobs:
-# ======================
-# BACKEND
-# =========================
   backend:
     name: Backend - API Tests & Audit
     runs-on: ubuntu-latest
@@ -58,9 +55,9 @@ jobs:
         run: npm audit --audit-level=high
       
       - name: controle du typage
-        run: tsc --noEmit 
+        run: tsc --noEmit --pretty --diagnostics
 
-      - name: Tests unitaires
+      - name: Tests
         run: npm run test --if-present
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL_TEST }}
@@ -70,11 +67,8 @@ jobs:
         env:
           VITE_API_URL: production # passe sans
 
-# ======================
-# FRONTEND
-# ======================
   frontend:
-    name: Frontend CI
+    name: Frontend CI - Audit & Tests
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -90,9 +84,6 @@ jobs:
           cache: 'npm'
           cache-dependency-path: ./client/package-lock.json
 
-      - name: controle du typage
-        run: tsc --noEmit
-
       - name: Installer les dépendances
         run: npm ci
 
@@ -107,8 +98,11 @@ jobs:
       - name: Audit de sécurité
         run: npm audit --audit-level=high
 
-      - name: Tests unitaires
-        run: npm test --if-present
+      - name: controle du typage
+        run: tsc --noEmit --pretty --diagnostics
+
+      - name: Tests 
+        run: npm run test --if-present
 
 # ======================
 # DOCKER VALIDATION
