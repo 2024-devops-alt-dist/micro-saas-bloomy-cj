@@ -15,11 +15,8 @@ RUN npm install
 # Étape 5 : Copier tout le reste du projet
 COPY . .
 
-# RUN prisma generate 
-
-# Étape 7 : Exposer le port de l'API
+# Étape 6 : Exposer le port de l'API
 EXPOSE 3000
 
-# Étape 8 : Commande pour démarrer le serveur
-# CMD ["npm", "run", "start"]
+# Étape 7 : Commande pour démarrer le serveur
 CMD ["sh", "-c", "npx prisma generate && npx prisma migrate deploy && npx prisma db seed && npm run start"]

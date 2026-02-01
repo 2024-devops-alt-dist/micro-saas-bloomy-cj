@@ -14,7 +14,7 @@ const plantsMock: Plant[] = [
 const userMock: User = {
     id: 1,
     firstname: "Jean",
-    lastname: "Marc", // si tu l’utilises encore
+    lastname: "Marc",
     email: "test@test.com",
     password: "password123",
     registration_date: new Date().toISOString(),
