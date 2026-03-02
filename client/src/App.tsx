@@ -14,6 +14,7 @@ import MyGarden from "./features/profil/pages/MyGarden/MyGarden";
 import Login from "./features/auth/pages/Login/Login";
 import { AuthProvider } from "./features/auth/context/AuthContext";
 import ProtectedRoute from "./features/auth/components/ProtectedRoute";
+import Register from "./features/auth/pages/Register/Register";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
             <Route path="/addGarden" element={<ProtectedRoute><AddGarden /></ProtectedRoute>} />
             <Route path="/addGardenInfo" element={<ProtectedRoute><AddGardenInfo /></ProtectedRoute>} />
             <Route path="/addGardenInfoFa" element={<ProtectedRoute><AddGardenInfoFacultative /></ProtectedRoute>} />

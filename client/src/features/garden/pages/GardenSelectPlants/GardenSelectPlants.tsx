@@ -27,17 +27,18 @@ const GardenSelectPlants : React.FC = () => {
 
                 <CategoryTabs />
 
-                <div style={{ padding: "20px" }}>
-                    {/* <PlantList selectedPlantIds={selectedPlantIds} gardenDraft={gardenDraft} /> */}
-                    <PlantList />
-                </div>
+                <PlantList />
 
                 <div className="fixed-button-container">
-                    <CustomButton label="Voir ma sélection" onClick={() => { saveDraft(gardenDraft); navigate("/panierGarden"); }}/>
+                    <CustomButton 
+                        label="Voir ma sélection" 
+                        onClick={() => { 
+                            saveDraft(gardenDraft); 
+                            navigate("/panierGarden"); 
+                        }}
+                    />
                 </div>
             </main>
-
-
         </div>
     );
 };

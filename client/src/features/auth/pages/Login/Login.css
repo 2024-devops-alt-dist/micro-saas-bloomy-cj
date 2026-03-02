@@ -1,15 +1,15 @@
 .login-container {
     background-color: #f3f4f6;
-    padding: 1rem;
+    padding: var(--space-md);
 }
 
 .login-card {
     width: 100%;
     max-width: 28rem; 
     background-color: #ffffff;
-    border-radius: 0.75rem;
+    border-radius: var(--border-radius-s);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    padding: 2.5rem;
+    padding: var(--space-lg1);
 }
 
 .login-title {
@@ -20,14 +20,14 @@
 .login-form {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem; 
+    gap: var(--space-md1); 
 }
 
 .cust-login-btn {
     width: 60%;
     display: block;
     margin: 0 auto;
-    margin-top: 15px;
+    margin-top: var(--space-md);
 }
 
 .submit-button:hover {
@@ -36,19 +36,19 @@
 
 .error-text {
     color: #dc2626; 
-    font-size: 0.875rem;
-    margin-top: 0.25rem;
+    font-size: var(--text-sm);
+    margin-top: var(--space-xxs);
 }
 
 .error-text.center {
     text-align: center;
-    margin-top: 0.75rem;
+    margin-top: var(--space-sm2);
 }
 
 .register-link {
     text-align: center;
-    font-size: 0.875rem;
-    margin-top: 1rem;
+    font-size: var(--text-sm);
+    margin-top: var(--space-md);
     color: #374151;
 }
 
