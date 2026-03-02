@@ -8,6 +8,8 @@ export const router = Router();
  * @swagger
  * /gardens:
  *   get:
+ *     security:
+ *       - bearerAuth: []
  *     summary: Récupère la liste de tous les jardins
  *     tags:
  *       - Gardens
@@ -18,6 +20,9 @@ export const router = Router();
  *         description: Erreur serveur
  */
 router.get("/gardens", authMiddleware, gardenController.getAll);
+
+// route spécifique pour récupérer les jardins de l'utilisateur connecté (place before :id)
+router.get("/gardens/me", authMiddleware, gardenController.getMine);
 
 /**
  * @swagger
@@ -43,9 +48,6 @@ router.get("/gardens", authMiddleware, gardenController.getAll);
  *       500:
  *         description: Erreur serveur
  */
-// route spécifique pour récupérer les jardins de l'utilisateur connecté (place before :id)
-router.get("/gardens/me", authMiddleware, gardenController.getMine);
-
 router.get("/gardens/:id", authMiddleware, gardenController.getById);
 
 /**

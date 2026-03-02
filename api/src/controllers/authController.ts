@@ -19,6 +19,55 @@ const ACCESS_TOKEN_MAX_AGE = 15 * 60 * 1000; // 15 minutes
 const REFRESH_TOKEN_MAX_AGE = 7 * 24 * 60 * 60 * 1000; // 7 days
 
 export const authController = {
+    register: async (req: Request, res: Response) => {
+        try {
+            const { firstName, lastName, email, password } = req.body;
+
+            // Validation des champs requis
+            if (!firstName || !lastName || !email || !password) {
+                return res.status(400).json({ message: "Tous les champs sont requis." });
+            }
+
+            // Vérifier si l'email existe déjà
+            const existingUser = await prisma.user.findUnique({ where: { email } });
+            if (existingUser) {
+                return res.status(409).json({ message: "Cet email est déjà utilisé." });
+            }
+
+            // Hasher le mot de passe
+            const hashedPassword = await bcrypt.hash(password, 10);
+
+            // Créer l'utilisateur
+            const user = await prisma.user.create({
+                data: {
+                    firstname: firstName,
+                    lastname: lastName,
+                    email,
+                    password: hashedPassword,
+                    picture_profil: "default.jpg",
+                    role: "user",
+                },
+            });
+
+            logger.info(`Nouvel utilisateur enregistré: ${user.email}`);
+
+            return res.status(201).json({
+                status: 201,
+                message: "Utilisateur créé avec succès.",
+                user: {
+                    id: user.id,
+                    email: user.email,
+                    firstName: user.firstname,
+                    lastName: user.lastname,
+                    role: user.role,
+                },
+            });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ message: "Erreur serveur lors de l'inscription.", error });
+        }
+    },
+
     login: async (req: Request, res: Response) => {
         try {
             // Vérification des champs requis
@@ -91,6 +140,7 @@ export const authController = {
   },
 
     logout: async (_req: Request, res: Response) => {
+      logger.info(`Déconnexion`);
       // Supprime les cookies d’authentification
       res.clearCookie("access_token", COOKIE_OPTIONS);
       res.clearCookie("refresh_token", COOKIE_OPTIONS);

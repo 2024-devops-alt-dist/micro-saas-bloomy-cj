@@ -113,8 +113,8 @@ git cz
 Backend (api/) :
 ```bash
 cd api
-npm run test  
-npm run test:coverage
+NODE_ENV=test npm run test  
+NODE_ENV=test npm run test:coverage
 ```
 
 Frontend (client/) :

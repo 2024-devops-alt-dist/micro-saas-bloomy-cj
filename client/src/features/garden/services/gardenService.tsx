@@ -20,9 +20,6 @@ export interface Garden {
 
 export type GardenDraft = Omit<Garden, "id">;
 
-// NOTE: We previously had a mock implementation. Keep it commented for local dev if needed.
-// const USE_MOCK = true;
-
 const realApi = {
     async getAll(): Promise<Garden[]> {
         const res = await api.get("/gardens");
@@ -53,13 +50,14 @@ const realApi = {
                     await api.post("/refresh");
                     const retry = await api.post("/gardens", payload);
                     return retry.data;
-                } catch (err2) {
-                    throw err2;
+                } catch (error) {
+                    throw error;
                 }
             }
             throw err;
         }
     },
+
     async getById(id: number): Promise<Garden> {
         const res = await api.get(`/gardens/${id}`);
         return res.data;

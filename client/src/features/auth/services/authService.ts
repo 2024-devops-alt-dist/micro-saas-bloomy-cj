@@ -1,6 +1,11 @@
 import api from "../../../services/api";
 
 export const authService = {
+  register: async (firstName: string, lastName: string, email: string, password: string) => {
+    const res = await api.post("/register", { firstName, lastName, email, password });
+    return res.data.user;
+  },
+
   login: async (email: string, password: string) => {
     const res = await api.post("/login", { email, password });
     return res.data.user;
