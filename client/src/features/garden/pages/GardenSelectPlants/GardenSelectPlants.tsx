@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "../../../../assets/styles/global.css";
 import "./GardenSelectPlants.css";
 import PlantList from "../../../plants/pages/PlantList";
@@ -13,6 +13,7 @@ import { getDraft, saveDraft } from "../../services/gardenLocalStorage";
 const GardenSelectPlants : React.FC = () => {
     const navigate = useNavigate();
     const gardenDraft: GardenDraft | undefined = getDraft();
+    const [searchTerm, setSearchTerm] = useState("");
 
     return (
         <div>
@@ -23,11 +24,11 @@ const GardenSelectPlants : React.FC = () => {
                     <h1 className="custom-title">Choisissez vos plantes</h1>
                 </div>
 
-                <SearchFilterBar />
+                <SearchFilterBar searchTerm={searchTerm} onSearchChange={setSearchTerm} />
 
                 <CategoryTabs />
 
-                <PlantList />
+                <PlantList searchTerm={searchTerm} />
 
                 <div className="fixed-button-container">
                     <CustomButton 
