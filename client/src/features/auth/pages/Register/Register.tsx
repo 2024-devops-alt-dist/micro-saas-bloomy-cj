@@ -69,7 +69,6 @@ const Register: React.FC = () => {
                     </h1>
 
                     <form className="register-form" onSubmit={handleSubmit(onSubmit)}>
-                        {/* Prénom et Nom sur la même ligne */}
                         <div className="flex flex-col md:flex-row gap-4">
                             <div className="flex-1 flex flex-col gap-1">
                                 <label>Prénom</label>
@@ -97,7 +96,6 @@ const Register: React.FC = () => {
                                 )}
                             </div>
                         </div>
-                        {/* Email */}
                         <div className="flex flex-col gap-1 mt-4">
                             <label>Email</label>
                             <input
@@ -111,7 +109,6 @@ const Register: React.FC = () => {
                             )}
                         </div>
 
-                        {/* Mot de passe et Confirmation sur la même ligne */}
                         <div className="flex flex-col md:flex-row gap-4 mt-4">
                             <div className="flex-1 flex flex-col gap-1">
                                 <label>Mot de passe</label>

@@ -5,6 +5,7 @@ import z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "../../context/AuthContext";
+import { Link } from "react-router-dom";
 
 // Schéma validation Zod
 const loginSchema = z.object({
@@ -83,7 +84,7 @@ const Login: React.FC = () => {
 
                 <p className="register-link">
                     Vous n'avez pas encore de compte ?{" "}
-                    <a href="/register">Inscrivez-vous</a>
+                    <Link to="/register">Inscrivez-vous</Link>
                 </p>
             </div>
         </div>
