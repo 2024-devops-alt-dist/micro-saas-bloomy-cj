@@ -4,7 +4,7 @@ import "./Register.css";
 import z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import authService from "../../services/authService";
 
 // Schéma validation Zod
@@ -146,7 +146,7 @@ const Register: React.FC = () => {
 
                     <p className="login-link">
                         Vous avez déjà un compte ?{" "}
-                        <a href="/login">Se connecter</a>
+                        <Link to="/login">Se connecter</Link>
                     </p>
                 </div>
             </div>

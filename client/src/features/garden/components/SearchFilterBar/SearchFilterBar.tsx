@@ -2,8 +2,12 @@ import React from "react";
 import { FiFilter, FiSearch } from "react-icons/fi";
 import "./SearchFilterBar.css";
 
-const SearchFilterBar: React.FC = () => {
-// Ici intégrer zod et reacthook si n"cessaire
+interface SearchFilterBarProps {
+    searchTerm: string;
+    onSearchChange: (term: string) => void;
+}
+
+const SearchFilterBar: React.FC<SearchFilterBarProps> = ({ searchTerm, onSearchChange }) => {
     return (
         <div className="flex justify-between items-center px-4 py-3 border-b border-green-100">
             <div className="flex items-center w-full max-w-md relative">
@@ -13,6 +17,8 @@ const SearchFilterBar: React.FC = () => {
                         type="text"
                         placeholder="Rechercher une plante"
                         className="input-text-search"
+                        value={searchTerm}
+                        onChange={(e) => onSearchChange(e.target.value)}
                     />
                 </form>
             </div>
@@ -21,7 +27,6 @@ const SearchFilterBar: React.FC = () => {
                 <FiFilter className="text-gray-400" size={20} />
             </button>
         </div>
-
     );
 };
 

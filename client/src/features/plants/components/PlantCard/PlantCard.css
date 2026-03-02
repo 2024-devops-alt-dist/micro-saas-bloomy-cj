@@ -13,8 +13,8 @@
 
 .plant-card-image {
     position: relative;
-    width: var(--size-xxl);     
-    height: var(--size-xxl);     
+    width: 100px;     
+    height: 100px;     
     border-radius: var(--border-radius-m);
     box-shadow: 0 2px 6px rgba(0,0,0,0.3);
     overflow: hidden;  
