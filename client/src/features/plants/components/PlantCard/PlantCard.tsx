@@ -12,8 +12,7 @@ interface PlantCardProps {
 
 const PlantCard: React.FC<PlantCardProps> = ({ plant, gardenDraft }) => {
     const navigate = useNavigate();
-    const isSelected = gardenDraft?.plants?.some((p: Plant) => p.id === plant.id);
-
+    const isSelected = gardenDraft?.plants?.includes(plant.id);
     const handleClick = () => {
         saveDraft(gardenDraft);
         navigate(`/plants/${plant.id}`);
