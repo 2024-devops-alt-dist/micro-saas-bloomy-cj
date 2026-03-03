@@ -25,9 +25,9 @@ export default async function seedDates(prisma: PrismaClient) {
         { start_month: 7, end_month: 9 },
     ];
 
-    await prisma.harvestDate.createMany({ data: harvestDates });
-    await prisma.plantDate.createMany({ data: plantDates });
-    await prisma.sowingDate.createMany({ data: sowingDates });
+    await prisma.harvestDate.createMany({ data: harvestDates, skipDuplicates: true });
+    await prisma.plantDate.createMany({ data: plantDates, skipDuplicates: true });
+    await prisma.sowingDate.createMany({ data: sowingDates, skipDuplicates: true });
 
     console.log("✔ HarvestDate, PlantDate & SowingDate seeded!");
 }

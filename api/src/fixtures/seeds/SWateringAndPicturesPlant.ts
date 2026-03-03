@@ -53,11 +53,10 @@ export default async function seedWateringAndPictures(prisma: PrismaClient) {
         { name: 'aubergines.jpg' },
     ];
 
-    for (const picture of pictures) {
-        await prisma.picturePlant.create({
-            data: picture,
-        });
-    }
+    await prisma.picturePlant.createMany({
+        data: pictures,
+        skipDuplicates: true,
+    });
 
     console.log('✔ Watering and PicturePlant data seeded!');
 }

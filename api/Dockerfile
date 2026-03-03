@@ -19,4 +19,4 @@ COPY . .
 EXPOSE 3000
 
 # Étape 7 : Commande pour démarrer le serveur
-CMD ["sh", "-c", "npx prisma generate && npx prisma migrate deploy && npx prisma db seed && npm run start"]
+CMD ["sh", "-c", "npx prisma generate && npx prisma migrate deploy && npm run start"]
