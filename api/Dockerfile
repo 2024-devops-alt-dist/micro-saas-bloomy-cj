@@ -15,8 +15,12 @@ RUN npm install
 # Étape 5 : Copier tout le reste du projet
 COPY . .
 
+# Étape 5b : Copier et donner les permissions au script d'entrée
+COPY entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+
 # Étape 6 : Exposer le port de l'API
 EXPOSE 3000
 
 # Étape 7 : Commande pour démarrer le serveur
-CMD ["sh", "-c", "npx prisma generate && npx prisma migrate deploy && npm run start"]
+CMD ["/app/entrypoint.sh"]
