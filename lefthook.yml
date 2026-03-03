@@ -24,11 +24,11 @@ pre-commit:
       run: cd api/ && npm audit --audit-level=high
     - name: api-lint-prettier
       run: cd api/ && npm run lint
-    # - name: api-test
-    #   run: cd api/ && npm run test
+    - name: api-test
+      run: cd api/ && npm run test
     - name: client-audit
       run: cd client/ && npm audit --audit-level=high
     - name: client-lint-prettier
       run: cd client/ && npm run lint
-    # - name: client-test
-    #   run: cd client/ && npm run test
+    - name: client-test
+      run: cd client/ && npm run test

@@ -107,7 +107,6 @@ const AddGardenInfoFacultative : React.FC = () => {
             id_localisation: data.id_localisation,
             pets: data.pets || gardenDraft?.pets || [],
             plants: gardenDraft?.plants || [],
-            user: gardenDraft?.user,
         };
 
         saveDraft(updatedDraft);

@@ -3,5 +3,6 @@ dist/
 .env
 .env.test
 npm-debug.log*
+coverage/
 
 src/generated/prisma

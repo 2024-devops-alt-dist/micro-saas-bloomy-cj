@@ -1,24 +1,17 @@
-import type { Plant } from "../../../models/plant/IPlant";
+import type { Garden } from "../../../models/garden/IGarden";
 import api from "../../../services/api";
 
-export interface Garden {
-    id: number;
+export type GardenDraft = {
     name: string;
-    garden_img?: string;
     description?: string;
     id_localisation?: number;
-    pets?: number[];
-    plants?: Plant[];
-    user?: {
-        id: number;
-        firstname?: string;
-        lastname?: string;
-        email?: string;
-        picture_profil?: string;
-    };
-}
-
-export type GardenDraft = Omit<Garden, "id">;
+    id_picture_garden?: number;
+    id_difficulty?: number;
+    id_exposition?: number;
+    pets?: number[];     
+    plants?: number[];  
+    garden_img?: string;  
+};
 
 const realApi = {
     async getAll(): Promise<Garden[]> {
@@ -32,27 +25,20 @@ const realApi = {
     },
 
     async create(garden: GardenDraft): Promise<Garden> {
-        // On transforme plants/pets en IDs
-        const payload: any = { ...garden };
-        if (Array.isArray(garden.plants)) {
-            payload.plants = garden.plants.map(p => (typeof p === "number" ? p : p?.id)).filter(Boolean);
-        }
-        if (Array.isArray(garden.pets)) {
-            payload.pets = garden.pets.filter(Boolean);
-        }
+        const payload = {
+            ...garden,
+            plants: garden.plants ?? [],
+            pets: garden.pets ?? [],
+        };
         try {
             const res = await api.post("/gardens", payload);
             return res.data;
         } catch (err: any) {
             // Si token expiré ou invalide, tenter un refresh automatique côté serveur
             if (err.response?.status === 401) {
-                try {
-                    await api.post("/refresh");
-                    const retry = await api.post("/gardens", payload);
-                    return retry.data;
-                } catch (error) {
-                    throw error;
-                }
+                await api.post("/refresh");
+                const retry = await api.post("/gardens", payload);
+                return retry.data;
             }
             throw err;
         }
