@@ -68,7 +68,7 @@ const DetailsPlant: React.FC = () => {
         if (!plant) return;
 
         // Vérifie si la plante est déjà dans le panier
-        const alreadyExists = gardenDraft?.plants?.some((p: Plant) => p.id === plant.id);
+        const alreadyExists = gardenDraft?.plants?.includes(plant.id);
 
         if (alreadyExists) {
             alert(`${plant.name} est déjà dans votre jardin 🌱`);
@@ -81,8 +81,7 @@ const DetailsPlant: React.FC = () => {
             description: gardenDraft?.description,
             id_localisation: gardenDraft?.id_localisation,
             pets: gardenDraft?.pets || [],
-            plants: [...(gardenDraft?.plants || []), plant],
-            user: gardenDraft?.user,
+            plants: [...(gardenDraft?.plants ?? []), plant.id]
         };
 
         saveDraft(updatedDraft);

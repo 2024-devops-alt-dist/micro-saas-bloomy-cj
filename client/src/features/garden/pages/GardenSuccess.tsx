@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import CustomButton from "../../buttons/CustomButton";
-import { gardenService, type Garden } from "../services/gardenService";
+import { gardenService } from "../services/gardenService";
+import type { Garden } from "../../../models/garden/IGarden";
 
 const GardenSuccess: React.FC = () => {
     const navigate = useNavigate();

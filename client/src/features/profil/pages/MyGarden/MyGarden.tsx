@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiPlus } from "react-icons/fi";
-import { gardenService, type Garden } from "../../../garden/services/gardenService";
+import { gardenService } from "../../../garden/services/gardenService";
+import type { Garden } from "../../../../models/garden/IGarden";
 import NavBarMobile from "../../../../shared/navbar-mobile";
 import "../../../../assets/styles/global.css";
 import "./MyGarden.css";
