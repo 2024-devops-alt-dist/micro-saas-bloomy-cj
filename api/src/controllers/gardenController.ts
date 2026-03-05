@@ -229,16 +229,34 @@ export const gardenController = {
 
     update: async (req: Request, res: Response) => {
         try {
+            const userPayload = (req as any).user;
+            if (!userPayload) {
+                return res.status(401).json({ message: "Non authentifié." });
+            }
+
+            const userId = parseId(userPayload.id);
+            if (userId === null) {
+                return res.status(401).json({ message: "Non authentifié." });
+            }
+
             const id = parseId(req.params.id);
-            if (id === null) return res.status(400).json({ message: "ID invalide." });
+            if (id === null) {
+                return res.status(400).json({ message: "ID invalide." });
+            }
+
+            // 🔒 vérifier que le jardin appartient au user
+            const existingGarden = await prisma.garden.findFirst({
+                where: {
+                    id,
+                    id_user: userId
+                }
+            });
+
+            if (!existingGarden) {
+                return res.status(404).json({ message: "Jardin introuvable ou non autorisé." });
+            }
 
             const { name, description, id_localisation, id_picture_garden, id_difficulty, id_exposition, plants, pets } = req.body;
-
-            // Vérifier que le jardin existe
-            const existingGarden = await prisma.garden.findUnique({ where: { id } });
-            if (!existingGarden) {
-                return res.status(404).json({ message: "Jardin introuvable." });
-            }
 
             // Préparer les champs à update
             const data: any = {};

@@ -184,25 +184,40 @@ describe("gardenController.create", () => {
 
 describe("gardenController.update (jardin existant)", () => {
     let gardenToUpdate: any;
+    let user: any;
 
     beforeAll(async () => {
-        gardenToUpdate = await prisma.garden.findFirst();
+        // créer un user dédié au test
+        user = await prisma.user.create({
+            data: {
+                email: "vitest_update@test.com",
+                lastname: "Test",
+                firstname: "User",
+                role: "user",
+                password: "123456789"
+            }
+        });
 
-        if (!gardenToUpdate) {
-            console.warn("Aucun jardin trouvé pour update → test ignoré");
-        }
+        // créer un jardin pour ce user
+        gardenToUpdate = await prisma.garden.create({
+            data: {
+                name: "Jardin test Vitest",
+                description: "Jardin créé pour les tests update",
+                id_user: user.id
+            }
+        });
     });
 
     it("doit retourner 400 si l'ID est invalide", async () => {
         const req = {
             params: { id: "abc" },
-            body: { name: "Nom invalide" }
-        } as unknown as Request;
+            body: { name: "Nom invalide" },
+            user: { id: user.id }
+        } as any as Request;
 
         const res = createMockResponse();
 
         await gardenController.update(req, res);
-        // console.log("[LOG] update ID invalide → body :", res._body);
 
         expect(res._status).toBe(400);
         expect(res._body.message).toBe("ID invalide.");
@@ -211,21 +226,19 @@ describe("gardenController.update (jardin existant)", () => {
     it("doit retourner 404 si le jardin n'existe pas", async () => {
         const req = {
             params: { id: "999999999" },
-            body: { name: "Jardin fantôme" }
-        } as unknown as Request;
+            body: { name: "Jardin fantôme" },
+            user: { id: user.id }
+        } as any as Request;
 
         const res = createMockResponse();
 
         await gardenController.update(req, res);
-        // console.log("[LOG] update inexistant → body :", res._body);
 
         expect(res._status).toBe(404);
         expect(res._body.message).toMatch(/introuvable/i);
     });
 
     it("doit mettre à jour un jardin existant et retourner 200", async () => {
-        if (!gardenToUpdate) return;
-
         const updatedName = gardenToUpdate.name + " (modifié)";
         const updatedDescription = "Description modifiée par Vitest";
 
@@ -234,18 +247,13 @@ describe("gardenController.update (jardin existant)", () => {
             body: {
                 name: updatedName,
                 description: updatedDescription
-            }
-        } as unknown as Request;
+            },
+            user: { id: user.id }
+        } as any as Request;
 
         const res = createMockResponse();
 
         await gardenController.update(req, res);
-
-        // console.log("[LOG] Données envoyées au update :", {
-        //     id: gardenToUpdate.id,
-        //     name: updatedName,
-        //     description: updatedDescription
-        // });
 
         expect(res._status).toBe(200);
         expect(res._body.name).toBe(updatedName);
