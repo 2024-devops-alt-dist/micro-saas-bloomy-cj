@@ -30,6 +30,10 @@ const PanierGarden: React.FC = () => {
     // Contiendra objets Plant complets pour affichage
     const [plantsDetails, setPlantsDetails] = useState<Plant[]>([]);
 
+    useEffect(() => {
+    console.log("Draft initial :", gardenDraft);
+}, []);
+
     // Re-fetch des plantes à partir des IDs
     useEffect(() => {
         const fetchPlants = async () => {
@@ -95,6 +99,10 @@ const PanierGarden: React.FC = () => {
             <HeaderAddGarden showBack={true} />
 
             <main className="flex flex-col panier-main">
+                <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, background: 'white', color: 'red', zIndex: 9999, maxHeight: '200px', overflowY: 'scroll' }}>
+                    {JSON.stringify(gardenDraft, null, 2)}
+                </div>
+
                 <h1 className="text-center title-custom-panier mb-3">
                     Votre sélection pour le jardin
                 </h1>
