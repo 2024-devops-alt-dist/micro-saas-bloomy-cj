@@ -60,8 +60,17 @@ const realApi = {
     },
 
     async update(id: number, data: Partial<GardenDraft>): Promise<Garden> {
-        const res = await api.put(`/gardens/${id}`, data);
-        return res.data;
+        try {
+            const res = await api.put(`/gardens/${id}`, data);
+            return res.data;
+        } catch (err: any) {
+            if (err.response?.status === 401) {
+                await api.post("/refresh");
+                const retry = await api.put(`/gardens/${id}`, data);
+                return retry.data;
+            }
+            throw err;
+        }
     }
 };
 
