@@ -15,7 +15,12 @@ const realApi = {
     async getPets() {
         const res = await api.get('/pets');
         return res.data;
-    }
+    },
+
+    async getDifficulties() {
+        const res = await api.get("/difficulties");
+        return res.data;
+    },
 };
 
 export const commonService = realApi;

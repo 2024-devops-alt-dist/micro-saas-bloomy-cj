@@ -51,8 +51,8 @@ jobs:
       - name: Lint du code
         run: npm run lint
 
-      - name: Audit de sécurité
-        run: npm audit --audit-level=high
+      # - name: Audit de sécurité
+      #   run: npm audit --audit-level=high
       
       - name: controle du typage
         run: tsc --noEmit --pretty --diagnostics

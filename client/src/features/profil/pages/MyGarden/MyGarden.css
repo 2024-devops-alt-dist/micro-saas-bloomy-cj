@@ -4,23 +4,34 @@
     border-bottom: 1px solid #D1FAE5; 
 }
 
+.mygarden-header button {
+    background-color: var(--color-primary);
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.15s ease, background-color 0.2s ease;
+}
+
+.mygarden-header button:hover {
+    background-color: var(--color-secondary-bis);
+    color: white;
+    transform: scale(1.05);
+}
+
+.mygarden-header button svg {
+    font-size: 20px;
+}
+
 .mygarden-header h1 {
     font-family: 'test-font', sans-serif; 
     font-size: var(--text-3xl); 
     font-weight: 700; 
-}
-
-.mygarden-header button {
-    color: var(--color-secondary-bis); 
-    font-weight: 500; 
-    background: none;
-    border: none;
-    cursor: pointer;
-    transition: color 0.2s ease-in-out;
-}
-
-.mygarden-header button:hover {
-    color: var(--color-secondary); 
 }
 
 .mygarden-header button svg {
@@ -33,7 +44,7 @@
     padding: var(--space-sm4) var(--space-md2);
     overflow: auto;
 }
-/* --- Liste Jardins */
+
 .garden-list {
     display: flex;
     flex-direction: row;
@@ -72,23 +83,26 @@
     box-shadow: 0 6px 14px rgba(0,0,0,0.25);
 }
 
-.garden-img-bg {
+.garden-img {
     position: absolute;
-    inset: 0;
-    background-size: cover;
-    background-position: center;
-    filter: brightness(60%);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    z-index: 0; 
 }
 
 .garden-img-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to bottom, transparent 30%, rgba(0,0,0,0.65) 100%);
+    z-index: 1;
+    background: linear-gradient(to bottom, transparent 5%, rgb(0, 0, 0) 100%);
 }
 
 .garden-name {
     position: relative;
-    z-index: 3;
+    z-index: 2;
     color: white;
     font-weight: 600;
     font-size: var(--text-sm);
@@ -100,8 +114,6 @@
     word-break: break-word;
 }
 
-
-/* --- Section statistiques */
 .garden-stats {
     margin-top: var(--space-sm4);
     width: 100%;
@@ -133,7 +145,6 @@
     margin-top: var(--space-md);
 }
 
-/* --- Etat vide */
 .empty-garden {
     gap: 1rem;
     margin-top: var(--space-lg1);

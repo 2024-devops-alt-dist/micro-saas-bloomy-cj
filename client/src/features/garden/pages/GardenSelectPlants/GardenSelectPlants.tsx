@@ -7,12 +7,9 @@ import CategoryTabs from "../../components/CategoryTab/CategoryTab";
 import SearchFilterBar from "../../components/SearchFilterBar/SearchFilterBar";
 import CustomButton from "../../../buttons/CustomButton";
 import HeaderAddGarden from "../../../../shared/headerAddGarden";
-import type { GardenDraft } from "../../services/gardenService";
-import { getDraft, saveDraft } from "../../services/gardenLocalStorage";
 
 const GardenSelectPlants : React.FC = () => {
     const navigate = useNavigate();
-    const gardenDraft: GardenDraft | undefined = getDraft();
     const [searchTerm, setSearchTerm] = useState("");
 
     return (
@@ -34,7 +31,6 @@ const GardenSelectPlants : React.FC = () => {
                     <CustomButton 
                         label="Voir ma sélection" 
                         onClick={() => { 
-                            saveDraft(gardenDraft); 
                             navigate("/panierGarden"); 
                         }}
                     />

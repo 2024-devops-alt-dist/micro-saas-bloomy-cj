@@ -14,7 +14,7 @@ const MyGarden: React.FC = () => {
     useEffect(() => {
         const fetchGardens = async () => {
             try {
-                // Récupère directement les jardins du user connecté depuis l'API
+                // Récupère directement les jardins du user connecté
                 const data = await gardenService.getMine();
                 setGardens(data);
             } catch (error) {
@@ -28,7 +28,7 @@ const MyGarden: React.FC = () => {
         <div className="flex flex-col">
             <header className="mygarden-header flex justify-between items-center">
                 <h1>Mes Jardins</h1>
-                <button onClick={() => navigate("/addGarden")} className="flex items-center gap-2">
+                <button onClick={() => navigate("/addGarden")} className="">
                     <FiPlus />
                 </button>
             </header>
@@ -39,11 +39,14 @@ const MyGarden: React.FC = () => {
                     {/* Liste des jardins alignée à gauche */}
                     <div className="garden-list">
                         {gardens.map((garden) => (
-                            <div key={garden.id} className="garden-card">
-                                <div 
-                                    className="garden-img-bg" 
-                                    style={{ backgroundImage: `url(/assets/pictures/plants_legume.jpg)` }}
-                                ></div>
+                            <div key={garden.id} className="garden-card" onClick={() => navigate(`/garden/${garden.id}`)}>
+                                <img 
+                                    src={garden.pictureGarden 
+                                        ? `/assets/pictures/${garden.pictureGarden.name}` 
+                                        : "/assets/pictures/plants_legume.jpg"} 
+                                    alt={`Photo du jardin ${garden.name}`} 
+                                    className="garden-img"
+                                />
 
                                 <div className="garden-img-overlay"></div>
 

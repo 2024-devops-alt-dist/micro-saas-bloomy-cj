@@ -1,0 +1,108 @@
+/* TYPO */
+
+p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #374151;
+}
+
+/* CONTAINER */
+
+.gardenid-container {
+    padding: var(--space-md2) var(--space-md2) 100px var(--space-md2);
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.gardenid-header {
+    margin-bottom: var(--space-md2);
+}
+
+.bg-garden-id-info {
+    background-color: rgba(125, 199, 106, 0.103);
+}
+
+/* SEPARATOR */
+
+.separator-gardenid {
+    margin: 1.5rem 0 1.25rem 0;
+    border: none;
+    height: 1px;
+    background: #e5e7eb;
+}
+
+/* TABS */
+
+.garden-tabs {
+    position: relative;
+    display: flex;
+    margin-top: 1.25rem;
+    padding: 5px;
+    background: #f3f4f69a;
+    border-radius: 999px;
+    gap: 4px;
+}
+
+.garden-tab {
+    flex: 1;
+    padding: 0.85rem 0;
+    font-weight: 500;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #6b7280;
+    transition: all 0.25s ease;
+    position: relative;
+    font-size: 14.8px;
+    border-radius: 999px;
+    z-index: 2;
+}
+
+.garden-tab:hover {
+    color: #166534;
+}
+
+.garden-tab.active {
+    color: white;
+    font-weight: 600;
+}
+
+.tab-indicator {
+    position: absolute;
+    top: 5px;
+    bottom: 5px;
+    width: 50%;
+    background: #55a32b;
+    border-radius: 999px;
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+}
+
+.tab-indicator.resume {
+    transform: translateX(0%);
+}
+
+.tab-indicator.plantes {
+    transform: translateX(100%);
+}
+
+/* CONTENT */
+
+.garden-tab-content {
+    padding: 0 0 1rem 0;
+    animation: fadeIn 0.25s ease-in-out;
+    min-height: 100px;
+}
+
+/* Animation */
+
+@keyframes fadeIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(4px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}

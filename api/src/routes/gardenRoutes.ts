@@ -24,6 +24,8 @@ router.get("/gardens", authMiddleware, gardenController.getAll);
 // route spécifique pour récupérer les jardins de l'utilisateur connecté (place before :id)
 router.get("/gardens/me", authMiddleware, gardenController.getMine);
 
+router.get("/gardens/me/:id", authMiddleware, gardenController.getMineById);
+
 /**
  * @swagger
  * /gardens/{id}:

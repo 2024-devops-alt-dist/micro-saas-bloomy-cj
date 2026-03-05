@@ -27,10 +27,10 @@ const PanierGarden: React.FC = () => {
         }
     );
 
-    // 🔹 Contiendra les objets Plant complets pour affichage
+    // Contiendra objets Plant complets pour affichage
     const [plantsDetails, setPlantsDetails] = useState<Plant[]>([]);
 
-    // 🔹 Re-fetch des plantes à partir des IDs
+    // Re-fetch des plantes à partir des IDs
     useEffect(() => {
         const fetchPlants = async () => {
             if (!gardenDraft.plants || gardenDraft.plants.length === 0) {
@@ -69,14 +69,22 @@ const PanierGarden: React.FC = () => {
             setError("Votre jardin doit contenir au moins une plante");
             return;
         }
-
         setError("");
 
         try {
-            const createdGarden = await gardenService.create(gardenDraft);
+            // UPDATE
+            if (gardenDraft.id) {
+                const updatedGarden = await gardenService.update(gardenDraft.id, gardenDraft);
+                clearDraft();
+                navigate(`/garden/${updatedGarden.id}`);
+            } 
+            // CREATE
+            else {
+                const createdGarden = await gardenService.create(gardenDraft);
+                clearDraft();
+                navigate(`/garden-success/${createdGarden.id}`);
 
-            clearDraft();
-            navigate(`/garden-success/${createdGarden.id}`);
+            }
         } catch (error) {
             console.error("Erreur lors de la création du jardin :", error);
         }
@@ -129,7 +137,7 @@ const PanierGarden: React.FC = () => {
                     )}
 
                     <CustomButton
-                        label="Valider ma sélection"
+                        label={gardenDraft.id ? "Mettre à jour mon jardin" : "Créer mon jardin"}
                         onClick={handleValidateGarden}
                     />
                 </div>

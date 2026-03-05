@@ -107,6 +107,45 @@ export const gardenController = {
         }
     },
 
+    // Récupérer un jardin par son ID, en s'assurant qu'il appartient à l'utilisateur connecté
+    getMineById: async (req: Request, res: Response) => {
+        try {
+            const userPayload = (req as any).user;
+            if (!userPayload) return res.status(401).json({ message: "Non authentifié." });
+
+            const userId = parseId(userPayload.id);
+            if (userId === null) return res.status(401).json({ message: "Non authentifié." });
+
+            const id = parseId(req.params.id);
+            if (id === null) return res.status(400).json({ message: "ID invalide." });
+
+            const garden = await prisma.garden.findFirst({
+                where: {
+                    id,
+                    id_user: userId // 🔐 Sécurité ici
+                },
+                include: {
+                    user: { select: USER_SELECT },
+                    localisation: true,
+                    pictureGarden: true,
+                    difficulty: true,
+                    exposition: true,
+                    pets: { include: { pet: true } },
+                    plants: { include: { plant: { include: PLANT_INCLUDES as any } } }
+                }
+            });
+
+            if (!garden) {
+                return res.status(404).json({ message: "Jardin introuvable ou non autorisé." });
+            }
+
+            return res.status(200).json(garden);
+
+        } catch (error) {
+            return handleServerError(res, "Erreur serveur lors de la récupération du jardin.", error);
+        }
+    },
+
     create: async (req: Request, res: Response) => {
         try {
             const { name, description, id_localisation, id_picture_garden, id_difficulty, id_exposition, plants, pets } = req.body;

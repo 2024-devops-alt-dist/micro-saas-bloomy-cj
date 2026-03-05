@@ -1,9 +1,9 @@
 import type { Difficulty } from "../common/IDifficulty";
 import type { Exposition } from "../common/IExposition";
 import type { Localisation } from "../common/ILocalisation";
-import type { Pet } from "../common/IPet";
 import type { User } from "../IUser";
 import type { Plant } from "../plant/IPlant";
+import type { GardenHasPet } from "./IGardenHasPet";
 import type { PictureGarden } from "./IPictureGarden";
 
 export interface Garden {
@@ -23,6 +23,12 @@ export interface Garden {
     difficulty?: Difficulty;
     exposition?: Exposition;
 
-    pets?: Pet[];
-    plants?: Plant[];
+    pets?: GardenHasPet[];
+    plants?: GardenPlant[];
+}
+
+interface GardenPlant {
+    gardenId: number;
+    plantId: number;
+    plant: Plant;
 }
