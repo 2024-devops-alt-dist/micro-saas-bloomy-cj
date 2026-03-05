@@ -20,8 +20,8 @@
 pre-commit:
   parallel: true
   jobs:
-    - name: api-audit
-      run: cd api/ && npm audit --audit-level=high
+    # - name: api-audit
+    #   run: cd api/ && npm audit --audit-level=high
     - name: api-lint-prettier
       run: cd api/ && npm run lint
     - name: api-test

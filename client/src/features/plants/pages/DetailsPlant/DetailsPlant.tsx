@@ -76,6 +76,7 @@ const DetailsPlant: React.FC = () => {
         }
 
         const updatedDraft: GardenDraft = {
+            id: gardenDraft?.id,
             name: gardenDraft?.name ?? "",
             garden_img: gardenDraft?.garden_img ?? "",
             description: gardenDraft?.description,
@@ -89,7 +90,6 @@ const DetailsPlant: React.FC = () => {
     };
 
     const handleGoToPlant = (id: number) => {
-        saveDraft(gardenDraft);
         navigate(`/plants/${id}`);
     };
 

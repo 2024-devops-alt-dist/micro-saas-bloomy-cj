@@ -1,8 +1,9 @@
 import React from "react";
 import { FiTrash2 } from "react-icons/fi";
-import { FaSeedling, FaTag } from "react-icons/fa";
+import { FaSeedling } from "react-icons/fa";
 import LearnMoreButton from "../../buttons/LearnMoreButton";
 import type { Plant } from "../../../models/plant/IPlant";
+import { useNavigate } from "react-router-dom";
 
 interface GardenPlantCardProps {
     plant: Plant;
@@ -10,6 +11,13 @@ interface GardenPlantCardProps {
 }
 
 const GardenPlantCard: React.FC<GardenPlantCardProps> = ({ plant, onRemove }) => {
+    const navigate = useNavigate();
+
+    const handleLearnMore = () => {
+        navigate(`/plants/${plant.id}`);
+    };
+
+    
     return (
         <div className="garden-plant-card">
             <div className="plant-image-desc">
@@ -32,23 +40,25 @@ const GardenPlantCard: React.FC<GardenPlantCardProps> = ({ plant, onRemove }) =>
                         </div>
                     )}
 
-                    {plant.toxicPets?.[0]?.pet && (
-                        <div className="meta-item">
-                            <FaTag className="meta-icon" />
-                            <span>{plant.toxicPets[0].pet.name}</span>
-                            {plant.toxicPets[0].pet.icon && (
-                                <img
-                                    src={`/assets/icons/${plant.toxicPets[0].pet.icon}`}
-                                    alt={plant.toxicPets[0].pet.name}
-                                    className="pet-icon"
-                                />
-                            )}
+                    {plant.toxicPets && plant.toxicPets.length > 0 && (
+                        <div className="meta-item toxic-line">
+                            <img
+                                src="/assets/icons/danger.png"
+                                alt="Danger"
+                                className="danger-icon"
+                            />
+                            <span>
+                                {plant.toxicPets
+                                    .map(tp => tp.pet?.name)
+                                    .filter(Boolean)
+                                    .join(", ")}
+                            </span>
                         </div>
                     )}
                 </div>
 
                 <div className="card-actions">
-                    <LearnMoreButton label="> En savoir plus" />
+                    <LearnMoreButton label="> En savoir plus" onClick={handleLearnMore}/>
                     {onRemove && (
                         <button onClick={onRemove} className="remove-btn" title="Retirer du jardin">
                             <FiTrash2 size={20} />

@@ -286,3 +286,63 @@ describe("gardenController.delete", () => {
 
     });
 });
+
+describe("gardenController.getMineById", () => {
+    let userWithGardens: any;
+    let garden: any;
+
+    beforeAll(async () => {
+        // Récupérer un utilisateur avec au moins un jardin
+        userWithGardens = await prisma.user.findFirst({
+            include: { gardens: true }
+        });
+
+        if (userWithGardens && userWithGardens.gardens.length > 0) {
+            garden = userWithGardens.gardens[0];
+        }
+    });
+
+    it("doit retourner 401 si non authentifié", async () => {
+        const req = { params: { id: "1" } } as unknown as Request;
+        const res = createMockResponse();
+
+        await gardenController.getMineById(req, res);
+        expect(res._status).toBe(401);
+        expect(res._body.message).toMatch(/non authentifié/i);
+    });
+
+    it("doit retourner 400 si l'ID est invalide", async () => {
+        const req = { params: { id: "abc" }, user: { id: 1 } } as any as Request;
+        const res = createMockResponse();
+
+        await gardenController.getMineById(req, res);
+        expect(res._status).toBe(400);
+        expect(res._body.message).toBe("ID invalide.");
+    });
+
+    it("doit retourner 404 si le jardin n'existe pas ou n'appartient pas à l'utilisateur", async () => {
+        if (!userWithGardens) return;
+
+        const req = { params: { id: "99999999" }, user: { id: userWithGardens.id } } as any as Request;
+        const res = createMockResponse();
+
+        await gardenController.getMineById(req, res);
+        expect(res._status).toBe(404);
+        expect(res._body.message).toMatch(/introuvable/i);
+    });
+
+    it("doit retourner le jardin de l'utilisateur avec status 200", async () => {
+        if (!userWithGardens || !garden) return;
+
+        const req = { params: { id: garden.id.toString() }, user: { id: userWithGardens.id } } as any as Request;
+        const res = createMockResponse();
+
+        await gardenController.getMineById(req, res);
+
+        console.log("[LOG] getMineById → res._body :", JSON.stringify(res._body, null, 2));
+        
+        expect(res._status).toBe(200);
+        expect(res._body.id).toBe(garden.id);
+        expect(res._body.id_user).toBe(userWithGardens.id);
+    });
+});

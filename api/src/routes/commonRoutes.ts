@@ -41,3 +41,5 @@ router.get("/expositions", commonController.getAllExpositions);
  *         description: Succès
  */
 router.get("/pets", commonController.getAllPets);
+
+router.get("/difficulties", commonController.getAllDifficulties);
