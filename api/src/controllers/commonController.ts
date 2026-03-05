@@ -32,4 +32,17 @@ export const commonController = {
             return res.status(500).json({ message: "Erreur lors de la récupération des animaux de compagnie.", error });
         }
     },
+    getAllDifficulties: async (_req: Request, res: Response) => {
+        try {
+            const difficulties = await prisma.difficulty.findMany();
+
+            return res.status(200).json(difficulties);
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({
+                message: "Erreur lors de la récupération des difficultés.",
+                error
+            });
+        }
+    },
 };

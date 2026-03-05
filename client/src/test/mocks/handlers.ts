@@ -47,8 +47,14 @@ const gardensMock: Garden[] = [
         id_user: 1,
         id_localisation: 1,
         user: userMock,
-        pets: [petsMock[0], petsMock[1]],
-        plants: [plantsMock[0], plantsMock[1]],
+        pets: [
+            { gardenId: 1, petId: petsMock[0].id, pet: petsMock[0] },
+            { gardenId: 1, petId: petsMock[1].id, pet: petsMock[1] },
+        ],
+        plants: [
+            { gardenId: 1, plantId: plantsMock[0].id, plant: plantsMock[0] },
+            { gardenId: 1, plantId: plantsMock[1].id, plant: plantsMock[1] },
+        ],
     },
     {
         id: 2,
@@ -58,8 +64,13 @@ const gardensMock: Garden[] = [
         id_user: 1,
         id_localisation: 2,
         user: userMock,
-        pets: [petsMock[2]],
-        plants: [plantsMock[2], plantsMock[3]],
+        pets: [
+            { gardenId: 2, petId: petsMock[2].id, pet: petsMock[2] },
+        ],
+        plants: [
+            { gardenId: 2, plantId: plantsMock[2].id, plant: plantsMock[2] },
+            { gardenId: 2, plantId: plantsMock[3].id, plant: plantsMock[3] },
+        ],
     },
 ];
 

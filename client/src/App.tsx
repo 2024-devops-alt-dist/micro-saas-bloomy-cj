@@ -15,6 +15,7 @@ import Login from "./features/auth/pages/Login/Login";
 import { AuthProvider } from "./features/auth/context/AuthContext";
 import ProtectedRoute from "./features/auth/components/ProtectedRoute";
 import Register from "./features/auth/pages/Register/Register";
+import GardenId from "./features/profil/pages/Garden_id/Garden_id";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
             <Route path="/panierGarden" element={<ProtectedRoute><PanierGarden /></ProtectedRoute>} />
             <Route path="/garden-success/:id" element={<ProtectedRoute><GardenSuccess /></ProtectedRoute>} />
             <Route path="/mes-jardins" element={<ProtectedRoute><MyGarden /></ProtectedRoute>} />
+            <Route path="/garden/:id" element={<ProtectedRoute><GardenId /></ProtectedRoute>} />
           </Routes>
         </div>
       </AuthProvider>

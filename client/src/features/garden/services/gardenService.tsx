@@ -2,6 +2,7 @@ import type { Garden } from "../../../models/garden/IGarden";
 import api from "../../../services/api";
 
 export type GardenDraft = {
+    id?: number; 
     name: string;
     description?: string;
     id_localisation?: number;
@@ -24,6 +25,11 @@ const realApi = {
         return res.data;
     },
 
+    async getMineById(id: number): Promise<Garden> {
+        const res = await api.get(`/gardens/me/${id}`);
+        return res.data;
+    },
+
     async create(garden: GardenDraft): Promise<Garden> {
         const payload = {
             ...garden,
@@ -37,7 +43,7 @@ const realApi = {
             // Si token expiré ou invalide, tenter un refresh automatique côté serveur
             if (err.response?.status === 401) {
                 await api.post("/refresh");
-                const retry = await api.post("/gardens", payload);
+                const retry = await api.post("/gardens/me", payload);
                 return retry.data;
             }
             throw err;
@@ -46,6 +52,15 @@ const realApi = {
 
     async getById(id: number): Promise<Garden> {
         const res = await api.get(`/gardens/${id}`);
+        return res.data;
+    },
+
+    async delete(id: number): Promise<void> {
+        await api.delete(`/gardens/${id}`);
+    },
+
+    async update(id: number, data: Partial<GardenDraft>): Promise<Garden> {
+        const res = await api.put(`/gardens/${id}`, data);
         return res.data;
     }
 };

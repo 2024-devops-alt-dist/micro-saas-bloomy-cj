@@ -71,13 +71,12 @@
     font-size: var(--text-lg);
     font-weight: bold;
     text-transform: uppercase;
-    margin-bottom: var(--space-xxxs);
+    margin-bottom: var(--space-xs1);
 }
 
 .plant-meta-container {
-    display: flex;
     gap: var(--space-sm2);
-    margin-bottom: var(--space-md1);
+    margin-bottom: var(--space-sm4);
 }
 
 .meta-item {
@@ -86,6 +85,13 @@
     gap: var(--space-xs);
     font-size: 12.5px;
     color: #4b5563;
+}
+
+.meta-icon.pet-icon {
+    width: 20px;   
+    height: 20px;
+    object-fit: contain;
+    margin-left: 6px; 
 }
 
 .meta-icon {
@@ -135,4 +141,14 @@
     padding-top: calc(var(--space-md2) + 60px);
 
     padding-bottom: calc(var(--space-md2) + 90px);
+}
+
+.toxic-line {
+    font-weight: 500;
+}
+
+/* Icône danger */
+.danger-icon {
+    width: 16px;
+    height: 16px;
 }
