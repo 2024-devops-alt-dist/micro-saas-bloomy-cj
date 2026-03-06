@@ -1,6 +1,8 @@
 # Étape 1 : Build React
 FROM node:24-alpine AS builder
 WORKDIR /app
+ARG VITE_API_URL
+ENV VITE_API_URL=$VITE_API_URL
 
 # copier uniquement les fichiers nécessaires
 COPY package*.json ./
