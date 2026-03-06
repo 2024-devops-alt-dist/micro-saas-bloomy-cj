@@ -1,13 +1,79 @@
-.home-bg {
-  min-height: 100vh;
-  background: #f3f4f6;
+.hero {
+  position: relative;
+  overflow: hidden;
 }
 
-.home-card {
+.hero-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.logo-hero {
+  width: 350px;
+  max-width: 60vw;
+  height: auto;
+  position: relative;
+  transform: translateY(-50px);
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.58);
+}
+
+/* Flèche */
+.arrow-container {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 25px;
+  height: 20px;
+  animation: bounce 1.6s infinite cubic-bezier(0.445, 0.05, 0.55, 0.95);
+  cursor: pointer;
+}
+
+.arrow-down {
+  position: relative;
+  height: 6px;
   background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
-  padding: 2rem;
-  min-width: 320px;
-  max-width: 90vw;
+  transform: rotate(45deg);
+  transform-origin: 0 0;
+  border-radius: 5px;
+}
+
+.arrow-down::after {
+  content: "";
+  position: absolute;
+  inset: auto auto 0 100%;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  transform: rotate(-90deg);
+  transform-origin: 0 100%;
+  border-radius: 5px;
+}
+
+@keyframes bounce {
+  50% {
+    transform: translate(-50%, -15px);
+  }
+}
+
+.bg-custom-home {
+  background-color: rgba(125, 199, 106, 0.18);
+}
+
+.footer-bg-custom {
+  background-color: var(--color-primary);
+}
+
+.menu-btn.active {
+  background-color: #7dc76a;
+  color: #fff;
+  border-radius: 5px;
 }

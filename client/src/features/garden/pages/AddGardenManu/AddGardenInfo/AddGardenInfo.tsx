@@ -1,5 +1,6 @@
 import React from "react";
 import "../../../../../assets/styles/global.css";
+import "./AddGardenInfo.css";
 import { useNavigate } from "react-router-dom";
 import { saveDraft } from "../../../services/gardenLocalStorage";
 import { z } from "zod";
