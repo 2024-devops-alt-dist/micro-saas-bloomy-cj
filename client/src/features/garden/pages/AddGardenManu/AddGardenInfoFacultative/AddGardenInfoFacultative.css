@@ -64,3 +64,16 @@ select.input-text option.placeholder-option {
   align-items: center;
   justify-content: center;
 }
+
+.textarea-wrapper {
+  position: relative;
+}
+
+.char-counter {
+  position: absolute;
+  bottom: 8px;
+  right: 12px;
+  font-size: 12px;
+  color: #888;
+  pointer-events: none;
+}

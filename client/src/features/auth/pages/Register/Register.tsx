@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";
 import authService from "../../services/authService";
+import HeaderHome from "../../../../HomePage/HeaderHome";
 
 // Schéma validation Zod
 const registerSchema = z.object({
@@ -62,13 +63,14 @@ const Register: React.FC = () => {
 
     return (
         <>
+            <HeaderHome />
             <div className="register-container min-h-screen flex items-center justify-center">
                 <div className="register-card">
                     <h1 className="register-title">
                         Créer un compte
                     </h1>
 
-                    <form className="register-form" onSubmit={handleSubmit(onSubmit)}>
+                    <form className="flex flex-col gap-[var(--space-md1)]" onSubmit={handleSubmit(onSubmit)}>
                         <div className="flex flex-col md:flex-row gap-4">
                             <div className="flex-1 flex flex-col gap-1">
                                 <label>Prénom</label>
@@ -96,7 +98,7 @@ const Register: React.FC = () => {
                                 )}
                             </div>
                         </div>
-                        <div className="flex flex-col gap-1 mt-4">
+                        <div className="flex flex-col gap-1">
                             <label>Email</label>
                             <input
                                 type="email"
@@ -109,7 +111,7 @@ const Register: React.FC = () => {
                             )}
                         </div>
 
-                        <div className="flex flex-col md:flex-row gap-4 mt-4">
+                        <div className="flex flex-col md:flex-row gap-4">
                             <div className="flex-1 flex flex-col gap-1">
                                 <label>Mot de passe</label>
                                 <input

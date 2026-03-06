@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "../../context/AuthContext";
 import { Link } from "react-router-dom";
+import HeaderHome from "../../../../HomePage/HeaderHome";
 
 // Schéma validation Zod
 const loginSchema = z.object({
@@ -42,19 +43,20 @@ const Login: React.FC = () => {
 
     return (
         <>
+        <HeaderHome />
         <div className="login-container min-h-screen flex items-center justify-center">
             <div className="login-card">
                 <h1 className="login-title">
                     Connexion
                 </h1>
 
-                <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
+                <form className="flex flex-col gap-[var(--space-md1)]" onSubmit={handleSubmit(onSubmit)}>
                     <div>
                         <label>Email</label>
                         <input
                             type="email"
                             {...register("email")}
-                            className="input-text"
+                            className="input-text mt-1"
                             placeholder="Votre email"
                         />
                         {errors.email && (
@@ -67,7 +69,7 @@ const Login: React.FC = () => {
                         <input
                             type="password"
                             {...register("password")}
-                            className="input-text"
+                            className="input-text mt-1"
                             placeholder="Votre mot de passe"
                         />
 
