@@ -2,26 +2,28 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 
 import "./App.css";
 import "./assets/styles/global.css";
-import Home from "./pages/Home";
-import AddGarden from "./features/garden/pages/AddGarden0/AddGarden";
-import AddGardenInfo from "./features/garden/pages/AddGardenManu/AddGardenInfo/AddGardenInfo";
-import GardenSelectPlants from "./features/garden/pages/GardenSelectPlants/GardenSelectPlants";
-import DetailsPlant from "./features/plants/pages/DetailsPlant/DetailsPlant";
-import PanierGarden from "./features/garden/pages/PanierGarden/PanierGarden";
-import AddGardenInfoFacultative from "./features/garden/pages/AddGardenManu/AddGardenInfoFacultative/AddGardenInfoFacultative";
-import GardenSuccess from "./features/garden/pages/GardenSuccess";
-import MyGarden from "./features/profil/pages/MyGarden/MyGarden";
-import Login from "./features/auth/pages/Login/Login";
 import { AuthProvider } from "./features/auth/context/AuthContext";
 import ProtectedRoute from "./features/auth/components/ProtectedRoute";
-import Register from "./features/auth/pages/Register/Register";
-import GardenId from "./features/profil/pages/Garden_id/Garden_id";
+import { lazy, Suspense } from "react";
+
+const Home = lazy(() => import("./HomePage/Home"));
+const AddGarden = lazy(() => import("./features/garden/pages/AddGarden0/AddGarden"));
+const AddGardenInfo = lazy(() => import("./features/garden/pages/AddGardenManu/AddGardenInfo/AddGardenInfo"));
+const GardenSelectPlants = lazy(() => import("./features/garden/pages/GardenSelectPlants/GardenSelectPlants"));
+const DetailsPlant = lazy(() => import("./features/plants/pages/DetailsPlant/DetailsPlant"));
+const PanierGarden = lazy(() => import("./features/garden/pages/PanierGarden/PanierGarden"));
+const AddGardenInfoFacultative = lazy(() => import("./features/garden/pages/AddGardenManu/AddGardenInfoFacultative/AddGardenInfoFacultative"));
+const GardenSuccess = lazy(() => import("./features/garden/pages/GardenSuccess"));
+const MyGarden = lazy(() => import("./features/profil/pages/MyGarden/MyGarden"));
+const Login = lazy(() => import("./features/auth/pages/Login/Login"));
+const Register = lazy(() => import("./features/auth/pages/Register/Register"));
+const GardenId = lazy(() => import("./features/profil/pages/Garden_id/Garden_id"));
 
 function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <div>
+        <Suspense fallback={<div>Loading...</div>}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
@@ -36,7 +38,7 @@ function App() {
             <Route path="/mes-jardins" element={<ProtectedRoute><MyGarden /></ProtectedRoute>} />
             <Route path="/garden/:id" element={<ProtectedRoute><GardenId /></ProtectedRoute>} />
           </Routes>
-        </div>
+        </Suspense>
       </AuthProvider>
     </BrowserRouter>
   );

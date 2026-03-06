@@ -13,7 +13,7 @@ import { getDraft, saveDraft } from "../../../services/gardenLocalStorage";
 
 //  Schéma de validation
 const gardenFacSchema = z.object({
-    description: z.string().max(500, "Maximum 500 caractères").optional(),
+    description: z.string().max(272, "Maximum 272 caractères").optional(),
     id_localisation: z.number().optional(),
     pets: z.array(z.number()).optional(),
 });
@@ -30,7 +30,7 @@ const AddGardenInfoFacultative : React.FC = () => {
     const [loadingLoc, setLoadingLoc] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
-    const { register, handleSubmit, watch, formState: { errors }, setValue, getValues } = useForm<GardenFacValues>({
+    const { register, handleSubmit, watch, setValue, getValues } = useForm<GardenFacValues>({
         resolver: zodResolver(gardenFacSchema),
         defaultValues: {
             description: gardenDraft?.description || "",
@@ -38,6 +38,7 @@ const AddGardenInfoFacultative : React.FC = () => {
             pets: gardenDraft?.pets || [],
         },
     });
+    const descriptionValue = watch("description") || "";
 
     const hasAtLeastOneValue = (data: any) => {
         const desc = typeof data?.description === "string" ? data.description.trim() : "";
@@ -139,16 +140,21 @@ const AddGardenInfoFacultative : React.FC = () => {
                 >
                     <div>
                         <label htmlFor="description" className="block mb-2">Description :</label>
-                        <textarea
-                            id="description"
-                            placeholder="Décrivez votre jardin ..."
-                            className="input-text"
-                            {...register("description")}
-                            rows={5} 
-                        ></textarea>
-                        {errors.description && (
-                            <p className="error-alerte mt-1">⚠️ {errors.description.message}</p>
-                        )}
+
+                        <div className="textarea-wrapper">
+                            <textarea
+                                id="description"
+                                placeholder="Décrivez votre jardin ..."
+                                className="input-text"
+                                {...register("description")}
+                                rows={5}
+                                maxLength={272}
+                            ></textarea>
+
+                            <span className="char-counter">
+                                {descriptionValue.length}/272
+                            </span>
+                        </div>
                         
                         <label htmlFor="localisation" className="block mb-2 mt-3">Où se situe votre jardin ?</label>
                         {loadingLoc ? (
