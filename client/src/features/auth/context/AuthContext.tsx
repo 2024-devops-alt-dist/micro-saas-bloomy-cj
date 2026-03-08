@@ -42,7 +42,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         try {
             const response = await authService.login(email, password);
             setUser(response);
-            navigate("/addGarden");
+            navigate("/accueil");
         } catch (err: any) {
             throw new Error(err.message || "Erreur lors de la connexion.");
         }

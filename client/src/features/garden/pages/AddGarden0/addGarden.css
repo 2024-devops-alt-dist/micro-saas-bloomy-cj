@@ -1,3 +1,13 @@
+html, body, #root {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
 .btn-garden-bloomy, .btn-select-manual {
     padding: var(--space-md) var(--space-md1);     
     border-radius: var(--border-radius-s);   

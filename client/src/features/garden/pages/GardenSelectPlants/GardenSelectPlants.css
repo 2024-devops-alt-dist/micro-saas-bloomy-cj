@@ -24,3 +24,19 @@
 .plant-list-space {
     padding-bottom: 20px;
 }
+
+/* Conteneur du bouton fixe */
+.fixed-button-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: var(--space-md3) var(--space-md1); 
+    background-color: white; 
+    box-shadow: 0 -2px 6px rgba(255, 255, 255, 0.466);
+    z-index: 1000;
+}
+
+.main-content-padding {
+    padding-bottom: 80px; 
+}

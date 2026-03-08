@@ -20,3 +20,12 @@ form .input-text-search {
 .input-text-search::placeholder {
     color: var(--text-light-placeholder); 
 }
+
+.bg-custom-search {
+    background-color: rgba(125, 199, 106, 0.365);
+    border-color: rgba(125, 199, 106, 0.365);
+}
+
+.border-custom-search:hover {
+    border-color: rgb(125, 199, 106);
+}

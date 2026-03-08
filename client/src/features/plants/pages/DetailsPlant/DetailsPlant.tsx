@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import "../../../../assets/styles/global.css";
 import "./DetailsPlant.css";
+import"../../../../features/garden/pages/GardenSelectPlants/GardenSelectPlants.css";
 import { plantService } from "../../services/plantService";
 import AddToGardenButton from "../../../buttons/AddToGardenButton";
 import NavBarDetailPlant from "../../components/NavBarDetailPlant/NavBarDetailPlant";
@@ -21,6 +22,8 @@ const DetailsPlant: React.FC = () => {
     const [activeTab, setActiveTab] = useState("À propos");
     const [varieties, setVarieties] = useState<Plant[]>([]);
 
+    const location = useLocation();
+    const fromGarden = location.state?.fromGarden;
 
     useEffect(() => {
         const fetchPlant = async () => {
@@ -96,13 +99,18 @@ const DetailsPlant: React.FC = () => {
     return (
         <>
         <HeaderAddGarden showBack={true} />
-        <main className="flex flex-col h-screen bg-white mt-15">
+        <main className="flex flex-col h-screen bg-white">
             <div className="plant-image-container">
                 <div className="plant-image-wrapper">
                     <img src={`/assets/pictures/${plant.picturePlant?.name}`} alt={plant.name} />
                 </div>
 
-                <AddToGardenButton label="Ajouter au jardin" onClick={handleAddToGarden}/>
+                {fromGarden && (
+                    <AddToGardenButton
+                        label="Ajouter au jardin"
+                        onClick={handleAddToGarden}
+                    />
+                )}
             </div>
             <div  className="p-6">
                 <div className="plant-header-info">

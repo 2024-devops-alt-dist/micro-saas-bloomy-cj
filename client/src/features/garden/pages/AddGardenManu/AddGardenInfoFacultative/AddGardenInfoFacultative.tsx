@@ -90,9 +90,37 @@ const AddGardenInfoFacultative : React.FC = () => {
 
     // Gestion sélection multiple animaux
     const selectedPets = watch("pets") || [];
+
+    // Vérifie si "Aucun" est sélectionné
+    const noneSelected = petsList
+        .filter(pet => selectedPets.includes(pet.id))
+        .some(pet => pet.name.toLowerCase() === "aucun");
+
+    // Fonction de toggle adaptée
     const togglePet = (petId: number) => {
-    const current = getValues("pets") || [];
-        setValue("pets", current.includes(petId) ? current.filter(id => id !== petId) : [...current, petId]);
+        const current = getValues("pets") || [];
+        const petClicked = petsList.find(p => p.id === petId);
+        if (!petClicked) return;
+
+        const isSelected = current.includes(petId);
+        const isNone = petClicked.name.toLowerCase() === "aucun";
+
+        let updated: number[] = [];
+
+        if (isNone) {
+            // Si "Aucun" est cliqué, on ne garde que lui ou on vide si déjà sélectionné
+            updated = isSelected ? [] : [petId];
+        } else {
+            // Si un autre animal est cliqué, on retire "Aucun" s'il était sélectionné
+            updated = isSelected
+                ? current.filter(id => id !== petId)
+                : [...current.filter(id => {
+                    const pet = petsList.find(p => p.id === id);
+                    return pet?.name.toLowerCase() !== "aucun";
+                }), petId];
+        }
+
+        setValue("pets", updated);
     };
 
     const onSubmit = (data: GardenFacValues) => {
@@ -125,99 +153,103 @@ const AddGardenInfoFacultative : React.FC = () => {
             <HeaderAddGarden showBack={true} />
 
             <main className="main-footer">
-                <form
-                    className="w-full text-left space-y-6"
-                    onSubmit={(e) => {
-                        e.preventDefault();
-                        const vals = getValues();
-                        if (!hasAtLeastOneValue(vals)) {
-                            setErrorMessage("Veuillez renseigner au moins une information avant de continuer. Ou passez l'étape.");
-                            return;
-                        }
-                        // Delegate to react-hook-form validation/submit
-                        handleSubmit(onSubmit)(e);
-                    }}
-                >
-                    <div>
-                        <label htmlFor="description" className="block mb-2">Description :</label>
+                <div className="form-container">
+                    <form
+                        className="w-full text-left space-y-6"
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            const vals = getValues();
+                            if (!hasAtLeastOneValue(vals)) {
+                                setErrorMessage("Veuillez renseigner au moins une information avant de continuer. Ou passez l'étape.");
+                                return;
+                            }
+                            // Delegate to react-hook-form validation/submit
+                            handleSubmit(onSubmit)(e);
+                        }}
+                    >
+                        <div>
+                            <label htmlFor="description" className="block mb-2">Description :</label>
 
-                        <div className="textarea-wrapper">
-                            <textarea
-                                id="description"
-                                placeholder="Décrivez votre jardin ..."
-                                className="input-text"
-                                {...register("description")}
-                                rows={5}
-                                maxLength={272}
-                            ></textarea>
+                            <div className="textarea-wrapper">
+                                <textarea
+                                    id="description"
+                                    placeholder="Décrivez votre jardin ..."
+                                    className="input-text"
+                                    {...register("description")}
+                                    rows={3}
+                                    maxLength={272}
+                                ></textarea>
 
-                            <span className="char-counter">
-                                {descriptionValue.length}/272
-                            </span>
-                        </div>
-                        
-                        <label htmlFor="localisation" className="block mb-2 mt-3">Où se situe votre jardin ?</label>
-                        {loadingLoc ? (
-                            <div className="input-text">Chargement...</div>
-                        ) : (
-                            <select
-                                id="id_localisation"
-                                className="input-text"
-                                {...register("id_localisation", { setValueAs: v => v === "" ? undefined : Number(v) })}
-                            >
-                                <option className="placeholder-option" value="">Choisir une localisation</option>
-                                {localisations.map((loc) => (
-                                    <option key={loc.id} value={loc.id}> {loc.name} </option>
-                                ))}
-                            </select>
-                        )}
-
-                        <span className="block mb-1 mt-5">Avez-vous des animaux ?</span>
-                        {loadingPets ? (
-                            <p className="input-text">Chargement des animaux...</p>
-                        ) : (
-                            <div className="pets-grid">
-                                {petsList.map((pet) => {
-                                    const isSelected = selectedPets.includes(pet.id);
-
-                                    return (
-                                        <button
-                                            key={pet.id}
-                                            type="button"
-                                            className={`pet-card ${isSelected ? "selected" : ""}`}
-                                            onClick={() => togglePet(pet.id)}
-                                        >
-                                            {pet.icon && (
-                                                <div className="pet-icon-wrapper">
-                                                    <img
-                                                    src={`/assets/icons/${pet.icon}`}
-                                                    alt={pet.name}
-                                                    className="pet-icon"
-                                                    />
-                                                </div>
-                                            )}
-                                            <span className="pet-name">{pet.name}</span>
-                                        </button>
-                                    );
-                                })}
+                                <span className="char-counter">
+                                    {descriptionValue.length}/272
+                                </span>
                             </div>
-                        )}
-                    </div>
+                            
+                            <label htmlFor="localisation" className="block mb-2 mt-3">Où se situe votre jardin ?</label>
+                            {loadingLoc ? (
+                                <div className="input-text">Chargement...</div>
+                            ) : (
+                                <select
+                                    id="id_localisation"
+                                    className="input-text"
+                                    {...register("id_localisation", { setValueAs: v => v === "" ? undefined : Number(v) })}
+                                >
+                                    <option className="placeholder-option" value="">Choisir une localisation</option>
+                                    {localisations.map((loc) => (
+                                        <option key={loc.id} value={loc.id}> {loc.name} </option>
+                                    ))}
+                                </select>
+                            )}
 
-                    {errorMessage && <p className="error-alerte mt-8 text-center">⚠️ {errorMessage}</p>}
+                            <span className="block mb-1 mt-5">Avez-vous des animaux ?</span>
+                            {loadingPets ? (
+                                <p className="input-text">Chargement des animaux...</p>
+                            ) : (
+                                <div className="pets-grid">
+                                    {petsList.map((pet) => {
+                                        const isSelected = selectedPets.includes(pet.id);
+                                        const disableOther = noneSelected && pet.name.toLowerCase() !== "aucun";
 
-                    <div className="flex flex-col items-center space-y-4 mt-8">
-                        <button className="btn-global w-full" type="submit">
-                            Suivant
-                        </button>
+                                        return (
+                                            <button
+                                                key={pet.id}
+                                                type="button"
+                                                className={`pet-card ${isSelected ? "selected" : ""}`}
+                                                onClick={() => togglePet(pet.id)}
+                                                disabled={disableOther}
+                                            >
+                                                {pet.icon && (
+                                                    <div className="pet-icon-wrapper">
+                                                        <img
+                                                            src={`/assets/icons/${pet.icon}`}
+                                                            alt={pet.name}
+                                                            className="pet-icon"
+                                                        />
+                                                    </div>
+                                                )}
+                                                <span className="pet-name">{pet.name}</span>
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            )}
+                        </div>
 
-                        {!hasChanges && (
-                            <button className="btn-desable w-full" onClick={handleSkipStep} type="button">
-                                Passer
+                        {errorMessage && <p className="error-alerte mt-8 text-center">⚠️ {errorMessage}</p>}
+
+                        <div className="flex flex-col items-center space-y-4 mt-8">
+                            <button className="btn-global w-full" type="submit">
+                                Suivant
                             </button>
-                        )}
-                    </div>
-                </form>
+
+                            {!hasChanges && (
+                                <button className="btn-desable w-full" onClick={handleSkipStep} type="button">
+                                    Passer
+                                </button>
+                            )}
+                        </div>
+                    </form>
+                </div>
             </main>
         </div>
     );

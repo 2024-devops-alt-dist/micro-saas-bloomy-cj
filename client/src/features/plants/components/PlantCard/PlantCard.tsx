@@ -8,25 +8,44 @@ import type { GardenDraft } from "../../../garden/services/gardenService";
 interface PlantCardProps {
     plant: Plant;
     gardenDraft?: GardenDraft;
+    mode?: "select" | "catalog";
 }
 
-const PlantCard: React.FC<PlantCardProps> = ({ plant, gardenDraft }) => {
+const PlantCard: React.FC<PlantCardProps> = ({ plant, gardenDraft, mode = "catalog" }) => {
     const navigate = useNavigate();
     const isSelected = gardenDraft?.plants?.includes(plant.id);
+
     const handleClick = () => {
-        saveDraft(gardenDraft);
-        navigate(`/plants/${plant.id}`);
+        if (gardenDraft) { saveDraft(gardenDraft); }
+
+        navigate(`/plants/${plant.id}`, {
+            state: {fromGarden: mode === "select"}
+        });
     };
 
     return (
-        <div className="plant-card-container" onClick={handleClick}>
-            <div className="plant-card-image">
-                {isSelected && (
-                    <img src="/assets/icons/check.png" alt="check" className="selected-check" />
-                )}
-                <img src={`/assets/pictures/${plant.picturePlant?.name}`} alt={plant.name} />
-            </div>
-            <h3 className="plant-card-name">{plant.name}</h3>
+        <div className="plant-card" onClick={handleClick}>
+            {mode === "select" && isSelected && (
+                <img
+                    src="/assets/icons/check.png"
+                    alt="selected"
+                    className="selected-check"
+                />
+            )}
+
+            <img
+                src={
+                    plant.picturePlant
+                        ? `/assets/pictures/${plant.picturePlant.name}`
+                        : "/assets/pictures/plants_legume.jpg"
+                }
+                alt={plant.name}
+                className="plant-img"
+            />
+
+            <div className="plant-img-overlay"></div>
+
+            <h2 className="plant-title">{plant.name}</h2>
         </div>
     );
 };
