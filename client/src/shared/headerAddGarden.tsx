@@ -1,35 +1,39 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../assets/styles/global.css";
-import { useAuth } from "../features/auth/context/AuthContext";
+import gardenLocalStorage from "../features/garden/services/gardenLocalStorage";
 
 interface HeaderAddGardenProps {
-    showBack?: boolean; 
-    showLogout?: boolean;
+    showBack?: boolean;
+    showClose?: boolean; 
 }
 
-const HeaderAddGarden: React.FC<HeaderAddGardenProps> = ({ showBack = true, showLogout = false }) => {
+const HeaderAddGarden: React.FC<HeaderAddGardenProps> = ({ showBack = true, showClose = true }) => {
     const navigate = useNavigate();
-    const { logout } = useAuth(); 
+
+    const handleClose = () => {
+    // Supprime le draft du jardin
+    gardenLocalStorage.clearDraft();
+
+    // Redirige vers la page principale de création de jardin
+    navigate("/addGarden");
+};
+
     
     return (
-        <header className="hearder-container">
+        <header className="hearder-container flex justify-between items-center">
             {showBack ? (
-                <button className="hover:text-green-600 text-2xl" onClick={() => navigate(-1)}>
-                    ←
-                </button>
+                <button className="hover:text-green-600 text-2xl" onClick={() => navigate(-1)}>←</button>
             ) : (
                 <span style={{ width: "24px" }}></span>
             )}
 
-            <p className="text-md">Création d’un jardin</p>
+            <p className="text-md absolute left-1/2 transform -translate-x-1/2">Création d’un jardin</p>
 
-            {showLogout ? (
-                <button className="hover:text-red-500 text-sm font-medium px-3 py-1 rounded" onClick={logout} >
-                    Déconnexion
-                </button>
+            {showClose ? (
+                <button className="hover:text-red-500 text-2xl" onClick={handleClose}>×</button>
             ) : (
-                <span style={{ width: "78px" }}></span>
+                <span style={{ width: "24px", display: "inline-block" }}></span>
             )}
         </header>
     );

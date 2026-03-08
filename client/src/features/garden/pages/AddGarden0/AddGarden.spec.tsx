@@ -18,7 +18,7 @@ import { AuthProvider } from "../../../../features/auth/context/AuthContext";
 
 describe("AddGarden page - fonctionnel", () => {
     beforeEach(() => {
-        mockNavigate.mockReset(); // reset entre chaque test
+        mockNavigate.mockReset(); 
     });
 
     it("affiche correctement les titres et boutons", () => {
@@ -32,7 +32,7 @@ describe("AddGarden page - fonctionnel", () => {
 
         expect(screen.getByText("Créez votre jardin")).toBeInTheDocument();
         expect(
-            screen.getByText("Choisissez votre méthode préférée pour commencer votre aventure jardinage :")
+            screen.getByText("Vous pouvez en créer autant que vous voulez.")
         ).toBeInTheDocument();
 
         expect(screen.getByText("Avec l’aide de Bloomy")).toBeInTheDocument();

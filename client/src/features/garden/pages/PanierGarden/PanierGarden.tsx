@@ -96,56 +96,62 @@ const PanierGarden: React.FC = () => {
 
     return (
         <>
-            <HeaderAddGarden showBack={true} />
+        <HeaderAddGarden showBack={true} />
+        <main className="flex flex-col panier-main">
+            <div className="panier-container">
+                {/* Colonne gauche */}
+                <div className="panier-left">
+                    <h1 className="text-center title-custom-panier mb-3">
+                        Votre sélection pour le jardin
+                    </h1>
+                    <h2 className="text-center mb-4">{gardenDraft.name}</h2>
 
-            <main className="flex flex-col panier-main">
-                <h1 className="text-center title-custom-panier mb-3">
-                    Votre sélection pour le jardin
-                </h1>
+                    <hr className="separator" />
+                    
+                    <div className="mb-6">
+                        <button
+                            onClick={() => {
+                                saveDraft(gardenDraft);
+                                navigate("/gardenSelectPlants");
+                            }}
+                            className="add-plant-btn"
+                        >
+                            + Ajouter une plante
+                        </button>
+                    </div>
 
-                <h2 className="text-center mb-4">{gardenDraft.name}</h2>
+                    <div className="fixed-button-container">
+                        {error && (
+                            <p className="error-alerte mb-3 text-center">
+                                ⚠️ {error}
+                            </p>
+                        )}
 
-                <hr className="separator" />
-
-                <div className="mb-6">
-                    <button
-                        onClick={() => {
-                            saveDraft(gardenDraft);
-                            navigate("/gardenSelectPlants");
-                        }}
-                        className="add-plant-btn"
-                    >
-                        + Ajouter une plante
-                    </button>
+                        <CustomButton
+                            label={gardenDraft.id ? "Mettre à jour mon jardin" : "Créer mon jardin"}
+                            onClick={handleValidateGarden}
+                        />
+                    </div>
                 </div>
 
-                {plantsDetails.length > 0 ? (
-                    plantsDetails.map((plant) => (
-                        <GardenPlantCard
-                            key={plant.id}
-                            plant={plant}
-                            onRemove={() => handleRemovePlant(plant.id)}
-                        />
-                    ))
-                ) : (
-                    <p className="text-gray-500 italic">
-                        Aucune plante ajoutée pour le moment 🌱
-                    </p>
-                )}
-
-                <div className="fixed-button-container">
-                    {error && (
-                        <p className="error-alerte mb-3 text-center">
-                            ⚠️ {error}
+                {/* Colonne droite */}
+                <div className="panier-right">
+                    {plantsDetails.length > 0 ? (
+                        plantsDetails.map((plant) => (
+                            <GardenPlantCard
+                                key={plant.id}
+                                plant={plant}
+                                onRemove={() => handleRemovePlant(plant.id)}
+                            />
+                        ))
+                    ) : (
+                        <p className="text-gray-500 italic">
+                            Aucune plante ajoutée pour le moment 🌱
                         </p>
                     )}
-
-                    <CustomButton
-                        label={gardenDraft.id ? "Mettre à jour mon jardin" : "Créer mon jardin"}
-                        onClick={handleValidateGarden}
-                    />
                 </div>
-            </main>
+            </div>
+        </main>
         </>
     );
 };
