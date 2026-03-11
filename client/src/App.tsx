@@ -5,7 +5,7 @@ import "./assets/styles/global.css";
 import { AuthProvider } from "./features/auth/context/AuthContext";
 import ProtectedRoute from "./features/auth/components/ProtectedRoute";
 import { lazy, Suspense } from "react";
-import HomeAuth from "./HomePage/HomeAuth";
+import HomeAuth from "./HomePage/HomeAuth/HomeAuth";
 import ListPlant from "./features/plants/pages/ListPlant/ListPlant";
 
 const Home = lazy(() => import("./HomePage/Home"));

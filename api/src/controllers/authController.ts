@@ -159,7 +159,7 @@ export const authController = {
           if (!user) return res.status(401).json({ message: "Utilisateur introuvable." });
 
           logger.info(`[ME] Utilisateur authentifié : ${user.email}`);
-          return res.status(200).json({ user: { id: user.id, email: user.email, role: user.role } });
+          return res.status(200).json({ user: { id: user.id, firstname: user.firstname, email: user.email, role: user.role } });
         } catch (error) {
           console.error(error);
           return res.status(500).json({ message: "Erreur serveur.", error });
