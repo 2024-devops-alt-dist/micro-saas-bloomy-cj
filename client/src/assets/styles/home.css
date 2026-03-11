@@ -71,9 +71,3 @@
 .footer-bg-custom {
   background-color: var(--color-primary);
 }
-
-.menu-btn.active {
-  background-color: #7dc76a;
-  color: #fff;
-  border-radius: 5px;
-}

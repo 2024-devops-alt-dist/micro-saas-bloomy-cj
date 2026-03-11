@@ -1,32 +1,29 @@
 .plant-list {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 cards sur mobile */
+    grid-template-columns: repeat(3, 1fr);
     gap: 12px;
-    justify-items: center; /* centre les cards */
+    justify-items: center;
 }
 
-/* Tablette */
 @media (min-width: 640px) {
     .plant-list {
         grid-template-columns: repeat(4, 1fr);
     }
 }
 
-/* Petit PC */
 @media (min-width: 1024px) {
     .plant-list {
         grid-template-columns: repeat(6, 1fr);
     }
 }
 
-/* Grand écran */
 @media (min-width: 1280px) {
     .plant-list {
         grid-template-columns: repeat(8, 1fr);
     }
 }
 
-/* SECTION RECHERCHE */
+/* Search */
 .home-search-title {
     font-size: 1.5rem;
     font-weight: 700;
@@ -40,7 +37,7 @@
     max-width: 1200px; 
     border: none;
     height: 1px;
-    background-color: #c0c0c073;
+    background-color: #c0c0c046;
 }
 
 .home-search-titles {

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import type { Garden } from "../../../models/garden/IGarden";
 import { commonService } from "../../garden/services/commonService";
 import { gardenService, type GardenDraft } from "../../garden/services/gardenService";
-
+import "../../../assets/styles/global.css";
+import "./Modal-update-garden-id.css";
 
 interface Props {
     garden: Garden;
@@ -25,6 +26,7 @@ const ModalUpdateGardenId: React.FC<Props> = ({ garden, onClose, onUpdate }) => 
     const [difficulties, setDifficulties] = useState<any[]>([]);
     const [expositions, setExpositions] = useState<any[]>([]);
     const [allPets, setAllPets] = useState<any[]>([]);
+    const [errors, setErrors] = useState<{ name?: string; description?: string }>({});
 
     useEffect(() => {
         const fetchOptions = async () => {
@@ -46,7 +48,26 @@ const ModalUpdateGardenId: React.FC<Props> = ({ garden, onClose, onUpdate }) => 
         fetchOptions();
     }, []);
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        
+        // Validation locale
+        const newErrors: typeof errors = {};
+        if (!editForm.name || editForm.name.trim().length < 1) {
+            newErrors.name = "Le nom doit contenir au moins 1 caractère";
+        } else if (editForm.name.length > 25) {
+            newErrors.name = "Le nom doit contenir au maximum 25 caractères";
+        }
+
+        if (editForm.description && editForm.description.length > 272) {
+            newErrors.description = "La description doit faire au maximum 272 caractères";
+        }
+
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
+            return;
+        }
+
         try {
             const payload = {
                 name: editForm.name,
@@ -59,7 +80,7 @@ const ModalUpdateGardenId: React.FC<Props> = ({ garden, onClose, onUpdate }) => 
             };
 
             const updatedGarden = await gardenService.update(garden.id, payload as Partial<GardenDraft>);
-            onUpdate(updatedGarden); 
+            onUpdate(updatedGarden);
             onClose();
             alert("Jardin mis à jour avec succès !");
         } catch (error: any) {
@@ -68,125 +89,149 @@ const ModalUpdateGardenId: React.FC<Props> = ({ garden, onClose, onUpdate }) => 
         }
     };
 
+    // Bloque le scroll quand la modale est ouverte
+    useEffect(() => {
+        document.body.classList.add("modal-open");
+        return () => {
+            document.body.classList.remove("modal-open");
+        };
+    }, []);
+
     return (
-        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
-            <div className="bg-white rounded-xl p-6 w-full max-w-md">
+        <div className="modal-overlay">
+            <form onSubmit={handleSubmit} className="modal-content">
+                <h2 className="text-xl font-bold mb-6">Modifier le jardin</h2>
 
-                <h2 className="text-xl font-bold mb-4">Modifier le jardin</h2>
+                <div className="name-field relative">
+                    <label htmlFor="garden-name" className="text-sm font-medium mb-1 block">Nom du jardin</label>
+                    <input
+                        id="garden-name"
+                        type="text"
+                        value={editForm.name}
+                        placeholder="Nom du jardin..."
+                        onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
+                        maxLength={25}
+                        className={`input-text ${errors.name ? "border-red-500" : ""}`}
+                    />
+                    <span className="char-counter">{editForm.name.length}/25</span>
+                </div>
+                {errors.name && <p className="error-alerte">⚠️ {errors.name}</p>}
 
-                <input
-                    type="text"
-                    value={editForm.name}
-                    onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
-                    className="w-full border rounded px-2 py-1 mb-2"
-                />
+                {/* Description */}
+                <div className="relative mt-4">
+                    <label htmlFor="garden-description" className="text-sm font-medium mb-1 block">Description</label>
+                    <textarea
+                        id="garden-description"
+                        value={editForm.description}
+                        placeholder="Description..."
+                        onChange={(e) => setEditForm({ ...editForm, description: e.target.value })}
+                        maxLength={272}
+                        rows={4}
+                        className={`input-text ${errors.description ? "border-red-500" : ""}`}
+                    />
+                    <span className="char-counter mb-2">
+                        {editForm.description.length}/272
+                    </span>
+                </div>
+                {errors.description && <p className="error-alerte">⚠️ {errors.description}</p>}
 
-                <textarea
-                    value={editForm.description}
-                    onChange={(e) => setEditForm({ ...editForm, description: e.target.value })}
-                    className="w-full border rounded px-2 py-1 mb-2"
-                />
+                {/* Selects */}
+                <div className="flex flex-col sm:flex-row gap-2 mt-2">
+                    <div className="flex-1 min-w-[140px]">
+                        <label htmlFor="garden-localisation" className="text-sm font-medium mb-1 block">Localisation</label>
+                        <select
+                            id="garden-localisation"
+                            value={editForm.id_localisation ?? ""}
+                            onChange={(e) =>
+                                setEditForm({ ...editForm, id_localisation: e.target.value ? Number(e.target.value) : null })
+                            }
+                            className="input-text w-full"
+                        >
+                            <option value="">Non renseignée</option>
+                            {localisations.map(loc => (
+                                <option key={loc.id} value={loc.id}>{loc.name}</option>
+                            ))}
+                        </select>
+                    </div>
 
-                <select
-                    value={editForm.id_localisation ?? ""}
-                    onChange={(e) =>
-                        setEditForm({ ...editForm, id_localisation: e.target.value ? Number(e.target.value) : null })
-                    }
-                    className="w-full border rounded px-2 py-1 mb-2"
-                >
-                    <option value="">Non renseignée</option>
-                    {localisations.map(loc => (
-                        <option key={loc.id} value={loc.id}>{loc.name}</option>
-                    ))}
-                </select>
+                    {/* Exposition */}
+                    <div className="flex-1 min-w-[140px]">
+                        <label htmlFor="garden-exposition" className="text-sm font-medium mb-1 block">Exposition</label>
+                        <select
+                            id="garden-exposition"
+                            value={editForm.id_exposition ?? ""}
+                            onChange={(e) =>
+                                setEditForm({ ...editForm, id_exposition: e.target.value ? Number(e.target.value) : null })
+                            }
+                            className="input-text w-full"
+                        >
+                            <option value="">Non renseignée</option>
+                            {expositions.map(expo => (
+                                <option key={expo.id} value={expo.id}>{expo.name}</option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
 
-                <select
-                    value={editForm.id_exposition ?? ""}
-                    onChange={(e) =>
-                        setEditForm({ ...editForm, id_exposition: e.target.value ? Number(e.target.value) : null })
-                    }
-                    className="w-full border rounded px-2 py-1 mb-2"
-                >
-                    <option value="">Non renseignée</option>
-                    {expositions.map(expo => (
-                        <option key={expo.id} value={expo.id}>{expo.name}</option>
-                    ))}
-                </select>
-
-                <select
-                    value={editForm.id_difficulty ?? ""}
-                    onChange={(e) =>
+                {/* Difficulté */}
+                <div>
+                    <label htmlFor="garden-difficulty" className="text-sm font-medium mb-1 block mt-4">Difficulté</label>
+                    <select
+                        id="garden-difficulty"
+                        value={editForm.id_difficulty ?? ""}
+                        onChange={(e) =>
                         setEditForm({ ...editForm, id_difficulty: e.target.value ? Number(e.target.value) : null })
-                    }
-                    className="w-full border rounded px-2 py-1 mb-2"
-                >
-                    <option value="">Non renseignée</option>
-                    {difficulties.map(diff => (
+                        }
+                        className="input-text"
+                    >
+                        <option value="">Non renseignée</option>
+                        {difficulties.map(diff => (
                         <option key={diff.id} value={diff.id}>{diff.name}</option>
-                    ))}
-                </select>
-
-                <div className="flex flex-wrap gap-2 mb-3">
-                    {allPets.map(pet => {
-                        const checked = editForm.pets.includes(pet.id);
-                        return (
-                            <label
-                                key={pet.id}
-                                className={`px-3 py-1 border rounded-full cursor-pointer ${checked ? "bg-green-500 text-white" : "bg-gray-100"}`}
-                            >
-                                <input
-                                    type="checkbox"
-                                    checked={checked}
-                                    onChange={() => {
-                                        setEditForm({
-                                            ...editForm,
-                                            pets: checked
-                                                ? editForm.pets.filter(id => id !== pet.id)
-                                                : [...editForm.pets, pet.id],
-                                        });
-                                    }}
-                                    className="hidden"
-                                />
-                                {pet.name}
-                            </label>
-                        );
-                    })}
+                        ))}
+                    </select>
                 </div>
 
-                {/* Plants */}
-                <div className="flex flex-wrap gap-2 mb-3">
-                    {garden.plants?.map(p => {
-                        if (!p.plant) return null;
-                        const checked = editForm.plants.includes(p.plant.id);
-                        return (
-                            <label
-                                key={p.plant.id}
-                                className={`px-3 py-1 border rounded-full cursor-pointer ${checked ? "bg-green-500 text-white" : "bg-gray-100"}`}
-                            >
-                                <input
-                                    type="checkbox"
-                                    checked={checked}
-                                    onChange={() => {
-                                        setEditForm({
-                                            ...editForm,
-                                            plants: checked
-                                                ? editForm.plants.filter(id => id !== p.plant.id)
-                                                : [...editForm.plants, p.plant.id],
-                                        });
-                                    }}
-                                    className="hidden"
-                                />
-                                {p.plant.name}
-                            </label>
-                        );
-                    })}
+                {/* Pets */}
+                <div>
+                    <label className="text-sm font-medium mb-2 block mt-4">Avez-vous des animaux ?</label>
+                    <div className="pets-container">
+                        {allPets.map(pet => {
+                            const checked = editForm.pets.includes(pet.id);
+
+                            return (
+                                <label
+                                    key={pet.id}
+                                    className={`pet-chip ${checked ? "selected" : ""}`}
+                                >
+                                    <input
+                                        type="checkbox"
+                                        checked={checked}
+                                        onChange={() => {
+                                            setEditForm({
+                                                ...editForm,
+                                                pets: checked
+                                                    ? editForm.pets.filter(id => id !== pet.id)
+                                                    : [...editForm.pets, pet.id],
+                                            });
+                                        }}
+                                    />
+                                    {pet.name}
+                                </label>
+                            );
+                        })}
+                    </div>
                 </div>
 
-                <div className="flex justify-end gap-2">
-                    <button onClick={onClose} className="px-4 py-2 bg-gray-200 rounded">Annuler</button>
-                    <button onClick={handleSubmit} className="px-4 py-2 bg-green-500 text-white rounded">Enregistrer</button>
+                {/* Actions */}
+                <div className="flex flex-wrap justify-between gap-2 mt-6">
+                    <button type="button" onClick={onClose} className="btn-desable px-4 py-2 w-full sm:w-auto">
+                        Annuler
+                    </button>
+                    <button type="submit" className="btn-global px-4 py-2 w-full sm:w-auto">
+                        Enregistrer
+                    </button>
                 </div>
-            </div>
+            </form>
         </div>
     );
 };

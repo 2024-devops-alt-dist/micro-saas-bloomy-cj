@@ -30,10 +30,6 @@ const PanierGarden: React.FC = () => {
     // Contiendra objets Plant complets pour affichage
     const [plantsDetails, setPlantsDetails] = useState<Plant[]>([]);
 
-    useEffect(() => {
-    console.log("Draft initial :", gardenDraft);
-}, []);
-
     // Re-fetch des plantes à partir des IDs
     useEffect(() => {
         const fetchPlants = async () => {
