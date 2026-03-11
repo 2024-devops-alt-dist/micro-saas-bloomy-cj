@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import NavBarMobile from "../../../../shared/navbar-mobile";
 import "./addGarden.css";
 import HeaderAddGarden from "../../../../shared/headerAddGarden";
+import NavBarDesktop from "../../../../shared/navbar-desktop";
 // import NavBarDesktop from "../../../shared/navbar-desktop";
 
 const AddGarden: React.FC = () => {
@@ -11,6 +12,7 @@ const AddGarden: React.FC = () => {
 
     return (
         <>
+        <NavBarDesktop />
         <HeaderAddGarden showBack={false} showClose={false}/>
 
         <main className="main-navbar">
@@ -38,7 +40,6 @@ const AddGarden: React.FC = () => {
             </div>
         </main>
 
-        {/* Navigation bar */}
         <NavBarMobile />
         </>
     );

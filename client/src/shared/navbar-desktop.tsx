@@ -1,15 +1,63 @@
-import React from "react";
-import { FiHome, FiCalendar, FiSun, FiBell, FiUser } from "react-icons/fi";
+import React, { useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import "./navbar-desktop.css";
+import { useAuth } from "../features/auth/context/AuthContext";
 
 const NavBarDesktop: React.FC = () => {
+    const navigate = useNavigate();
+    const { pathname } = useLocation();
+    const { logout } = useAuth();
+
+    useEffect(() => {
+        const checkbox = document.getElementById("burger") as HTMLInputElement | null;
+        if (!checkbox) return;
+
+        const handleScrollLock = () => (document.body.style.overflow = checkbox.checked ? "hidden" : "auto");
+        checkbox.addEventListener("change", handleScrollLock);
+
+        checkbox.checked = false;
+        document.body.style.overflow = "auto";
+
+        return () => checkbox.removeEventListener("change", handleScrollLock);
+    }, [pathname]);
+
+    const menuItems = [
+        { label: "Accueil", path: "/accueil" },
+        { label: "Créer un jardin", path: "/addGarden" },
+        { label: "Catalogue de plante", path: "/bibliotheque-plantes" },
+        { label: "Profil", path: "/mes-jardins" },
+    ];
+
     return (
-        <nav className="hidden md:flex w-full h-16 bg-white border-b border-gray-200 justify-around items-center fixed top-0 left-0 z-50">
-        <button className="hover:text-green-600 transition-colors"><FiHome size={22} /></button>
-        <button className="hover:text-green-600 transition-colors"><FiCalendar size={22} /></button>
-        <button className="hover:text-green-600 transition-colors"><FiSun size={22} /></button>
-        <button className="hover:text-green-600 transition-colors"><FiBell size={22} /></button>
-        <button className="hover:text-green-600 transition-colors"><FiUser size={22} /></button>
-        </nav>
+        <header className="header-home-pc hidden lg:flex justify-between items-center">
+            <h1 className="logo-pc"></h1>
+
+            <input type="checkbox" id="burger" />
+            <label htmlFor="burger" className="burger-label-pc">
+                <div></div>
+                <div></div>
+                <div></div>
+            </label>
+
+            <nav className="burger-nav-pc">
+                <ul>
+                    {menuItems.map(({ label, path }) => (
+                        <li key={path}>
+                            <button
+                                className={`menu-btn-pc ${pathname === path ? "active" : ""}`}
+                                onClick={() => navigate(path)}
+                            >
+                                {label}
+                            </button>
+                        </li>
+                    ))}
+                    <hr className="separator" />
+                    <li>
+                        <button className="menu-btn-pc logout-btn-pc" onClick={logout}>Déconnexion</button>
+                    </li>
+                </ul>
+            </nav>
+        </header>
     );
 };
 

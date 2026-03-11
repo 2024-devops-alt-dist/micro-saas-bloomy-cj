@@ -1,18 +1,13 @@
-.header-home {
-    position: fixed;
-    top: 0;
-    left: 0;
+.header-home-pc {
+    position: relative;
     width: 100%;
     z-index: 100;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     padding: 20px 40px;
     background: rgba(0, 0, 0, 0.4);
     box-shadow: 0 4px 6px rgba(151, 151, 151, 0.2);
 }
 
-.logo {
+.logo-pc {
     font-size: 2rem;
     color: #ffffff;
     position: relative;
@@ -22,7 +17,7 @@
     display: none;
 }
 
-.burger-label {
+.burger-label-pc {
     position: relative;
     width: 30px;
     height: 23px;
@@ -33,7 +28,7 @@
     justify-content: space-between;
 }
 
-.burger-label div {
+.burger-label-pc div {
     height: 4px;
     background-color: white;
     border-radius: 2px;
@@ -41,25 +36,24 @@
 }
 
 /* Animation croix */
-#burger:checked + .burger-label div:first-child {
+#burger:checked + .burger-label-pc div:first-child {
     transform: rotate(45deg) translate(6px, 6px);
 }
 
-#burger:checked + .burger-label div:nth-child(2) {
+#burger:checked + .burger-label-pc div:nth-child(2) {
     opacity: 0;
 }
 
-#burger:checked + .burger-label div:last-child {
+#burger:checked + .burger-label-pc div:last-child {
     transform: rotate(-45deg) translate(7px, -7px);
 }
 
-#burger:checked + .burger-label div:first-child,
-#burger:checked + .burger-label div:last-child {
+#burger:checked + .burger-label-pc div:first-child,
+#burger:checked + .burger-label-pc div:last-child {
     background-color: black;
 }
 
-/* Menu */
-.burger-nav {
+.burger-nav-pc {
     position: fixed;
     top: 0;
     left: 0;
@@ -75,30 +69,30 @@
     align-items: center;
 }
 
-.burger-nav ul {
+.burger-nav-pc ul {
     padding: 0;
     margin: 0;
     list-style: none;
     text-align: center;
 }
 
-.burger-nav li {
+.burger-nav-pc li {
     opacity: 0;
     transition: opacity 0.5s ease;
     margin: 15px 0;
 }
 
-#burger:checked ~ .burger-nav {
+#burger:checked ~ .burger-nav-pc {
     height: 100vh;
 }
 
-#burger:checked ~ .burger-nav li {
+#burger:checked ~ .burger-nav-pc li {
     opacity: 1;
     transition-delay: 0.2s;
 }
 
 /* Menu Buttons */
-.menu-btn {
+.menu-btn-pc {
     background: none;
     border: none;
     color: black;
@@ -112,7 +106,7 @@
 }
 
 /* underline animée */
-.menu-btn::after {
+.menu-btn-pc::after {
     content: "";
     position: absolute;
     left: 0;
@@ -123,28 +117,47 @@
     transition: width 0.3s ease;
 }
 
-.menu-btn:hover::after {
+.menu-btn-pc:hover::after {
     width: 100%;
 }
 
-.menu-btn:hover {
+.menu-btn-pc:hover {
     color: #15803d;
 }
 
 /* disabled buttons */
-.menu-btn.disabled {
+.menu-btn-pc.disabled {
     color: #999;
     cursor: not-allowed;
 }
 
-.menu-btn.disabled::after {
+.menu-btn-pc.disabled::after {
     display: none;
 }
 
-.menu-btn.active {
-    color: #15803d; 
+.menu-btn-pc.active {
+    color: #15803d;
 }
 
-.menu-btn.active::after {
-    width: 100%; 
+.menu-btn-pc.active::after {
+    width: 100%;
+}
+
+.logout-btn-pc {
+    background-color: #7CC76A;
+    color: white;
+    border-radius: 5px;
+    padding: 10px 25px;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.logout-btn-pc:hover {
+    background-color: #66b85b;
+    transform: scale(1.05); 
+    color: white;
+}
+
+.logout-btn-pc::after {
+    display: none;
 }

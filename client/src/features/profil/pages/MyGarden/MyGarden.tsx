@@ -6,6 +6,7 @@ import type { Garden } from "../../../../models/garden/IGarden";
 import NavBarMobile from "../../../../shared/navbar-mobile";
 import "../../../../assets/styles/global.css";
 import "./MyGarden.css";
+import NavBarDesktop from "../../../../shared/navbar-desktop";
 
 const MyGarden: React.FC = () => {
     const navigate = useNavigate();
@@ -14,9 +15,11 @@ const MyGarden: React.FC = () => {
     useEffect(() => {
         const fetchGardens = async () => {
             try {
-                // Récupère directement les jardins du user connecté
+                // Récupère jardins user connecté
                 const data = await gardenService.getMine();
-                setGardens(data);
+                const sortedGardens = data.sort((a, b) => a.id - b.id);
+
+                setGardens(sortedGardens);
             } catch (error) {
                 console.error("Erreur lors du chargement des jardins :", error);
             }
@@ -25,6 +28,8 @@ const MyGarden: React.FC = () => {
     }, []);
 
     return (
+        <>
+        <NavBarDesktop />
         <div className="flex flex-col">
             <header className="mygarden-header flex justify-between items-center">
                 <h1>Mes Jardins</h1>
@@ -36,7 +41,6 @@ const MyGarden: React.FC = () => {
             <main className="mygarden-main flex flex-col items-center justify-center">
             {gardens.length > 0 ? (
                 <>
-                    {/* Liste des jardins alignée à gauche */}
                     <div className="garden-list">
                         {gardens.map((garden) => (
                             <div key={garden.id} className="garden-card" onClick={() => navigate(`/garden/${garden.id}`)}>
@@ -83,6 +87,7 @@ const MyGarden: React.FC = () => {
 
             <NavBarMobile />
         </div>
+        </>
     );
 };
 

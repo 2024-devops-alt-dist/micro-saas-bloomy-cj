@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import HeaderAddGarden from "../../../../../shared/headerAddGarden";
 import type { GardenDraft } from "../../../services/gardenService";
+import NavBarDesktop from "../../../../../shared/navbar-desktop";
 
 //  Schéma de validation
 const gardenSchema = z.object({
@@ -48,6 +49,7 @@ const AddGardenInfo : React.FC = () => {
 
     return (
         <>
+            <NavBarDesktop />
             <HeaderAddGarden showBack={true} />
 
             <main className="main-footer">

@@ -8,6 +8,7 @@ import type { Plant } from "../../../../models/plant/IPlant";
 import { usePlantSearch } from "../../../Hooks/usePlantSearch";
 import PlantCard from "../../components/PlantCard/PlantCard";
 import { getDraft } from "../../../garden/services/gardenLocalStorage";
+import NavBarDesktop from "../../../../shared/navbar-desktop";
 
 const ListPlant: React.FC = () => {
     const [plants, setPlants] = useState<Plant[]>([]);
@@ -26,8 +27,9 @@ const ListPlant: React.FC = () => {
     return (
         <div className="min-h-screen bg-gray-50">
             <NavBarMobile />
+            <NavBarDesktop />
 
-            <section className="pt-12 px-6 home-search-section">
+            <section className="pt-12 lg:pt-8 px-6 home-search-section">
                 <div className="home-search-titles">
                     <h1 className="home-h1">Catalogue de plantes</h1>
                     <h2 className="custom-h2">Explorez, filtrez et choisissez vos plantes préférées</h2>

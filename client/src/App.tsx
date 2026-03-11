@@ -40,7 +40,7 @@ function App() {
             <Route path="/mes-jardins" element={<ProtectedRoute><MyGarden /></ProtectedRoute>} />
             <Route path="/garden/:id" element={<ProtectedRoute><GardenId /></ProtectedRoute>} />
 
-            <Route path="/accueil" element={<ProtectedRoute><HomeAuth /></ProtectedRoute>} />bibliotheque-plantes
+            <Route path="/accueil" element={<ProtectedRoute><HomeAuth /></ProtectedRoute>} />
             <Route path="/bibliotheque-plantes" element={ <ListPlant /> } />
           </Routes>
         </Suspense>

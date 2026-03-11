@@ -1,25 +1,18 @@
 import React from "react";
 import NavBarMobile from "../shared/navbar-mobile";
 import "./HomeAuth.css";
-import { useAuth } from "../features/auth/context/AuthContext";
+import NavBarDesktop from "../shared/navbar-desktop";
 
 
-const Home: React.FC = () => {
-     const { logout } = useAuth();
-     
+const HomeAuth: React.FC = () => {
+
     return (
         <div className="min-h-screen bg-gray-50">
             <NavBarMobile />
+            <NavBarDesktop />
             <p>ACCUEIL</p>
-
-            <button
-                className="hover:text-red-500 text-sm font-medium px-3 py-1 rounded"
-                onClick={logout}
-            >
-                Déconnexion
-            </button>
         </div>
     );
 };
 
-export default Home;
+export default HomeAuth;
