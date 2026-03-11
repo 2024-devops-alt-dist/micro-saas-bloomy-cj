@@ -197,3 +197,7 @@ form .input-text, .input-upload {
     border: none;
     border-top: 1px solid #e5e7eb;
 }
+
+.footer-bg-custom {
+    background-color: var(--color-primary);
+}

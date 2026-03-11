@@ -23,9 +23,9 @@ const NavBarDesktop: React.FC = () => {
 
     const menuItems = [
         { label: "Accueil", path: "/accueil" },
-        { label: "Créer un jardin", path: "/addGarden" },
+        { label: "Mes jardin", path: "/mes-jardins" },
         { label: "Catalogue de plante", path: "/bibliotheque-plantes" },
-        { label: "Profil", path: "/mes-jardins" },
+        { label: "Profil", path: "/..." },
     ];
 
     return (
