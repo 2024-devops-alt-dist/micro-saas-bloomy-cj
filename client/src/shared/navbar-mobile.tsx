@@ -47,7 +47,7 @@ const NavBarMobile: React.FC = () => {
             <button
                 className="hover:text-green-600 transition-colors"
                 aria-label="Profil"
-                // onClick={() => navigate("/profil")}
+                onClick={() => navigate("/profil-user")}
             >
                 <FiUser size={24} />
             </button>

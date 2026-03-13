@@ -7,6 +7,7 @@ import type { Garden } from "../../models/garden/IGarden";
 import { useNavigate } from "react-router-dom";
 import { gardenService } from "../../features/garden/services/gardenService";
 import HomeAuthDesktop from "./HomeAuthDesktop";
+import GardenUserList from "../../features/profil/components/GardenUserList";
 
 const HomeAuth: React.FC = () => {
     const [user, setUser] = useState<User | null>(null);
@@ -23,6 +24,7 @@ const HomeAuth: React.FC = () => {
             }
         };
 
+        // A garder pour la version Desktop
         const fetchGardens = async () => {
             try {
                 const data = await gardenService.getMine();
@@ -79,31 +81,7 @@ const HomeAuth: React.FC = () => {
                     {/* Jardins */}
                     <section className="section section-gardens">
                         <h2>Mes jardins</h2>
-
-                        {gardens.length > 0 ? (
-                            <div className="garden-list">
-                                {gardens.map((garden) => (
-                                    <div key={garden.id} className="garden-card" onClick={() => navigate(`/garden/${garden.id}`)}>
-                                        <img
-                                            src={garden.pictureGarden
-                                                ? `/assets/pictures/${garden.pictureGarden.name}`
-                                                : "/assets/pictures/plants_legume.jpg"}
-                                            alt={`Photo du jardin ${garden.name}`}
-                                            className="garden-img"
-                                        />
-                                        <div className="garden-img-overlay"></div>
-                                        <h3 className="garden-name">{garden.name}</h3>
-                                    </div>
-                                ))}
-                            </div>
-                        ) : (
-                            <div className="empty-garden">
-                                <p>Vous n'avez pas encore de jardin.</p>
-                                <button onClick={() => navigate("/addGarden")} className="btn-global mt-6">
-                                    Ajouter un jardin
-                                </button>
-                            </div>
-                        )}
+                        <GardenUserList />
                     </section>
 
                     {/* Conseil */}

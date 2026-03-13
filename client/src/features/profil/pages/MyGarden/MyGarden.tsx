@@ -1,31 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { FiPlus } from "react-icons/fi";
-import { gardenService } from "../../../garden/services/gardenService";
-import type { Garden } from "../../../../models/garden/IGarden";
 import NavBarMobile from "../../../../shared/navbar-mobile";
 import "../../../../assets/styles/global.css";
 import "./MyGarden.css";
 import NavBarDesktop from "../../../../shared/navbar-desktop";
+import GardenUserList from "../../components/GardenUserList";
 
 const MyGarden: React.FC = () => {
     const navigate = useNavigate();
-    const [gardens, setGardens] = useState<Garden[]>([]);
-
-    useEffect(() => {
-        const fetchGardens = async () => {
-            try {
-                // Récupère jardins user connecté
-                const data = await gardenService.getMine();
-                const sortedGardens = data.sort((a, b) => a.id - b.id);
-
-                setGardens(sortedGardens);
-            } catch (error) {
-                console.error("Erreur lors du chargement des jardins :", error);
-            }
-        };
-        fetchGardens();
-    }, []);
 
     return (
         <>
@@ -39,51 +22,15 @@ const MyGarden: React.FC = () => {
             </header>
 
             <main className="mygarden-main flex flex-col items-center justify-center">
-            {gardens.length > 0 ? (
-                <>
-                    <div className="garden-list">
-                        {gardens.map((garden) => (
-                            <div key={garden.id} className="garden-card" onClick={() => navigate(`/garden/${garden.id}`)}>
-                                <img 
-                                    src={garden.pictureGarden 
-                                        ? `/assets/pictures/${garden.pictureGarden.name}` 
-                                        : "/assets/pictures/plants_legume.jpg"} 
-                                    alt={`Photo du jardin ${garden.name}`} 
-                                    className="garden-img"
-                                />
-
-                                <div className="garden-img-overlay"></div>
-
-                                <h2 className="garden-name">{garden.name}</h2>
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* Section Statistiques */}
-                    <div className="garden-stats flex flex-col items-center">
-                        <h2>Vos statistiques</h2>
-
-                        <div className="stats-card">
-                            <p>Vous retrouverez ici vos statistiques après avoir réalisé vos premiers pas</p>
-                        </div>
-
-                        <img src="/assets/icons/Group_71.png" alt="Statistiques à venir"/>
-                    </div>
-                </>
-            ) : (
-                <div className="empty-garden flex flex-col items-center">
-                    <img 
-                        src="/assets/mascot/mascot-question.png"
-                        alt="Aucun jardin"
-                        className="w-50 h-50 mb-4"
-                    />
-                    <p>C’est un peu vide ici !</p>
-                    <button onClick={() => navigate("/addGarden")} className="btn-global mt-6">
-                        Ajouter un jardin
-                    </button>
+                <GardenUserList variant="myGarden" />
+                {/* Section Statistiques */}
+                <div className="garden-stats flex flex-col items-center">
+                    <h2>Vos statistiques</h2>
+                    <p className="stats-card">Vous retrouverez ici vos statistiques après avoir réalisé vos premiers pas</p>
+                
+                    <img src="/assets/icons/Group_71.png" alt="Statistiques à venir"/>
                 </div>
-            )}
-        </main>
+            </main>
 
             <NavBarMobile />
         </div>
