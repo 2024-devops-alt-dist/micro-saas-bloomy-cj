@@ -27,38 +27,38 @@ const HomeAuthDesktop: React.FC<Props> = ({ user, gardens }) => {
           </section>
 
           <div className="desktop-gardens">
-  <h2>Mes Jardins</h2>
-  {gardens.length > 0 ? (
-    <div className="desktop-garden-scrollable">
-      {gardens.map((garden) => (
-        <div
-          key={garden.id}
-          className="garden-card"
-          onClick={() => navigate(`/garden/${garden.id}`)}
-        >
-          <img
-            src={
-              garden.pictureGarden
-                ? `/assets/pictures/${garden.pictureGarden.name}`
-                : "/assets/pictures/plants_legume.jpg"
-            }
-            alt={`Photo du jardin ${garden.name}`}
-            className="garden-img"
-          />
-          <div className="garden-img-overlay"></div>
-          <h3 className="garden-name">{garden.name}</h3>
-        </div>
-      ))}
-    </div>
-  ) : (
-    <div className="empty-garden">
-      <p>Vous n'avez pas encore de jardin.</p>
-      <button className="btn-global" onClick={() => navigate("/addGarden")}>
-        Ajouter un jardin
-      </button>
-    </div>
-  )}
-</div>
+            <h2>Mes Jardins</h2>
+            {gardens.length > 0 ? (
+              <div className="desktop-garden-scrollable">
+                {gardens.map((garden) => (
+                  <div
+                    key={garden.id}
+                    className="garden-card"
+                    onClick={() => navigate(`/garden/${garden.id}`)}
+                  >
+                    <img
+                      src={
+                        garden.pictureGarden
+                          ? `/assets/pictures/${garden.pictureGarden.name}`
+                          : "/assets/pictures/plants_legume.jpg"
+                      }
+                      alt={`Photo du jardin ${garden.name}`}
+                      className="garden-img"
+                    />
+                    <div className="garden-img-overlay"></div>
+                    <h3 className="garden-name">{garden.name}</h3>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="empty-garden">
+                <p>Vous n'avez pas encore de jardin.</p>
+                <button className="btn-global" onClick={() => navigate("/addGarden")}>
+                  Ajouter un jardin
+                </button>
+              </div>
+            )}
+          </div>
 
           <section className="desktop-catalogue">
             <h2>Notre Catalogue</h2>
