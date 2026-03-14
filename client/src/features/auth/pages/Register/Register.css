@@ -22,7 +22,7 @@
     background-color: #fff;
     border-radius: var(--border-radius-s);
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    padding: var(--space-lg1);
+    padding: var(--space-md3);
     position: relative;
     z-index: 1;
 }
@@ -61,12 +61,9 @@
 .cust-register-btn {
     width: 60%;
     display: block;
-    margin: 35px auto 0;
+    margin: 15px auto 0 auto;
 }
 
-.cust-register-btn:hover {
-    background-color: #15803d;
-}
 
 .login-link {
     text-align: center;
@@ -76,7 +73,7 @@
 }
 
 .login-link a {
-    color: #16a34a;
+    color: var(--color-secondary);
     font-weight: 600;
     text-decoration: none;
 }
@@ -87,6 +84,6 @@
 
 @media (max-width: 768px) {
     .register-container {
-        padding-top: 80px; /* espace pour le header fixe */
+        padding-top: 80px;
     }
 }

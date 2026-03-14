@@ -79,7 +79,7 @@ describe("Login", () => {
     await userEvent.click(screen.getByRole("button", { name: /se connecter/i }));
 
     await waitFor(() => {
-      expect(screen.getByText(/Request failed with status code 401/i)).toBeInTheDocument();
+      expect(screen.getByText("Erreur lors de la connexion. Votre mot de passe et/ou votre email sont incorrects.")).toBeInTheDocument();
       // console.log("Erreur serveur affichée pour login incorrect");
     });
   });

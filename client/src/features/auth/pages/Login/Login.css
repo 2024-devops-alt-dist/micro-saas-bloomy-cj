@@ -22,7 +22,7 @@
     background-color: #fff;
     border-radius: var(--border-radius-s);
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    padding: var(--space-lg1);
+    padding: var(--space-md3);
     position: relative;
     z-index: 1;
 }
@@ -58,7 +58,7 @@
 }
 
 .register-link a {
-    color: #16a34a;
+    color: var(--color-secondary);
     font-weight: 600;
     text-decoration: none;
 }

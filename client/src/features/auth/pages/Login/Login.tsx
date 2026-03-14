@@ -37,7 +37,7 @@ const Login: React.FC = () => {
         try {
             await login(data.email, data.password);
         } catch (err: any) {
-            setServerError(err.message || 'Erreur lors de la connexion.');
+            setServerError('Erreur lors de la connexion. Votre mot de passe et/ou votre email sont incorrects.');
         }
     };
 
