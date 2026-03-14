@@ -19,7 +19,7 @@ const ProfilUser: React.FC = () => {
     const [totalPlants, setTotalPlants] = useState(0);
     const navigate = useNavigate();
 
-    const [profile, setProfile] = useState("Légumiste");
+    const [profile, setProfile] = useState("à venir"); 
     const [percentage, setPercentage] = useState(0);
     const [icon, setIcon] = useState("/assets/icons/legumiste.png");
     const [categoryLabel, setCategoryLabel] = useState("potagères");
@@ -49,70 +49,72 @@ const ProfilUser: React.FC = () => {
     }, []);
 
     const computeProfile = (gardensData: Garden[]) => {
-        const counts = { potagere: 0, ornement: 0, aromatique: 0, fruitiere: 0 };
-        let totalPlants = 0;
+    const counts = { potagere: 0, ornement: 0, aromatique: 0, fruitiere: 0 };
+    let totalPlants = 0;
 
-        gardensData.forEach(garden => {
-            garden.plants?.forEach(gardenPlant => {
-                const plant = gardenPlant.plant;
-                if (!plant) return;
-                totalPlants++;
-                plant.categories?.forEach((pc: any) => {
-                    const name = pc?.category?.name?.toLowerCase();
+    gardensData.forEach(garden => {
+        garden.plants?.forEach(gardenPlant => {
+            const plant = gardenPlant.plant;
+            if (!plant) return;
+            totalPlants++;
 
-                    if (!name) return;
+            plant.categories?.forEach((pc: any) => {
+                const name = pc?.category?.name?.toLowerCase();
+                if (!name) return;
 
-                    if (name.includes("potag")) counts.potagere++;
-                    if (name.includes("ornement")) counts.ornement++;
-                    if (name.includes("aromatique")) counts.aromatique++;
-                    if (name.includes("fruit")) counts.fruitiere++;
-                });
+                if (name.includes("potag")) counts.potagere++;
+                else if (name.includes("ornement")) counts.ornement++;
+                else if (name.includes("aromatique")) counts.aromatique++;
+                else if (name.includes("fruit")) counts.fruitiere++;
             });
         });
+    });
 
-        setTotalPlants(totalPlants);
+    setTotalPlants(totalPlants);
+    if (totalPlants === 0) return;
 
-        if (totalPlants === 0) return;
+    // Calculer le pourcentage de chaque catégorie
+    const percentages = {
+        potagere: Math.round((counts.potagere / totalPlants) * 100),
+        ornement: Math.round((counts.ornement / totalPlants) * 100),
+        aromatique: Math.round((counts.aromatique / totalPlants) * 100),
+        fruitiere: Math.round((counts.fruitiere / totalPlants) * 100)
+    };
 
-        const percentages = {
-            potagere: Math.round((counts.potagere / totalPlants) * 100),
-            ornement: Math.round((counts.ornement / totalPlants) * 100),
-            aromatique: Math.round((counts.aromatique / totalPlants) * 100),
-            fruitiere: Math.round((counts.fruitiere / totalPlants) * 100)
-        };
+    // Trouver la catégorie majoritaire
+    const [maxCategory, maxValue] = Object.entries(percentages)
+        .sort((a, b) => b[1] - a[1])[0];
 
-        const maxCategory = Object.entries(percentages)
-            .sort((a, b) => b[1] - a[1])[0];
-
-        const category = maxCategory[0];
-        const value = maxCategory[1];
-
-        if (category === "Potagère") {
+    // Définir le profil en fonction de la catégorie majoritaire
+    switch (maxCategory) {
+        case "potagere":
             setProfile("Légumiste");
             setIcon("/assets/icons/legumiste.png");
             setCategoryLabel("potagères");
-        }
-
-        if (category === "Ornementale") {
+            break;
+        case "ornement":
             setProfile("Ami des fleurs");
             setIcon("/assets/icons/fleuriste.png");
             setCategoryLabel("ornementales");
-        }
-
-        if (category === "Aromatique") {
+            break;
+        case "aromatique":
             setProfile("Herboriste en herbe");
             setIcon("/assets/icons/herboriste.png");
             setCategoryLabel("aromatiques");
-        }
-
-        if (category === "Fruitière") {
+            break;
+        case "fruitiere":
             setProfile("Apprenti arboriculteur");
             setIcon("/assets/icons/fruitier.png");
             setCategoryLabel("fruitières");
-        }
+            break;
+        default:
+            setProfile("À venir");
+            setIcon("/assets/icons/legumiste.png");
+            setCategoryLabel("potagères");
+    }
 
-        setPercentage(value);
-    };
+    setPercentage(maxValue);
+};
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -149,7 +151,7 @@ const ProfilUser: React.FC = () => {
 
                     {menuOpen && (
                         <div className="user-menu">
-                            <div className="menu-item" onClick={() => navigate("/profil")}>
+                            <div className="menu-item" onClick={() => navigate("/profil-user-info")}>
                                 Mes infos
                             </div>
 

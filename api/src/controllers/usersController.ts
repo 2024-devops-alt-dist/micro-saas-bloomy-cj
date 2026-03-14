@@ -167,8 +167,26 @@ export const usersController = {
             const user = await prisma.user.findUnique({ where: { id: userId } });
             if (!user) return res.status(404).json({ message: `Utilisateur avec l'ID ${id} introuvable.` });
 
+            // Supprimer toutes les relations des jardins
+            const userGardens = await prisma.garden.findMany({ where: { id_user: userId }, select: { id: true } });
+            const gardenIds = userGardens.map(g => g.id);
+
+            if (gardenIds.length > 0) {
+                // Supprimer les relations plants et pets des jardins
+                await prisma.gardenHasPlant.deleteMany({ where: { gardenId: { in: gardenIds } } });
+                await prisma.gardenHasPet.deleteMany({ where: { gardenId: { in: gardenIds } } });
+
+                // Supprimer les jardins eux-mêmes
+                await prisma.garden.deleteMany({ where: { id: { in: gardenIds } } });
+            }
+
+            // Supprimer les favoris de l'utilisateur
+            await prisma.userHasFavory.deleteMany({ where: { userId } });
+
+            // Supprimer l'utilisateur
             await prisma.user.delete({ where: { id: userId } });
-            return res.status(200).json({ message: `Utilisateur avec l'ID ${id} supprimé avec succès.` });
+
+            return res.status(200).json({ message: `Utilisateur avec l'ID ${id} et ses relations supprimés avec succès.` });
         } catch (error) {
             return handleServerError(res, "Erreur serveur lors de la suppression de l'utilisateur.", error);
         }

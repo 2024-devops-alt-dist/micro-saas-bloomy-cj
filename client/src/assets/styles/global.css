@@ -198,6 +198,18 @@ form .input-text, .input-upload {
     border-top: 1px solid #e5e7eb;
 }
 
+/* Footer PC */
 .footer-bg-custom {
     background-color: var(--color-primary);
+}
+
+.footer-desktop-only {
+    display: none;
+}
+
+
+@media (min-width: 1024px) {
+    .footer-desktop-only {
+        display: block;
+    }
 }

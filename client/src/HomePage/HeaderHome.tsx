@@ -66,11 +66,6 @@ const HeaderHome: React.FC = () => {
                             Inscription
                         </button>
                     </li>
-                    <li>
-                        <button className="menu-btn disabled" disabled>
-                            Fiche Plantes (à venir)
-                        </button>
-                    </li>
                 </ul>
             </nav>
         </header>
