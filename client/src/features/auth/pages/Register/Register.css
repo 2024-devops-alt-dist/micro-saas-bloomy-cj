@@ -22,7 +22,7 @@
     background-color: #fff;
     border-radius: var(--border-radius-s);
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    padding: var(--space-md3);
+    padding: var(--space-md1) var(--space-md3);
     position: relative;
     z-index: 1;
 }
@@ -61,7 +61,7 @@
 .cust-register-btn {
     width: 60%;
     display: block;
-    margin: 15px auto 0 auto;
+    margin: 13px auto 0 auto;
 }
 
 
@@ -84,6 +84,6 @@
 
 @media (max-width: 768px) {
     .register-container {
-        padding-top: 80px;
+        padding-top: 75px;
     }
 }

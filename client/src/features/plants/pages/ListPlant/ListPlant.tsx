@@ -9,6 +9,7 @@ import { usePlantSearch } from "../../../Hooks/usePlantSearch";
 import PlantCard from "../../components/PlantCard/PlantCard";
 import { getDraft } from "../../../garden/services/gardenLocalStorage";
 import NavBarDesktop from "../../../../shared/navbar-desktop";
+import Footer from "../../../../HomePage/FooterHome";
 
 const ListPlant: React.FC = () => {
     const [plants, setPlants] = useState<Plant[]>([]);
@@ -63,6 +64,8 @@ const ListPlant: React.FC = () => {
                     </div>
                 )}
             </section>
+
+            <Footer />
         </div>
     );
 };

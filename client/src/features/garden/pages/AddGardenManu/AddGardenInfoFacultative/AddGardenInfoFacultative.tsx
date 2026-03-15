@@ -10,6 +10,8 @@ import "./AddGardenInfoFacultative.css";
 import type { Pet } from "../../../../../models/common/IPet";
 import type { GardenDraft } from "../../../services/gardenService";
 import { getDraft, saveDraft } from "../../../services/gardenLocalStorage";
+import Footer from "../../../../../HomePage/FooterHome";
+import NavBarDesktop from "../../../../../shared/navbar-desktop";
 
 //  Schéma de validation
 const gardenFacSchema = z.object({
@@ -149,10 +151,11 @@ const AddGardenInfoFacultative : React.FC = () => {
     };
 
     return (
-        <div>
+        <div className="flex flex-col height-100-update">
+            <NavBarDesktop />
             <HeaderAddGarden showBack={true} />
-
-            <main className="main-footer">
+            
+            <main className="main-footer infoFacul-container">
                 <div className="form-container">
                     <form
                         className="w-full text-left space-y-6"
@@ -251,6 +254,8 @@ const AddGardenInfoFacultative : React.FC = () => {
                     </form>
                 </div>
             </main>
+
+            <Footer />
         </div>
     );
 };

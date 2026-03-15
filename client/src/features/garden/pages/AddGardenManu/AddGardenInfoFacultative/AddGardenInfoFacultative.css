@@ -83,3 +83,7 @@ select.input-text option.placeholder-option {
     max-width: 600px;
     margin: 0 auto; 
 }
+
+.infoFacul-container {
+    flex: 1;
+}

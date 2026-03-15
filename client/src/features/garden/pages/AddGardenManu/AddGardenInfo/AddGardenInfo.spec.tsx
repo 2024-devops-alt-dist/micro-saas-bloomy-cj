@@ -45,7 +45,7 @@ describe("AddGardenInfo page - fonctionnel", () => {
       </MemoryRouter>
     );
 
-    const submitButton = screen.getByRole("button", { name: "Suivant" });
+    const submitButton = screen.getAllByRole("button", { name: "Suivant" })[0];
     await user.click(submitButton);
 
     expect(await screen.findByText(/Le nom du jardin est obligatoire/)).toBeInTheDocument();
@@ -71,13 +71,16 @@ describe("AddGardenInfo page - fonctionnel", () => {
     const input = screen.getByPlaceholderText("Écrire ...");
     await user.type(input, "Mon Jardin Test");
 
-    const submitButton = screen.getByRole("button", { name: "Suivant" });
+    const submitButton = screen.getAllByRole("button", { name: "Suivant" })[0];
     await user.click(submitButton);
 
     expect(saveDraftSpy).toHaveBeenCalledTimes(1);
     expect(saveDraftSpy).toHaveBeenCalledWith(
       expect.objectContaining({
         name: "Mon Jardin Test",
+        description: "",
+        pets: [],
+        plants: []
       })
     );
 
