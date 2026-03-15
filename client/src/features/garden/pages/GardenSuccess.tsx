@@ -46,10 +46,12 @@ const GardenSuccess: React.FC = () => {
             ) : (
                 <p className="text-gray-600 mb-8">Impossible de charger les informations du jardin.</p>
             )}
-            <CustomButton
-                label="Voir mes jardins"
-                onClick={() => navigate("/mes-jardins")}
-            />
+            <div className="w-60 rounded-full overflow-hidden">
+                <CustomButton
+                    label="Voir mes jardins"
+                    onClick={() => navigate("/mes-jardins")}
+                />
+            </div>
         </div>
     );
 };

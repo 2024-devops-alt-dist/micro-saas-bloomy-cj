@@ -8,6 +8,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import HeaderAddGarden from "../../../../../shared/headerAddGarden";
 import type { GardenDraft } from "../../../services/gardenService";
+import NavBarDesktop from "../../../../../shared/navbar-desktop";
+import Footer from "../../../../../HomePage/FooterHome";
 
 //  Schéma de validation
 const gardenSchema = z.object({
@@ -48,34 +50,43 @@ const AddGardenInfo : React.FC = () => {
 
     return (
         <>
+        <div className="flex flex-col height-100-update">
+            <NavBarDesktop />
             <HeaderAddGarden showBack={true} />
 
-            <main className="main-footer">
-                <h1 className="mb-3">C’est parti !</h1>
-                <p className="mb-7">Renseignez les informations de votre jardin.</p>
-                <img src="assets/mascot/mascot-relax.png" alt="Mascotte Bloomy" className="w-55 mb-6"/>
-                <hr className="separator" />
+            <main className="main-footer add-garden-container">
+                <div className="left-block">
+                    <h1 className="mb-3">C’est parti !</h1>
+                    <p className="mb-7">Renseignez les informations de votre jardin.</p>
+                    <img src="assets/mascot/mascot-relax.png" alt="Mascotte Bloomy" className="w-55 mb-6"/>
+                    <hr className="separator" />
+                    {/* Bouton visible seulement sur PC */}
+                    <button type="submit" form="garden-form" className="btn-global pc-only">
+                        Suivant
+                    </button>
+                </div>
 
-                <form className="cust-padding-form w-full max-w-xs text-left space-y-6" onSubmit={handleSubmit(onSubmit)}>
-                    <div>
-                        <label htmlFor="garden-name" className="block mb-1">Nom de votre jardin :</label>
-                        <div className={`relative name-field ${nameValue.length === 25 ? 'is-full' : ''}`}>
-                            <input
-                                type="text"
-                                id="garden-name"
-                                placeholder="Écrire ..."
-                                {...register("name")}
-                                maxLength={25}
-                                className="input-text pr-12"
-                            />
-                            <p className="name-count">{nameValue.length}/25</p>
+                <div className="right-block">
+                    <form id="garden-form" className="cust-padding-form w-full max-w-xs text-left space-y-6" onSubmit={handleSubmit(onSubmit)}>
+                        <div>
+                            <label htmlFor="garden-name" className="block mb-1">Nom de votre jardin :</label>
+                            <div className={`relative name-field ${nameValue.length === 25 ? 'is-full' : ''}`}>
+                                <input
+                                    type="text"
+                                    id="garden-name"
+                                    placeholder="Écrire ..."
+                                    {...register("name")}
+                                    maxLength={25}
+                                    className="input-text pr-12"
+                                />
+                                <p className="name-count">{nameValue.length}/25</p>
+                            </div>
+                            {errors.name && <p className="error-alerte mt-2">⚠️ {errors.name.message}</p>}
                         </div>
-                        {errors.name && <p className="error-alerte">⚠️ {errors.name.message}</p>}
-                    </div>
 
-                    <div>
-                        <label className="block mb-1">Ajouter une image (facultatif) :</label>
-                        <div className="flex items-center">
+                        <div>
+                            <label className="block mb-1">Ajouter une image (facultatif) :</label>
+                            <div className="flex items-center">
                             <input
                                 type="text"
                                 readOnly
@@ -97,19 +108,26 @@ const AddGardenInfo : React.FC = () => {
                             />
                             {selectedFile && (
                                 <button type="button" className="remove-file"
-                                    onClick={() => {
-                                        setValue("garden_img", undefined);
-                                        if (fileInputRef.current) fileInputRef.current.value = "";
-                                    }}>
-                                    ✖
+                                onClick={() => {
+                                    setValue("garden_img", undefined);
+                                    if (fileInputRef.current) fileInputRef.current.value = "";
+                                }}>
+                                ✖
                                 </button>
                             )}
+                            </div>
                         </div>
-                    </div>
 
-                    <button type="submit" className="btn-global mt-12 mx-auto block">Suivant</button>
-                </form>
+                        {/* Bouton caché sur PC, visible sur mobile/tablette */}
+                        <button type="submit" className="btn-global mt-12 mx-auto block mobile-only">
+                            Suivant
+                        </button>
+                    </form>
+                </div>
             </main>
+
+            <Footer />
+        </div>
         </>
     );
 };

@@ -1,3 +1,13 @@
+html, body, #root {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
 .btn-garden-bloomy, .btn-select-manual {
     padding: var(--space-md) var(--space-md1);     
     border-radius: var(--border-radius-s);   
@@ -48,6 +58,12 @@
     .add-garden-buttons button {
         flex: 1;
         min-width: 300px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .main-navbar {
+        padding: var(--space-md) var(--space-md2) 20px var(--space-md2);
     }
 }
 

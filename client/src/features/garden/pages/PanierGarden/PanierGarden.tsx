@@ -9,6 +9,7 @@ import "../../../../assets/styles/global.css";
 import "./PanierGarden.css";
 import HeaderAddGarden from "../../../../shared/headerAddGarden";
 import { plantService } from "../../../plants/services/plantService";
+import NavBarDesktop from "../../../../shared/navbar-desktop";
 
 const PanierGarden: React.FC = () => {
     const navigate = useNavigate();
@@ -29,10 +30,6 @@ const PanierGarden: React.FC = () => {
 
     // Contiendra objets Plant complets pour affichage
     const [plantsDetails, setPlantsDetails] = useState<Plant[]>([]);
-
-    useEffect(() => {
-    console.log("Draft initial :", gardenDraft);
-}, []);
 
     // Re-fetch des plantes à partir des IDs
     useEffect(() => {
@@ -96,56 +93,61 @@ const PanierGarden: React.FC = () => {
 
     return (
         <>
-            <HeaderAddGarden showBack={true} />
+        <NavBarDesktop />
+        <HeaderAddGarden showBack={true} />
+        <main className="flex flex-col panier-main">
+            <div className="panier-container">
+                {/* Colonne gauche */}
+                <div className="panier-left">
+                    <h1 className="text-center title-custom-panier mb-3">Votre sélection pour le jardin</h1>
+                    <h2 className="text-center-custom mb-4">{gardenDraft.name}</h2>
 
-            <main className="flex flex-col panier-main">
-                <h1 className="text-center title-custom-panier mb-3">
-                    Votre sélection pour le jardin
-                </h1>
+                    <hr className="separator" />
+                    
+                    <div className="mb-6">
+                        <button
+                            onClick={() => {
+                                saveDraft(gardenDraft);
+                                navigate("/gardenSelectPlants");
+                            }}
+                            className="add-plant-btn"
+                        >
+                            + Ajouter une plante
+                        </button>
+                    </div>
 
-                <h2 className="text-center mb-4">{gardenDraft.name}</h2>
+                    <div className="fixed-button-container">
+                        {error && (
+                            <p className="error-alerte mb-3 text-center">
+                                ⚠️ {error}
+                            </p>
+                        )}
 
-                <hr className="separator" />
-
-                <div className="mb-6">
-                    <button
-                        onClick={() => {
-                            saveDraft(gardenDraft);
-                            navigate("/gardenSelectPlants");
-                        }}
-                        className="add-plant-btn"
-                    >
-                        + Ajouter une plante
-                    </button>
+                        <CustomButton
+                            label={gardenDraft.id ? "Mettre à jour mon jardin" : "Créer mon jardin"}
+                            onClick={handleValidateGarden}
+                        />
+                    </div>
                 </div>
 
-                {plantsDetails.length > 0 ? (
-                    plantsDetails.map((plant) => (
-                        <GardenPlantCard
-                            key={plant.id}
-                            plant={plant}
-                            onRemove={() => handleRemovePlant(plant.id)}
-                        />
-                    ))
-                ) : (
-                    <p className="text-gray-500 italic">
-                        Aucune plante ajoutée pour le moment 🌱
-                    </p>
-                )}
-
-                <div className="fixed-button-container">
-                    {error && (
-                        <p className="error-alerte mb-3 text-center">
-                            ⚠️ {error}
+                {/* Colonne droite */}
+                <div className="panier-right">
+                    {plantsDetails.length > 0 ? (
+                        plantsDetails.map((plant) => (
+                            <GardenPlantCard
+                                key={plant.id}
+                                plant={plant}
+                                onRemove={() => handleRemovePlant(plant.id)}
+                            />
+                        ))
+                    ) : (
+                        <p className="text-gray-500 italic">
+                            Aucune plante ajoutée pour le moment 🌱
                         </p>
                     )}
-
-                    <CustomButton
-                        label={gardenDraft.id ? "Mettre à jour mon jardin" : "Créer mon jardin"}
-                        onClick={handleValidateGarden}
-                    />
                 </div>
-            </main>
+            </div>
+        </main>
         </>
     );
 };

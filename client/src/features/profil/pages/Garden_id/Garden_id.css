@@ -1,4 +1,3 @@
-/* TYPO */
 
 p {
     font-size: 15px;
@@ -6,10 +5,9 @@ p {
     color: #374151;
 }
 
-/* CONTAINER */
-
 .gardenid-container {
-    padding: var(--space-md2) var(--space-md2) 100px var(--space-md2);
+    padding: var(--space-md2);
+    padding-bottom: 140px;
     max-width: 900px;
     margin: 0 auto;
 }
@@ -22,16 +20,12 @@ p {
     background-color: rgba(125, 199, 106, 0.103);
 }
 
-/* SEPARATOR */
-
 .separator-gardenid {
     margin: 1.5rem 0 1.25rem 0;
     border: none;
     height: 1px;
     background: #e5e7eb;
 }
-
-/* TABS */
 
 .garden-tabs {
     position: relative;
@@ -86,15 +80,11 @@ p {
     transform: translateX(100%);
 }
 
-/* CONTENT */
-
 .garden-tab-content {
     padding: 0 0 1rem 0;
     animation: fadeIn 0.25s ease-in-out;
     min-height: 100px;
 }
-
-/* Animation */
 
 @keyframes fadeIn {
     from { 
@@ -105,4 +95,20 @@ p {
         opacity: 1; 
         transform: translateY(0); 
     }
+}
+
+.gardenid-hero {
+    position: relative;
+}
+
+@media (min-width: 1024px) {
+
+    .gardenid-hero > *:first-child {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 100;
+    }
+
 }

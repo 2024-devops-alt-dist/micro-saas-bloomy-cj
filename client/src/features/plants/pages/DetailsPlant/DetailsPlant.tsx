@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import "../../../../assets/styles/global.css";
 import "./DetailsPlant.css";
+import"../../../../features/garden/pages/GardenSelectPlants/GardenSelectPlants.css";
 import { plantService } from "../../services/plantService";
 import AddToGardenButton from "../../../buttons/AddToGardenButton";
 import NavBarDetailPlant from "../../components/NavBarDetailPlant/NavBarDetailPlant";
@@ -11,6 +12,9 @@ import AboutPlant from "../../components/AboutPlant";
 import type { Plant } from "../../../../models/plant/IPlant";
 import type { GardenDraft } from "../../../garden/services/gardenService";
 import { getDraft, saveDraft } from "../../../garden/services/gardenLocalStorage";
+import NavBarDesktop from "../../../../shared/navbar-desktop";
+import AdvicePlant from "../../components/AdvicePlant";
+import HealthPlant from "../../components/HealthPlant";
 
 const DetailsPlant: React.FC = () => {
     const navigate = useNavigate();
@@ -21,6 +25,8 @@ const DetailsPlant: React.FC = () => {
     const [activeTab, setActiveTab] = useState("À propos");
     const [varieties, setVarieties] = useState<Plant[]>([]);
 
+    const location = useLocation();
+    const fromGarden = location.state?.fromGarden;
 
     useEffect(() => {
         const fetchPlant = async () => {
@@ -95,16 +101,22 @@ const DetailsPlant: React.FC = () => {
 
     return (
         <>
+        <NavBarDesktop />
         <HeaderAddGarden showBack={true} />
-        <main className="flex flex-col h-screen bg-white mt-15">
+        <main className="flex flex-col bg-white">
             <div className="plant-image-container">
                 <div className="plant-image-wrapper">
                     <img src={`/assets/pictures/${plant.picturePlant?.name}`} alt={plant.name} />
                 </div>
 
-                <AddToGardenButton label="Ajouter au jardin" onClick={handleAddToGarden}/>
+                {fromGarden && (
+                    <AddToGardenButton
+                        label="Ajouter au jardin"
+                        onClick={handleAddToGarden}
+                    />
+                )}
             </div>
-            <div  className="p-6">
+            <div  className="px-6">
                 <div className="plant-header-info">
                     <h1 className="plant-name custom-title">{plant.name}</h1>
                     
@@ -133,6 +145,18 @@ const DetailsPlant: React.FC = () => {
                 <div>
                     {activeTab === "Variété" && (
                         <VarietiesList varieties={varieties} onSelect={handleGoToPlant} />
+                    )}
+                </div>
+
+                <div>
+                    {activeTab === "Conseils" && (
+                        <AdvicePlant />
+                    )}
+                </div>
+
+                <div>
+                    {activeTab === "Santé" && (
+                        <HealthPlant />
                     )}
                 </div>
             </div>

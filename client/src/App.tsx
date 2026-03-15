@@ -5,6 +5,10 @@ import "./assets/styles/global.css";
 import { AuthProvider } from "./features/auth/context/AuthContext";
 import ProtectedRoute from "./features/auth/components/ProtectedRoute";
 import { lazy, Suspense } from "react";
+import HomeAuth from "./HomePage/HomeAuth/HomeAuth";
+import ListPlant from "./features/plants/pages/ListPlant/ListPlant";
+import ProfilUser from "./features/profil/pages/Profil/ProfilUser";
+import ProfilUserInfo from "./features/profil/pages/Profil-Info/Profil-Info";
 
 const Home = lazy(() => import("./HomePage/Home"));
 const AddGarden = lazy(() => import("./features/garden/pages/AddGarden0/AddGarden"));
@@ -37,6 +41,12 @@ function App() {
             <Route path="/garden-success/:id" element={<ProtectedRoute><GardenSuccess /></ProtectedRoute>} />
             <Route path="/mes-jardins" element={<ProtectedRoute><MyGarden /></ProtectedRoute>} />
             <Route path="/garden/:id" element={<ProtectedRoute><GardenId /></ProtectedRoute>} />
+
+            <Route path="/accueil" element={<ProtectedRoute><HomeAuth /></ProtectedRoute>} />
+            <Route path="/bibliotheque-plantes" element={ <ListPlant /> } />
+
+            <Route path="/profil-user" element={ <ProtectedRoute><ProfilUser /></ProtectedRoute> } />
+            <Route path="/profil-user-info" element={ <ProtectedRoute><ProfilUserInfo /></ProtectedRoute> } />
           </Routes>
         </Suspense>
       </AuthProvider>

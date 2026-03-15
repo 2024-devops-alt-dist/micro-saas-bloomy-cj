@@ -1,0 +1,72 @@
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; 
+    padding: 13px;
+}
+
+.modal-content {
+    background-color: #fff;
+    border-radius: 1rem;
+    width: 100%;
+    max-width: 35rem;
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+    padding: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    z-index: 1001;
+}
+
+body.modal-open {
+    overflow: hidden;
+    touch-action: none;
+}
+
+.pets-container{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+}
+
+/* style du badge pets*/
+.pet-chip{
+    padding:6px 14px;
+    border-radius:999px;
+    border:1px solid #d1d5db;
+    background:#f3f4f6;
+    cursor:pointer;
+    font-size:14px;
+    transition:all 0.2s ease;
+    user-select:none;
+}
+
+.pet-chip input{
+    display:none;
+}
+
+.pet-chip:hover{
+    background:#e5e7eb;
+}
+
+.pet-chip.selected{
+    background:rgba(125, 199, 106, 0.525);
+    border-color:rgba(125, 199, 106, 0.525);
+}
+
+.pet-chip:active{
+    transform:scale(0.96);
+}
+
+.char-counter{
+    position:absolute;
+    right:10px;
+    bottom:6px;
+    font-size:12px;
+    color:#9ca3af;
+    pointer-events:none;
+}
