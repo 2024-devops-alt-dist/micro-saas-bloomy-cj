@@ -14,11 +14,9 @@
 }
 
 .custom-title {
-    font-family: var(--font-bebas-neus);
-    font-weight: 700;  
+    font-family: var(--font-bebas-neus);  
     letter-spacing: -0.5px;  
     line-height: 1;      
-    margin: 0;  
 }
 
 .plant-list-space {

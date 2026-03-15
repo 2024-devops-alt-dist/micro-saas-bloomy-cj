@@ -12,6 +12,9 @@ import AboutPlant from "../../components/AboutPlant";
 import type { Plant } from "../../../../models/plant/IPlant";
 import type { GardenDraft } from "../../../garden/services/gardenService";
 import { getDraft, saveDraft } from "../../../garden/services/gardenLocalStorage";
+import NavBarDesktop from "../../../../shared/navbar-desktop";
+import AdvicePlant from "../../components/AdvicePlant";
+import HealthPlant from "../../components/HealthPlant";
 
 const DetailsPlant: React.FC = () => {
     const navigate = useNavigate();
@@ -98,8 +101,9 @@ const DetailsPlant: React.FC = () => {
 
     return (
         <>
+        <NavBarDesktop />
         <HeaderAddGarden showBack={true} />
-        <main className="flex flex-col h-screen bg-white">
+        <main className="flex flex-col bg-white">
             <div className="plant-image-container">
                 <div className="plant-image-wrapper">
                     <img src={`/assets/pictures/${plant.picturePlant?.name}`} alt={plant.name} />
@@ -112,7 +116,7 @@ const DetailsPlant: React.FC = () => {
                     />
                 )}
             </div>
-            <div  className="p-6">
+            <div  className="px-6">
                 <div className="plant-header-info">
                     <h1 className="plant-name custom-title">{plant.name}</h1>
                     
@@ -141,6 +145,18 @@ const DetailsPlant: React.FC = () => {
                 <div>
                     {activeTab === "Variété" && (
                         <VarietiesList varieties={varieties} onSelect={handleGoToPlant} />
+                    )}
+                </div>
+
+                <div>
+                    {activeTab === "Conseils" && (
+                        <AdvicePlant />
+                    )}
+                </div>
+
+                <div>
+                    {activeTab === "Santé" && (
+                        <HealthPlant />
                     )}
                 </div>
             </div>

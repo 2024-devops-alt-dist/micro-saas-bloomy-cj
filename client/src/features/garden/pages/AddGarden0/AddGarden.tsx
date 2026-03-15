@@ -5,6 +5,7 @@ import NavBarMobile from "../../../../shared/navbar-mobile";
 import "./addGarden.css";
 import HeaderAddGarden from "../../../../shared/headerAddGarden";
 import NavBarDesktop from "../../../../shared/navbar-desktop";
+import Footer from "../../../../HomePage/FooterHome";
 // import NavBarDesktop from "../../../shared/navbar-desktop";
 
 const AddGarden: React.FC = () => {
@@ -12,6 +13,7 @@ const AddGarden: React.FC = () => {
 
     return (
         <>
+        <div className="height-100-update">
         <NavBarDesktop />
         <HeaderAddGarden showBack={false} showClose={false}/>
 
@@ -41,6 +43,8 @@ const AddGarden: React.FC = () => {
         </main>
 
         <NavBarMobile />
+        <Footer />
+        </div>
         </>
     );
 };

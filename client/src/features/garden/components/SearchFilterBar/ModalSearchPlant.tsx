@@ -65,7 +65,7 @@ const ModalSearchPlant: React.FC<Props> = ({ isOpen, onClose, filters, setFilter
     );
 
     return (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-[15px]">
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-9999 p-[15px]">
             <div className="bg-white w-full max-w-xl max-h-full rounded-xl overflow-y-auto p-6">
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-lg font-semibold">Filtrez votre sélection</h2>

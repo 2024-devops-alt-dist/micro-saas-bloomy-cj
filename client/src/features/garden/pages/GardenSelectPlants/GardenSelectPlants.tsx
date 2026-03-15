@@ -9,6 +9,7 @@ import HeaderAddGarden from "../../../../shared/headerAddGarden";
 import { plantService } from "../../../plants/services/plantService";
 import { usePlantSearch } from "../../../Hooks/usePlantSearch";
 import type { Plant } from "../../../../models/plant/IPlant";
+import NavBarDesktop from "../../../../shared/navbar-desktop";
 
 const GardenSelectPlants : React.FC = () => {
     const navigate = useNavigate();
@@ -26,6 +27,7 @@ const GardenSelectPlants : React.FC = () => {
 
     return (
         <div>
+            <NavBarDesktop />
             <HeaderAddGarden showBack={true} />
 
             <main className="main-content-padding">

@@ -9,6 +9,7 @@ import "../../../../assets/styles/global.css";
 import "./PanierGarden.css";
 import HeaderAddGarden from "../../../../shared/headerAddGarden";
 import { plantService } from "../../../plants/services/plantService";
+import NavBarDesktop from "../../../../shared/navbar-desktop";
 
 const PanierGarden: React.FC = () => {
     const navigate = useNavigate();
@@ -92,15 +93,14 @@ const PanierGarden: React.FC = () => {
 
     return (
         <>
+        <NavBarDesktop />
         <HeaderAddGarden showBack={true} />
         <main className="flex flex-col panier-main">
             <div className="panier-container">
                 {/* Colonne gauche */}
                 <div className="panier-left">
-                    <h1 className="text-center title-custom-panier mb-3">
-                        Votre sélection pour le jardin
-                    </h1>
-                    <h2 className="text-center mb-4">{gardenDraft.name}</h2>
+                    <h1 className="text-center title-custom-panier mb-3">Votre sélection pour le jardin</h1>
+                    <h2 className="text-center-custom mb-4">{gardenDraft.name}</h2>
 
                     <hr className="separator" />
                     

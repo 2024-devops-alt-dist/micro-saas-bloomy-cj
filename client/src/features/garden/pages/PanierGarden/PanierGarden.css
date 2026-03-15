@@ -6,6 +6,9 @@
     line-height: 1; 
 }
 
+.text-center-custom {
+    text-align: center !important;
+}
 .add-plant-btn {
     background-color: white;        
     color: var(--color-secondary-bis);                 
@@ -163,7 +166,7 @@
     }
 
     .panier-left {
-        flex: 1; /* même largeur que la droite */
+        flex: 1; 
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -179,18 +182,16 @@
     }
 
     .panier-right {
-        flex: 1; /* même largeur */
-        max-height: calc(100vh - 200px);
+        flex: 1; 
+        max-height: calc(100vh - 270px);
         overflow-y: auto;
         padding-left: var(--space-md2);
         
     }
 
-    
-
     .panier-main {
         max-width: 100%;
-        padding: var(--space-md4);
+        padding: var(--space-md3) ;
         padding-bottom: 0;
     }
 }
